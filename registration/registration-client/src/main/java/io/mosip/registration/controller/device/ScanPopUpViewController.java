@@ -276,9 +276,9 @@ public class ScanPopUpViewController extends BaseController implements Initializ
 			@Override
 			public void handle(ScrollEvent event) {
 				if (event.getDeltaY() > 0) {
-					zoomProperty.set(zoomProperty.get() * 1.1);
+					zoomProperty.set(Math.min(800, zoomProperty.get() * 1.1));
 				} else if (event.getDeltaY() < 0) {
-					zoomProperty.set(zoomProperty.get() / 1.1);
+					zoomProperty.set(Math.max(50, zoomProperty.get() / 1.1));
 				}
 			}
 		});

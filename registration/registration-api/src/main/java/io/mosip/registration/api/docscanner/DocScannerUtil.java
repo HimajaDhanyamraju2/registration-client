@@ -66,7 +66,22 @@ public class DocScannerUtil {
     }
 
     private static byte[] getCompressedImage(BufferedImage bufferedImage, Float compressionQuality) throws IOException {
-        ImageWriter imageWriter = null;
+    	if (bufferedImage.getType() != BufferedImage.TYPE_INT_RGB) {
+            BufferedImage rgbImage = new BufferedImage(
+                    bufferedImage.getWidth(),
+                    bufferedImage.getHeight(),
+                    BufferedImage.TYPE_INT_RGB
+            );
+
+            Graphics2D g = rgbImage.createGraphics();
+            g.setColor(Color.WHITE); // important for transparency
+            g.fillRect(0, 0, rgbImage.getWidth(), rgbImage.getHeight());
+            g.drawImage(bufferedImage, 0, 0, null);
+            g.dispose();
+
+            bufferedImage = rgbImage;
+        }
+    	ImageWriter imageWriter = null;
         try(ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             imageWriter = ImageIO.getImageWritersByFormatName(SCANNER_IMG_TYPE).next();
             ImageWriteParam imageWriteParam = imageWriter.getDefaultWriteParam();

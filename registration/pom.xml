@@ -106,6 +106,7 @@
 		<jackson.version>2.14.0</jackson.version>
 		<jackson.mapper.asl.version>1.7.1</jackson.mapper.asl.version>
 
+		<mosip.registration.api.version>1.2.0.2</mosip.registration.api.version>
 		<mosip.core.kernel.version>1.2.0.1</mosip.core.kernel.version>
 		<mosip.commons.packet.manager.version>1.2.0.1</mosip.commons.packet.manager.version>
 		<mosip.biometric.util.version>1.2.0.2</mosip.biometric.util.version>
