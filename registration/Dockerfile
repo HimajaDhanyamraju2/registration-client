@@ -49,7 +49,11 @@ ARG container_user_uid=1001
 ARG container_user_gid=1001
 
 # install packages and create user
-RUN apt-get -y update \
+# Update apt sources to use Debian archive for Buster (end-of-life)
+RUN sed -i 's|http://deb.debian.org|http://archive.debian.org|g' /etc/apt/sources.list \
+&& sed -i 's|http://security.debian.org|http://archive.debian.org|g' /etc/apt/sources.list \
+&& sed -i '/buster-updates/d' /etc/apt/sources.list \
+&& apt-get -y update \
 && apt-get install -y unzip zip nginx \
 && groupadd -g ${container_user_gid} ${container_user_group} \
 && useradd -u ${container_user_uid} -g ${container_user_group} -s /bin/sh -m ${container_user}
