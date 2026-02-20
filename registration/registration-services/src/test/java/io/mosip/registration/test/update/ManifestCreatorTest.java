@@ -57,7 +57,7 @@ public class ManifestCreatorTest extends ManifestCreator {
 
     @Test
     public void integrityCheckTest() throws IOException {
-        URL url = ManifestCreatorTest.class.getResource("/setup/registration-api-1.2.0-SNAPSHOT.jar");
+        URL url = ManifestCreatorTest.class.getResource("/setup/registration-api-1.2.0.2.jar");
         X509Certificate certificate =  ClientIntegrityValidator.getCertificate();
         JarFile jarFile = new JarFile(url.getFile());
         ClientIntegrityValidator.verifyIntegrity(certificate, jarFile);
@@ -65,7 +65,7 @@ public class ManifestCreatorTest extends ManifestCreator {
 
     @Test(expected = SecurityException.class)
     public void integrityCheckTest2() throws IOException {
-        URL url = ManifestCreatorTest.class.getResource("/setup/registration-api-1.2.0-SNAPSHOT.jar");
+        URL url = ManifestCreatorTest.class.getResource("/setup/registration-api-1.2.0.2.jar");
         JarFile jarFile = new JarFile(url.getFile());
         ClientIntegrityValidator.verifyIntegrity(null, jarFile);
     }

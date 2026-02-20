@@ -4,7 +4,10 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -280,20 +283,41 @@ public class BaseServiceTest {
 	
 	@Test
 	public void concatImagesTest() throws Throwable,IOException  {
-		BufferedImage image = getBufferedScannedImage();
-        PowerMockito.mockStatic(ImageIO.class);
-		when(ImageIO.read(
-				baseService.getClass().getResourceAsStream(RegistrationConstants.TEMPLATE_EYE_IMAGE_PATH))).thenReturn(image);
-		Assert.assertNotNull(baseService.concatImages(null, null,RegistrationConstants.TEMPLATE_EYE_IMAGE_PATH));
+		BufferedImage inputImage = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+	    Graphics2D g = inputImage.createGraphics();
+	    g.setColor(Color.BLUE);
+	    g.fillRect(0, 0, 20, 20);
+	    g.dispose();
+
+	    // Convert to byte[]
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    ImageIO.write(inputImage, "png", baos);
+	    byte[] imageBytes = baos.toByteArray();
+
+	    // Call method
+	    BufferedImage result = baseService.concatImages(imageBytes, imageBytes, null);
+
+	    // Assertions
+	    Assert.assertNotNull(result);
+	    Assert.assertEquals(20 + 20 + 2, result.getWidth());
+	    Assert.assertEquals(20 + 2, result.getHeight());
 	}
 
 	@Test
 	public void concatwithMultipleImagesTest() throws Throwable,IOException  {		
-		BufferedImage image = getBufferedScannedImage();
-        PowerMockito.mockStatic(ImageIO.class);
-		when(ImageIO.read(
-				baseService.getClass().getResourceAsStream(RegistrationConstants.TEMPLATE_EYE_IMAGE_PATH))).thenReturn(image);
-		Assert.assertNotNull(baseService.concatImages(null, null,null, null,RegistrationConstants.TEMPLATE_EYE_IMAGE_PATH));
+		BufferedImage dummy = new BufferedImage(20, 20, BufferedImage.TYPE_INT_RGB);
+	    Graphics2D g = dummy.createGraphics();
+	    g.setColor(Color.RED);
+	    g.fillRect(0, 0, 20, 20);
+	    g.dispose();
+
+	    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+	    ImageIO.write(dummy, "png", baos);
+	    byte[] imageBytes = baos.toByteArray();
+
+	    BufferedImage result = baseService.concatImages(imageBytes, imageBytes, imageBytes, imageBytes, null);
+
+	    Assert.assertNotNull(result);
 	}
 
 	@Test
