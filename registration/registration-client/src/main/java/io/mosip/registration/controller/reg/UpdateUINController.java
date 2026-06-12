@@ -15,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import io.mosip.kernel.core.exception.ExceptionUtils;
-import io.mosip.kernel.core.idvalidator.exception.InvalidIDException;
-import io.mosip.kernel.core.idvalidator.spi.UinValidator;
 import io.mosip.kernel.core.logger.spi.Logger;
 import io.mosip.kernel.core.util.StringUtils;
 import io.mosip.registration.config.AppConfig;
@@ -68,9 +66,6 @@ public class UpdateUINController extends BaseController implements Initializable
 	private ImageView backImageView;
 	@FXML
 	private ImageView continueImageView;
-
-	@Autowired
-	private UinValidator<String> uinValidatorImpl;
 
 	@Autowired
 	Validations validation;
@@ -128,7 +123,7 @@ public class UpdateUINController extends BaseController implements Initializable
 		});
 		
 		scrollPane.prefWidthProperty().bind(demographicHBox.widthProperty());
-		
+
 		parentFlow = parentFlowPane.getChildren();
 		groupedMap.forEach((groupName, list) -> {
 			GridPane checkBox = addCheckBox(groupName);
@@ -209,8 +204,11 @@ public class UpdateUINController extends BaseController implements Initializable
 	public void submitUINUpdate(ActionEvent event) {
 		LOGGER.info(LOG_REG_UIN_UPDATE, APPLICATION_NAME, APPLICATION_ID, "Updating UIN details");
 		try {
-			if (StringUtils.isEmpty(uinId.getText())) {
-				generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.UPDATE_UIN_ENTER_UIN_ALERT));
+			String enteredId = uinId.getText();
+
+			if (StringUtils.isEmpty(enteredId)) {
+				generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(
+						RegistrationUIConstants.UPDATE_UIN_ENTER_NID_ALERT));
 				return;
 			}
 
@@ -221,28 +219,28 @@ public class UpdateUINController extends BaseController implements Initializable
 				}
 			}
 
-			if(selectedFieldGroups.isEmpty()) {
+			if (selectedFieldGroups.isEmpty()) {
 				generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.UPDATE_UIN_SELECTION_ALERT));
 				return;
 			}
 
-			if (uinValidatorImpl.validateId(uinId.getText()) && !selectedFieldGroups.isEmpty()) {
-				getRegistrationDTOFromSession().addDemographicField("UIN", uinId.getText());
-				getRegistrationDTOFromSession().setUpdatableFieldGroups(selectedFieldGroups);
-				getRegistrationDTOFromSession().setUpdatableFields(new ArrayList<>());
-				getRegistrationDTOFromSession().setBiometricMarkedForUpdate(selectedFieldGroups.contains(RegistrationConstants.BIOMETRICS_GROUP) ? true : false);
-
-				Parent createRoot = BaseController.load(
-						getClass().getResource(RegistrationConstants.CREATE_PACKET_PAGE),
-						applicationContext.getBundle(getRegistrationDTOFromSession().getSelectedLanguagesByApplicant().get(0), RegistrationConstants.LABELS));
-
-				getScene(createRoot).setRoot(createRoot);
-				genericController.populateScreens();
+			if (!enteredId.matches(RegistrationConstants.NID_REGEX)) {
+				generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.UPDATE_UIN_NID_VALIDATION_ALERT));
 				return;
 			}
-		} catch (InvalidIDException invalidIdException) {
-			LOGGER.error(invalidIdException.getMessage(), invalidIdException);
-			generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.UPDATE_UIN_VALIDATION_ALERT));
+			getRegistrationDTOFromSession().addDemographicField("nationalId", enteredId);
+
+			getRegistrationDTOFromSession().setUpdatableFieldGroups(selectedFieldGroups);
+			getRegistrationDTOFromSession().setUpdatableFields(new ArrayList<>());
+			getRegistrationDTOFromSession().setBiometricMarkedForUpdate(selectedFieldGroups.contains(RegistrationConstants.BIOMETRICS_GROUP) ? true : false);
+
+			Parent createRoot = BaseController.load(
+					getClass().getResource(RegistrationConstants.CREATE_PACKET_PAGE),
+					applicationContext.getBundle(getRegistrationDTOFromSession().getSelectedLanguagesByApplicant().get(0), RegistrationConstants.LABELS));
+
+			getScene(createRoot).setRoot(createRoot);
+			genericController.populateScreens();
+
 		} catch (Throwable exception) {
 			LOGGER.error(exception.getMessage(), exception);
 			generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.UNABLE_LOAD_REG_PAGE));

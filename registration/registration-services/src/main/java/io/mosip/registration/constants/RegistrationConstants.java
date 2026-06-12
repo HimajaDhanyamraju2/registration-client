@@ -1106,9 +1106,11 @@ public class RegistrationConstants {
 	public static final String CNI_OR_PIN_NUMBER_REGEX = "\\d{0,30}";
 	public static final String AGE_REGEX = "\\d{1,2}";
 	public static final String UIN_REGEX = "\\d{1,30}";
+	public static final String NID_REGEX = "^50[0-9]{5}[A-Z0-9]{2}[57][0-9]{2}";
 	public static final String POSTAL_CODE_REGEX = "\\d{5}";
 	public static final String POSTAL_CODE_REGEX_INITIAL = "\\d{1,5}";
 	*/
+	public static final String NID_REGEX = "^50[0-9]{5}[A-Z0-9]{2}[57][0-9]{2}";
 	public static final String REGEX_ANY = ".*";
 	public static final String ONE = "1";
 	public static final String BIOMETRIC_SEPERATOR = "(?<=\\.)(.*)(?=\\.)";

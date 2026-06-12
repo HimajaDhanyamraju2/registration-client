@@ -114,6 +114,9 @@ public class RegistrationDTO {
 	}
 
 	public void addDemographicField(@NonNull String fieldId, String value) {
+		if (!this.demographics.containsKey("selectedHandles")) {
+			this.demographics.put("selectedHandles", Arrays.asList("nationalId"));
+		}
 		if(value != null && !value.trim().isEmpty())
 			this.demographics.put(fieldId, value);
 	}

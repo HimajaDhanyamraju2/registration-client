@@ -59,14 +59,18 @@
                            <children>
                               <GridPane GridPane.rowIndex="1">
                                  <children>
-                                    <TextField fx:id="uinId" promptText="%uinno" styleClass="uinUpdateTextFiledStyle" />
+                                    <VBox spacing="6" GridPane.columnIndex="0">
+                                       <children>
+                                          <TextField fx:id="uinId" promptText="%nidno" styleClass="uinUpdateTextFiledStyle" />
+                                       </children>
+                                    </VBox>
                                  </children>
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="30.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
                                  </columnConstraints>
                                  <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="60.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                               </GridPane>
                               <GridPane GridPane.rowIndex="2">
