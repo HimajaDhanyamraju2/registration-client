@@ -477,30 +477,28 @@ public class GenericBiometricsController extends BaseController {
 						return;
 					}
 
-					// Face camera does not support STREAM endpoint — skip live preview and
-					// go directly to RCAPTURE. The captured ISO image is decoded and displayed
-					// after capture via addStreamImageAndScoreToCache().
-					if (isFace(currentModality)) {
-						LOGGER.info("Face modality: skipping STREAM, calling RCAPTURE directly");
-						rCaptureTaskService();
-						return;
-					}
-
-					InputStream urlStream = bioService.getStream(mdmBioDevice,
-							isFace(currentModality) ? RegistrationConstants.FACE_FULLFACE : currentModality.name());
-
-					boolean isStreamStarted = urlStream != null && urlStream.read() != -1;
-					if (!isStreamStarted) {
-						LOGGER.info("URL Stream was null at : {} ", System.currentTimeMillis());
-						deviceSpecificationFactory.initializeDeviceMap(true);
-						streamer.setUrlStream(null);
-						generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.STREAMING_ERROR));
-						return;
-					}
+					// TEMPORARILY skipping STREAM for all modalities — go directly to RCAPTURE.
+					// Uncomment the block below to restore live preview streaming.
+					LOGGER.info("Skipping STREAM for modality: {}, calling RCAPTURE directly", currentModality);
 					rCaptureTaskService();
-					streamer.startStream(urlStream, biometricImage, biometricImage);
+					return;
 
-				} catch (RegBaseCheckedException | IOException exception) {
+//					InputStream urlStream = bioService.getStream(mdmBioDevice,
+//							isFace(currentModality) ? RegistrationConstants.FACE_FULLFACE : currentModality.name());
+//
+//					boolean isStreamStarted = urlStream != null && urlStream.read() != -1;
+//					if (!isStreamStarted) {
+//						LOGGER.info("URL Stream was null at : {} ", System.currentTimeMillis());
+//						deviceSpecificationFactory.initializeDeviceMap(true);
+//						streamer.setUrlStream(null);
+//						generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.STREAMING_ERROR));
+//						return;
+//					}
+//					rCaptureTaskService();
+//					streamer.startStream(urlStream, biometricImage, biometricImage);
+
+//				} catch (RegBaseCheckedException | IOException exception) {
+				} catch (Exception exception) {
 					LOGGER.error("Error while streaming : " + currentModality,  exception);
 					generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.STREAMING_ERROR));
 
