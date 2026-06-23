@@ -477,6 +477,15 @@ public class GenericBiometricsController extends BaseController {
 						return;
 					}
 
+					// Face camera does not support STREAM endpoint — skip live preview and
+					// go directly to RCAPTURE. The captured ISO image is decoded and displayed
+					// after capture via addStreamImageAndScoreToCache().
+					if (isFace(currentModality)) {
+						LOGGER.info("Face modality: skipping STREAM, calling RCAPTURE directly");
+						rCaptureTaskService();
+						return;
+					}
+
 					InputStream urlStream = bioService.getStream(mdmBioDevice,
 							isFace(currentModality) ? RegistrationConstants.FACE_FULLFACE : currentModality.name());
 
