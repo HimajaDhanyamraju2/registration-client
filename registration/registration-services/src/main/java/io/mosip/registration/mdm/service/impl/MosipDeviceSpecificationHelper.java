@@ -219,7 +219,9 @@ public class MosipDeviceSpecificationHelper {
 	
 	public void validateResponseTimestamp(String responseTime) throws RegBaseCheckedException {
 		if(responseTime != null) {
-			LocalDateTime ts = DateUtils.parseUTCToLocalDateTime(responseTime, MDM_DATETIME_PATTERN);
+			// Normalize: strip milliseconds if present (e.g. "2026-06-26T11:34:39.167Z" → "2026-06-26T11:34:39Z")
+			String normalizedTime = responseTime.replaceAll("\\.\\d+Z$", "Z");
+			LocalDateTime ts = DateUtils.parseUTCToLocalDateTime(normalizedTime, MDM_DATETIME_PATTERN);
 			//LocalDateTime ts = DateUtils.convertUTCToLocalDateTime(responseTime);
 			if(ts.isAfter(LocalDateTime.now().minusMinutes(getAllowedLagInMinutes()))
 					&& ts.isBefore(LocalDateTime.now().plusMinutes(getAllowedLagInMinutes())))
