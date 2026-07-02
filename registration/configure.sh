@@ -82,10 +82,10 @@ wget "${artifactory_url}/artifactory/libs-release-local/clamav/clamav.jar" -O "$
 wget "${artifactory_url}/artifactory/libs-release-local/clamav/kernel-virusscanner-clamav.jar" -O "${work_dir}"/registration-client/target/lib/kernel-virusscanner-clamav.jar
 
 #unzip Jre to be bundled
-wget "${artifactory_url}/artifactory/libs-release-local/zulu11.41.23-ca-fx-jre11.0.8-win_x64.zip" -O "${work_dir}"/zulu11.41.23-ca-fx-jre11.0.8-win_x64.zip
-/usr/bin/unzip "${work_dir}"/zulu11.41.23-ca-fx-jre11.0.8-win_x64.zip
+wget "${artifactory_url}/artifactory/libs-release-local/zulu11.86.21-ca-fx-jre11.0.30-win_x64.zip" -O "${work_dir}"/zulu11.86.21-ca-fx-jre11.0.30-win_x64.zip
+/usr/bin/unzip "${work_dir}"/zulu11.86.21-ca-fx-jre11.0.30-win_x64.zip
 mkdir -p "${work_dir}"/registration-client/target/jre
-mv "${work_dir}"/zulu11.41.23-ca-fx-jre11.0.8-win_x64/* "${work_dir}"/registration-client/target/jre/
+mv "${work_dir}"/zulu11.86.21-ca-fx-jre11.0.30-win_x64/* "${work_dir}"/registration-client/target/jre/
 chmod -R a+x "${work_dir}"/registration-client/target/jre
 
 cp "${work_dir}"/build_files/logback.xml "${work_dir}"/registration-client/target/lib/logback.xml
