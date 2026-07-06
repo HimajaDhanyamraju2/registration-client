@@ -479,26 +479,25 @@ public class GenericBiometricsController extends BaseController {
 
 					// TEMPORARILY skipping STREAM for all modalities — go directly to RCAPTURE.
 					// Uncomment the block below to restore live preview streaming.
-					LOGGER.info("Skipping STREAM for modality: {}, calling RCAPTURE directly", currentModality);
-					rCaptureTaskService();
-					return;
-
-//					InputStream urlStream = bioService.getStream(mdmBioDevice,
-//							isFace(currentModality) ? RegistrationConstants.FACE_FULLFACE : currentModality.name());
-//
-//					boolean isStreamStarted = urlStream != null && urlStream.read() != -1;
-//					if (!isStreamStarted) {
-//						LOGGER.info("URL Stream was null at : {} ", System.currentTimeMillis());
-//						deviceSpecificationFactory.initializeDeviceMap(true);
-//						streamer.setUrlStream(null);
-//						generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.STREAMING_ERROR));
-//						return;
-//					}
+//					LOGGER.info("Skipping STREAM for modality: {}, calling RCAPTURE directly", currentModality);
 //					rCaptureTaskService();
-//					streamer.startStream(urlStream, biometricImage, biometricImage);
+//					return;
 
-//				} catch (RegBaseCheckedException | IOException exception) {
-				} catch (Exception exception) {
+					InputStream urlStream = bioService.getStream(mdmBioDevice,
+							isFace(currentModality) ? RegistrationConstants.FACE_FULLFACE : currentModality.name());
+
+					boolean isStreamStarted = urlStream != null && urlStream.read() != -1;
+					if (!isStreamStarted) {
+						LOGGER.info("URL Stream was null at : {} ", System.currentTimeMillis());
+						deviceSpecificationFactory.initializeDeviceMap(true);
+						streamer.setUrlStream(null);
+						generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.STREAMING_ERROR));
+						return;
+					}
+					rCaptureTaskService();
+					streamer.startStream(urlStream, biometricImage, biometricImage);
+
+				} catch (RegBaseCheckedException | IOException exception) {
 					LOGGER.error("Error while streaming : " + currentModality,  exception);
 					generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.STREAMING_ERROR));
 
@@ -770,7 +769,7 @@ public class GenericBiometricsController extends BaseController {
 				exceptionBioAttributes.toArray(new String[0]), "Registration",
 				io.mosip.registration.context.ApplicationContext.getStringValueFromApplicationMap(
 						RegistrationConstants.SERVER_ACTIVE_PROFILE),
-				Integer.valueOf(getCaptureTimeOut()), count, (int) bioService.getMDMQualityThreshold(modality));
+				Integer.valueOf(getCaptureTimeOut()), count, 20);
 		return bioService.captureModality(mdmRequestDto);
 
 	}
