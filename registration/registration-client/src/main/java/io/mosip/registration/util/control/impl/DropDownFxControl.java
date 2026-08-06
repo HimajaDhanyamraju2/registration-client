@@ -18,6 +18,7 @@ import io.mosip.registration.controller.Initialization;
 import io.mosip.registration.controller.reg.Validations;
 import io.mosip.registration.dto.schema.UiFieldDTO;
 import io.mosip.registration.entity.Location;
+import io.mosip.registration.exception.RegBaseCheckedException;
 import io.mosip.registration.service.sync.MasterSyncService;
 import io.mosip.registration.util.common.ComboBoxAutoComplete;
 import io.mosip.registration.util.common.DemographicChangeActionHandler;
@@ -151,7 +152,18 @@ public class DropDownFxControl extends FxControl {
 				parentEntry = GenericController.hierarchyLevels.get(langCode).lowerEntry(this.hierarchyLevel);
 				Assert.notNull(parentEntry);
 				List<Location> locations = masterSyncDao.getLocationDetails(parentEntry.getValue(), langCode);
-				fieldSubType = locations != null && !locations.isEmpty() ? locations.get(0).getCode() : null;
+				if(locations != null && locations.size() == 1) {
+					fieldSubType = locations.get(0).getCode();
+				} else {
+					//No single unambiguous parent to scope by (field has no chained parent field of its own) -
+					//return every value at this field's own hierarchy level instead of guessing a parent
+					try {
+						return masterSyncService.findLocationByHierarchyCode(this.hierarchyLevel, langCode);
+					} catch (RegBaseCheckedException e) {
+						LOGGER.error("Failed to fetch location details for hierarchy level : " + this.hierarchyLevel, e);
+						return Collections.EMPTY_LIST;
+					}
+				}
 			}
 			else {
 				FxControl fxControl = GenericController.getFxControlMap().get(parentEntry.getValue());
