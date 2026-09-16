@@ -769,7 +769,7 @@ public class GenericBiometricsController extends BaseController {
 				exceptionBioAttributes.toArray(new String[0]), "Registration",
 				io.mosip.registration.context.ApplicationContext.getStringValueFromApplicationMap(
 						RegistrationConstants.SERVER_ACTIVE_PROFILE),
-				Integer.valueOf(getCaptureTimeOut()), count, 20);
+				Integer.valueOf(getCaptureTimeOut()), count, (int) bioService.getMDMQualityThreshold(modality));
 		return bioService.captureModality(mdmRequestDto);
 
 	}
