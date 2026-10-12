@@ -56,6 +56,10 @@ public class VirtualKeyboard {
 
 	private static Set<Integer> KEY_LENGTHS = new HashSet<>();
 
+	private static final String EXTRA_UNSHIFT_PREFIX = "extra_unshift_";
+
+	private static final String EXTRA_SHIFT_PREFIX = "extra_shift_";
+
 	private VBox root;
 
 	private boolean capsLock;
@@ -230,6 +234,12 @@ public class VirtualKeyboard {
 					exception.getMessage());
 		}
 
+		// Optional row of language specific characters, built only when the bundle defines extra_unshift_N keys
+		HBox extraRow = createExtraCharactersRow(modifiers, target);
+		if (root != null && extraRow != null) {
+			root.getChildren().add(extraRow);
+		}
+
 		final Button spaceBar = createNonshiftableButton(" ", KeyCode.SPACE, modifiers, target);
 		spaceBar.setMaxWidth(Double.POSITIVE_INFINITY);
 		HBox.setHgrow(spaceBar, Priority.ALWAYS);
@@ -250,6 +260,27 @@ public class VirtualKeyboard {
 	 */
 	public Node view() {
 		return root;
+	}
+
+	/**
+	 * Builds a row from the keys extra_unshift_1, extra_unshift_2, ... (with
+	 * optional extra_shift_N) of the keyboard bundle. Returns null when the bundle
+	 * has no such keys, so keyboards without them are unchanged.
+	 */
+	private HBox createExtraCharactersRow(Modifiers modifiers, ReadOnlyObjectProperty<Node> target) {
+		if (keyboard == null || !keyboard.containsKey(EXTRA_UNSHIFT_PREFIX + 1)) {
+			return null;
+		}
+		HBox hbox = new HBox(5);
+		hbox.setAlignment(Pos.CENTER);
+		for (int index = 1; keyboard.containsKey(EXTRA_UNSHIFT_PREFIX + index); index++) {
+			String unshifted = keyboard.getString(EXTRA_UNSHIFT_PREFIX + index);
+			String shifted = keyboard.containsKey(EXTRA_SHIFT_PREFIX + index)
+					? keyboard.getString(EXTRA_SHIFT_PREFIX + index)
+					: unshifted;
+			hbox.getChildren().add(createShiftableButton(unshifted, shifted, KeyCode.UNDEFINED, modifiers, target));
+		}
+		return hbox;
 	}
 
 	private Button createShiftableButton(final String unshifted, final String shifted, final KeyCode code,
