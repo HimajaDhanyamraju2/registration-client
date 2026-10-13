@@ -54,6 +54,7 @@ public class CheckBoxFxControl extends FxControl {
 		/** Container holds title, fields */
 		VBox simpleTypeVBox = new VBox();
 		simpleTypeVBox.setId(fieldName + RegistrationConstants.VBOX);
+		simpleTypeVBox.getStyleClass().add("consentCard");
 		simpleTypeVBox.setSpacing(5);
 
 		List<String> labels = new ArrayList<>();

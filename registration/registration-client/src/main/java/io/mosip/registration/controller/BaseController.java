@@ -121,6 +121,7 @@ import javafx.stage.Modality;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 
@@ -389,8 +390,9 @@ public class BaseController {
 			alertStage = new Stage();
 			Pane authRoot = BaseController.load(getClass().getResource(RegistrationConstants.ALERT_GENERATION));
 			Scene scene = new Scene(authRoot);
+			scene.setFill(Color.TRANSPARENT);
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
-			alertStage.initStyle(StageStyle.UNDECORATED);
+			alertStage.initStyle(StageStyle.TRANSPARENT);
 			alertStage.setScene(scene);
 			alertStage.initModality(Modality.WINDOW_MODAL);
 			alertController.getAlertGridPane().setPrefHeight((double)context.length() / 2 + 110);
@@ -428,8 +430,9 @@ public class BaseController {
 			alertStage = new Stage();
 			Pane authRoot = BaseController.load(getClass().getResource(RegistrationConstants.ALERT_GENERATION));
 			Scene scene = new Scene(authRoot);
+			scene.setFill(Color.TRANSPARENT);
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
-			alertStage.initStyle(StageStyle.UNDECORATED);
+			alertStage.initStyle(StageStyle.TRANSPARENT);
 			alertStage.setScene(scene);
 			alertStage.initModality(Modality.WINDOW_MODAL);
 
@@ -487,6 +490,7 @@ public class BaseController {
 			Alert alert = createAlert(AlertType.CONFIRMATION, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.INFORMATION),
 					RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.ALERT_NOTE_LABEL), RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.PAGE_NAVIGATION_MESSAGE),
 					RegistrationConstants.PAGE_NAVIGATION_CONFIRM, RegistrationConstants.PAGE_NAVIGATION_CANCEL);
+			alert.getDialogPane().getStyleClass().add("pageNavigationAlert");
 
 			alert.show();
 			Rectangle2D screenSize = Screen.getPrimary().getVisualBounds();
@@ -1222,7 +1226,12 @@ public class BaseController {
 			cancelButton.setText(RegistrationUIConstants.getMessageLanguageSpecific(cancelButtonText));
 			cancelButton.setId("cancel");
 		}
-		alert.initStyle(StageStyle.UNDECORATED);
+		alert.initStyle(StageStyle.TRANSPARENT);
+		alert.getDialogPane().sceneProperty().addListener((obs, oldScene, newScene) -> {
+			if (newScene != null) {
+				newScene.setFill(Color.TRANSPARENT);
+			}
+		});
 		alert.initModality(Modality.WINDOW_MODAL);
 		alert.initOwner(fXComponents.getStage());
 		if (SessionContext.isSessionContextAvailable()) {

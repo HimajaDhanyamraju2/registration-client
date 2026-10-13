@@ -3,6 +3,7 @@ package io.mosip.registration.controller.settings.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -181,53 +182,74 @@ public class GlobalConfigSettingsController extends BaseController implements Se
 	}
 	
 	private void setCellFactoryForLocalValue(List<String> permittedConfigurations) {
-		serverValue
-				.setCellFactory(new Callback<TableColumn<GlobalParamVO, String>, TableCell<GlobalParamVO, String>>() {
-					@Override
-					public TableCell<GlobalParamVO, String> call(TableColumn<GlobalParamVO, String> param) {
-						TableCell<GlobalParamVO, String> cell = new TableCell<>();
-						Text text = new Text();
-						cell.setGraphic(text);
-						cell.setPrefHeight(Control.USE_COMPUTED_SIZE);
-						text.wrappingWidthProperty().bind(cell.widthProperty());
-						text.textProperty().bind(cell.itemProperty());
-						return cell;
-					}
-				});
-		localValue.setCellFactory(column -> {
-			return new TableCell<GlobalParamVO, String>() {
-				@Override
-				public void updateItem(String item, boolean empty) {
-					super.updateItem(item, empty);
+		key.setCellFactory(column -> new TableCell<GlobalParamVO, String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
 					setText(null);
 					setGraphic(null);
-					if (item != null) {
-						if (getTableRow() != null && getTableRow().getItem() != null && permittedConfigurations.contains(getTableRow().getItem().getKey())) {
-							TextField textField = new TextField();
-							textField.setText(item);
-							textField.getStyleClass().add("settingsTextField");
-							textField.textProperty().addListener((observable, oldValue, newValue) -> {
-								if (!newValue.isBlank() && !newValue.equals(RegistrationConstants.HYPHEN)
-										&& !newValue.equals(getTableRow().getItem().getLocalValue())) {
-									modifiedProperties.put(getTableRow().getItem().getKey(), textField.getText());
-								} else if ((newValue.isBlank() || newValue.equals(RegistrationConstants.HYPHEN)
-										|| newValue.equals(getTableRow().getItem().getLocalValue()))
-										&& (modifiedProperties.containsKey(getTableRow().getItem().getKey()))) {
-									modifiedProperties.remove(getTableRow().getItem().getKey());
-								}
-								SessionContext.map().put(RegistrationConstants.ISPAGE_NAVIGATION_ALERT_REQ,
-										modifiedProperties.isEmpty() ? RegistrationConstants.ENABLE : RegistrationConstants.DISABLE);
-							});
-							setGraphic(textField);
-						} else {
-							setText(item);
-						}
-					} else {
-						setText(null);
-						setGraphic(null);
-					}
+				} else {
+					Label label = new Label(item);
+					label.getStyleClass().add("configKeyText");
+					setGraphic(label);
+					setText(null);
 				}
-			};
+			}
+		});
+
+		serverValue.setCellFactory(column -> new TableCell<GlobalParamVO, String>() {
+			@Override
+			protected void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText(null);
+					setGraphic(null);
+				} else {
+					Label label = new Label(item);
+					label.getStyleClass().add("serverValueBadge");
+					setGraphic(label);
+					setText(null);
+				}
+			}
+		});
+
+		localValue.setCellFactory(column -> new TableCell<GlobalParamVO, String>() {
+			@Override
+			public void updateItem(String item, boolean empty) {
+				super.updateItem(item, empty);
+				if (empty || item == null) {
+					setText(null);
+					setGraphic(null);
+				} else if (getTableRow() != null && getTableRow().getItem() != null
+						&& permittedConfigurations.contains(getTableRow().getItem().getKey())) {
+					TextField textField = new TextField(item);
+					textField.getStyleClass().add("settingsTextField");
+					textField.textProperty().addListener((observable, oldValue, newValue) -> {
+						if (!newValue.isBlank() && !newValue.equals(RegistrationConstants.HYPHEN)
+								&& !newValue.equals(getTableRow().getItem().getLocalValue())) {
+							modifiedProperties.put(getTableRow().getItem().getKey(), textField.getText());
+						} else if ((newValue.isBlank() || newValue.equals(RegistrationConstants.HYPHEN)
+								|| newValue.equals(getTableRow().getItem().getLocalValue()))
+								&& (modifiedProperties.containsKey(getTableRow().getItem().getKey()))) {
+							modifiedProperties.remove(getTableRow().getItem().getKey());
+						}
+						SessionContext.map().put(RegistrationConstants.ISPAGE_NAVIGATION_ALERT_REQ,
+								modifiedProperties.isEmpty() ? RegistrationConstants.ENABLE : RegistrationConstants.DISABLE);
+					});
+					setGraphic(textField);
+					setText(null);
+				} else {
+					Label label = new Label(item);
+					if (RegistrationConstants.HYPHEN.equals(item)) {
+						label.getStyleClass().add("localValueDefault");
+					} else {
+						label.getStyleClass().add("localValueBadge");
+					}
+					setGraphic(label);
+					setText(null);
+				}
+			}
 		});
 	}
 
@@ -258,9 +280,9 @@ public class GlobalConfigSettingsController extends BaseController implements Se
 			}
 
 			// Compare every ID with filter text.
-			String lowerCaseFilter = newValue.toLowerCase();
+			String lowerCaseFilter = newValue.toLowerCase(Locale.ROOT);
 
-			if (globalParam.getKey().contains(lowerCaseFilter)) {
+			if (globalParam.getKey().toLowerCase(Locale.ROOT).contains(lowerCaseFilter)) {
 				globalParamTable.getSelectionModel().selectFirst();
 				return true; // Filter matches key.
 			} 

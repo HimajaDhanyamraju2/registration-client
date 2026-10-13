@@ -63,6 +63,8 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -79,6 +81,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
+import javafx.scene.layout.VBox;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
@@ -196,8 +199,9 @@ public class GenericController extends BaseController {
 
 		HBox hBox = new HBox();
 		hBox.setAlignment(Pos.CENTER_LEFT);
-		hBox.setSpacing(20);
-		hBox.setPrefHeight(100);
+		hBox.setSpacing(14);
+		hBox.setPrefHeight(56);
+		hBox.setPadding(new Insets(8, 0, 8, 0));
 		hBox.setPrefWidth(200);
 
 		Label label = new Label();
@@ -426,13 +430,7 @@ public class GenericController extends BaseController {
 	private GridPane getScreenGridPane(String screenName) {
 		GridPane gridPane = new GridPane();
 		gridPane.setId(screenName);
-		RowConstraints topRowConstraints = new RowConstraints();
-		topRowConstraints.setPercentHeight(2);
-		RowConstraints midRowConstraints = new RowConstraints();
-		midRowConstraints.setPercentHeight(96);
-		RowConstraints bottomRowConstraints = new RowConstraints();
-		bottomRowConstraints.setPercentHeight(2);
-		gridPane.getRowConstraints().addAll(topRowConstraints,midRowConstraints, bottomRowConstraints);
+		gridPane.setPadding(new Insets(10, 0, 30, 0));
 
 		ColumnConstraints columnConstraint1 = new ColumnConstraints();
 		columnConstraint1.setPercentWidth(5);
@@ -447,14 +445,19 @@ public class GenericController extends BaseController {
 		return gridPane;
 	}
 
-	private GridPane getScreenGroupGridPane(String id, GridPane screenGridPane) {
+	private GridPane getScreenGroupGridPane(String id, GridPane screenGridPane, boolean twoColumnLayout) {
 		GridPane groupGridPane = new GridPane();
 		groupGridPane.setId(id);
-		groupGridPane.prefWidthProperty().bind(screenGridPane.widthProperty());
+		groupGridPane.setMaxWidth(Double.MAX_VALUE);
 		groupGridPane.getColumnConstraints().clear();
-		ColumnConstraints columnConstraint = new ColumnConstraints();
-		columnConstraint.setPercentWidth(100);
-		groupGridPane.getColumnConstraints().add(columnConstraint);
+		ColumnConstraints firstColumnConstraint = new ColumnConstraints();
+		firstColumnConstraint.setPercentWidth(twoColumnLayout ? 50 : 100);
+		groupGridPane.getColumnConstraints().add(firstColumnConstraint);
+		if (twoColumnLayout) {
+			ColumnConstraints secondColumnConstraint = new ColumnConstraints();
+			secondColumnConstraint.setPercentWidth(50);
+			groupGridPane.getColumnConstraints().add(secondColumnConstraint);
+		}
 		groupGridPane.setHgap(20);
 		groupGridPane.setVgap(20);
 		return groupGridPane;
@@ -465,15 +468,29 @@ public class GenericController extends BaseController {
 		Label navigationLabel = new Label();
 		navigationLabel.getStyleClass().add(NAV_LABEL_CLASS);
 		navigationLabel.setText(processSpecDto.getLabel().get(ApplicationContext.applicationLanguage()));
-		navigationLabel.prefWidthProperty().bind(navigationAnchorPane.widthProperty());
-		navigationLabel.setWrapText(true);
+		navigationLabel.setWrapText(false);
+		navigationLabel.setAlignment(javafx.geometry.Pos.CENTER);
+		navigationLabel.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
 
-		navigationAnchorPane.getChildren().add(navigationLabel);
-		AnchorPane.setTopAnchor(navigationLabel, 5.0);
-		AnchorPane.setLeftAnchor(navigationLabel, 10.0);
+		javafx.scene.shape.Circle dot = new javafx.scene.shape.Circle(4.5, javafx.scene.paint.Color.web("#15803D"));
+		navigationLabel.setGraphic(dot);
+		navigationLabel.setGraphicTextGap(8);
+
+		javafx.scene.layout.StackPane centerPane = new javafx.scene.layout.StackPane(navigationLabel);
+		centerPane.setAlignment(javafx.geometry.Pos.CENTER);
+
+		navigationAnchorPane.getChildren().add(centerPane);
+		AnchorPane.setTopAnchor(centerPane, 0.0);
+		AnchorPane.setBottomAnchor(centerPane, 0.0);
+		AnchorPane.setLeftAnchor(centerPane, 0.0);
+		AnchorPane.setRightAnchor(centerPane, 0.0);
 
 		next.setOnAction(getNextActionHandler());
 		authenticate.setOnAction(getRegistrationAuthActionHandler());
+		if (notification != null) {
+			notification.setVisible(false);
+			notification.setManaged(false);
+		}
 	}
 
 	/*private String getScreenName(Tab tab) {
@@ -651,12 +668,104 @@ public class GenericController extends BaseController {
 	}
 
 	private void showHideErrorNotification(String fieldName) {
-		Tooltip toolTip = new Tooltip(fieldName);
-		toolTip.prefWidthProperty().bind(notification.widthProperty());
-		toolTip.setWrapText(true);
-		notification.setTooltip(toolTip);
-		notification.setText((fieldName == null) ? EMPTY : ApplicationContext.getBundle(ApplicationContext.applicationLanguage(), RegistrationConstants.MESSAGES)
-				.getString("SCREEN_VALIDATION_ERROR") + " [ " + fieldName + " ]");
+		if (notification != null) {
+			notification.setText(EMPTY);
+			notification.setTooltip(null);
+			notification.setVisible(false);
+			notification.setManaged(false);
+		}
+		if (fieldName != null) {
+			showValidationPopup(fieldName);
+		}
+	}
+
+	private javafx.stage.Stage validationPopupStage;
+
+	private void showValidationPopup(String fieldName) {
+		try {
+			if (validationPopupStage != null && validationPopupStage.isShowing()) {
+				validationPopupStage.close();
+			}
+			String message = ApplicationContext.getBundle(ApplicationContext.applicationLanguage(), RegistrationConstants.MESSAGES)
+					.getString("SCREEN_VALIDATION_ERROR");
+
+			Label icon = new Label("!");
+			icon.setMinSize(56, 56);
+			icon.setPrefSize(56, 56);
+			icon.setAlignment(javafx.geometry.Pos.CENTER);
+			icon.setStyle("-fx-background-color: #FEF2F2; -fx-background-radius: 28; -fx-border-color: #FCA5A5;"
+					+ "-fx-border-radius: 28; -fx-border-width: 2; -fx-text-fill: #DC2626; -fx-font-size: 26px; -fx-font-weight: bold;");
+
+			Label body = new Label(message);
+			body.setWrapText(true);
+			body.setMaxWidth(380);
+			body.setAlignment(javafx.geometry.Pos.CENTER);
+			body.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+			body.setStyle("-fx-font-size: 13px; -fx-text-fill: #475569;");
+
+			Label field = new Label(fieldName);
+			field.setWrapText(true);
+			field.setMaxWidth(380);
+			field.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+			field.setStyle("-fx-background-color: #FEF2F2; -fx-background-radius: 8; -fx-border-color: #FECACA;"
+					+ "-fx-border-radius: 8; -fx-padding: 10 14; -fx-text-fill: #B91C1C; -fx-font-size: 13px; -fx-font-weight: bold;");
+
+			Button ok = new Button("OK, got it");
+			ok.setDefaultButton(true);
+			ok.setPrefWidth(160);
+			ok.setPrefHeight(38);
+			String okBase = "-fx-background-radius: 19; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: bold; -fx-cursor: hand;";
+			ok.setStyle("-fx-background-color: linear-gradient(to bottom, #15803D, #116530);" + okBase);
+			ok.setOnMouseEntered(e -> ok.setStyle("-fx-background-color: #0a391b;" + okBase));
+			ok.setOnMouseExited(e -> ok.setStyle("-fx-background-color: linear-gradient(to bottom, #15803D, #116530);" + okBase));
+
+			VBox card = new VBox(14, icon, body, field, ok);
+			card.setAlignment(javafx.geometry.Pos.CENTER);
+			card.setPrefWidth(440);
+			card.setStyle("-fx-background-color: white; -fx-background-radius: 16; -fx-padding: 28 30 24 30;"
+					+ "-fx-effect: dropshadow(gaussian, rgba(15,23,42,0.30), 30, 0, 0, 8);");
+			VBox.setMargin(ok, new javafx.geometry.Insets(6, 0, 0, 0));
+
+			javafx.scene.layout.StackPane root = new javafx.scene.layout.StackPane(card);
+			root.setStyle("-fx-background-color: transparent; -fx-padding: 30;");
+
+			javafx.scene.Scene scene = new javafx.scene.Scene(root);
+			scene.setFill(javafx.scene.paint.Color.TRANSPARENT);
+
+			javafx.stage.Stage stage = new javafx.stage.Stage(javafx.stage.StageStyle.TRANSPARENT);
+			javafx.stage.Window owner = notification != null && notification.getScene() != null ? notification.getScene().getWindow() : null;
+			if (owner != null) {
+				stage.initOwner(owner);
+				stage.initModality(javafx.stage.Modality.WINDOW_MODAL);
+			}
+			stage.setScene(scene);
+			ok.setOnAction(e -> stage.close());
+			scene.setOnKeyPressed(e -> {
+				if (e.getCode() == javafx.scene.input.KeyCode.ESCAPE) stage.close();
+			});
+
+			if (owner != null) {
+				stage.setOnShown(e -> {
+					stage.setX(owner.getX() + (owner.getWidth() - stage.getWidth()) / 2);
+					stage.setY(owner.getY() + (owner.getHeight() - stage.getHeight()) / 2);
+				});
+			}
+
+			card.setOpacity(0);
+			card.setScaleX(0.9);
+			card.setScaleY(0.9);
+			javafx.animation.FadeTransition fade = new javafx.animation.FadeTransition(javafx.util.Duration.millis(180), card);
+			fade.setToValue(1);
+			javafx.animation.ScaleTransition scale = new javafx.animation.ScaleTransition(javafx.util.Duration.millis(180), card);
+			scale.setToX(1);
+			scale.setToY(1);
+
+			validationPopupStage = stage;
+			stage.show();
+			new javafx.animation.ParallelTransition(fade, scale).play();
+		} catch (Exception e) {
+			LOGGER.error("Failed to show validation popup", e);
+		}
 	}
 
 	private String getInvalidScreenName(TabPane tabPane) {
@@ -731,29 +840,50 @@ public class GenericController extends BaseController {
 			screenTab.setTooltip(new Tooltip(String.join(RegistrationConstants.SLASH, labels)));
 
 			GridPane screenGridPane = getScreenGridPane(screenDTO.getName());
-			screenGridPane.prefWidthProperty().bind(tabPane.widthProperty());
-			screenGridPane.prefHeightProperty().bind(tabPane.heightProperty());
+			boolean twoColumnLayout = screenDTO.getName().toLowerCase().contains("demographic");
 
 			int rowIndex = 0;
-			GridPane gridPane = getScreenGroupGridPane(screenGridPane.getId()+"_col_1", screenGridPane);
+			GridPane gridPane = getScreenGroupGridPane(screenGridPane.getId()+"_col_1", screenGridPane, twoColumnLayout);
 
 			if(screenDTO.isPreRegFetchRequired()) {
-				gridPane.add(getPreRegistrationFetchComponent(), 0, rowIndex++);
+				HBox preRegistrationComponent = getPreRegistrationFetchComponent();
+				gridPane.add(preRegistrationComponent, 0, rowIndex++);
+				if (twoColumnLayout) {
+					GridPane.setColumnSpan(preRegistrationComponent, 2);
+				}
 			}
 			if(screenDTO.isAdditionalInfoRequestIdRequired()) {
 				additionalInfoReqIdScreenOrder = screenDTO.getOrder();
-				gridPane.add(getAdditionalInfoRequestIdComponent(), 0, rowIndex++);
+				HBox additionalInfoComponent = getAdditionalInfoRequestIdComponent();
+				gridPane.add(additionalInfoComponent, 0, rowIndex++);
+				if (twoColumnLayout) {
+					GridPane.setColumnSpan(additionalInfoComponent, 2);
+				}
 			}
 
+			int groupIndex = 0;
+			VBox[] demographicColumns = null;
+			if (twoColumnLayout) {
+				demographicColumns = new VBox[] { new VBox(20), new VBox(20) };
+				for (VBox column : demographicColumns) {
+					column.setFillWidth(true);
+					column.prefWidthProperty().bind(gridPane.widthProperty().multiply(0.48));
+				}
+			}
 			for(Entry<String, List<UiFieldDTO>> groupEntry : screenFieldGroups.entrySet()) {
 				FlowPane groupFlowPane = new FlowPane();
-				groupFlowPane.prefWidthProperty().bind(gridPane.widthProperty());
-				groupFlowPane.setHgap(20);
-				groupFlowPane.setVgap(20);
+				groupFlowPane.prefWidthProperty().bind(twoColumnLayout
+						? demographicColumns[groupIndex % 2].widthProperty() : gridPane.widthProperty());
+				groupFlowPane.setHgap(16);
+				groupFlowPane.setVgap(16);
+				if (twoColumnLayout) {
+					groupFlowPane.getStyleClass().add("demographicFormGroup");
+				}
 
 				for(UiFieldDTO fieldDTO : groupEntry.getValue()) {
 					try {
 						FxControl fxControl = buildFxElement(fieldDTO);
+						FxControl.applyRedAsterisk(fxControl.getNode());
 						if(fxControl.getNode() instanceof GridPane) {
 							((GridPane)fxControl.getNode()).prefWidthProperty().bind(groupFlowPane.widthProperty());
 						}
@@ -762,14 +892,39 @@ public class GenericController extends BaseController {
 						LOGGER.error("Failed to build control " + fieldDTO.getId(), exception);
 					}
 				}
-				gridPane.add(groupFlowPane, 0, rowIndex++);
+				if (twoColumnLayout) {
+					Runnable updateGroupVisibility = () -> {
+						boolean hasVisibleField = groupFlowPane.getChildren().stream()
+								.anyMatch(field -> field.isVisible() && field.isManaged());
+						groupFlowPane.setVisible(hasVisibleField);
+						groupFlowPane.setManaged(hasVisibleField);
+					};
+					for (Node field : groupFlowPane.getChildren()) {
+						field.visibleProperty().addListener((observable, oldValue, newValue) -> updateGroupVisibility.run());
+						field.managedProperty().addListener((observable, oldValue, newValue) -> updateGroupVisibility.run());
+					}
+					updateGroupVisibility.run();
+					demographicColumns[groupIndex % 2].getChildren().add(groupFlowPane);
+					groupIndex++;
+				} else {
+					gridPane.add(groupFlowPane, 0, rowIndex++);
+				}
+			}
+			if (twoColumnLayout) {
+				gridPane.add(demographicColumns[0], 0, rowIndex);
+				gridPane.add(demographicColumns[1], 1, rowIndex);
 			}
 
 			screenGridPane.setStyle("-fx-background-color: white;");
-			screenGridPane.add(gridPane, 1, 1);
+			screenGridPane.add(gridPane, 1, 0);
 			final ScrollPane scrollPane = new ScrollPane(screenGridPane);
+			scrollPane.setFitToWidth(true);
+			scrollPane.setFitToHeight(false);
+			scrollPane.setPannable(false);
 			scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+			scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
 			scrollPane.setId("scrollPane");
+			scrollPane.setFocusTraversable(false);
 			screenTab.setContent(scrollPane);
 			tabPane.getTabs().add(screenTab);
 		}
@@ -854,6 +1009,17 @@ public class GenericController extends BaseController {
 		GridPane gridPane = (GridPane)BaseController.load(getClass().getResource(REG_AUTH_PAGE));
 		gridPane.prefWidthProperty().bind(tabPane.widthProperty());
 		gridPane.prefHeightProperty().bind(tabPane.heightProperty());
+
+		Node authenticationActionPane = gridPane.lookup("#authenticationActionPane");
+		if (!(authenticationActionPane instanceof GridPane)) {
+			throw new IllegalStateException("Authentication action pane is missing from the password form");
+		}
+		((GridPane) authenticate.getParent()).getChildren().remove(authenticate);
+		((GridPane) authenticationActionPane).add(authenticate, 0, 0);
+		GridPane.setHalignment(authenticate, HPos.RIGHT);
+		if (!authenticate.getStyleClass().contains("authenticationActionButton")) {
+			authenticate.getStyleClass().add("authenticationActionButton");
+		}
 
 		Node node = gridPane.lookup("#backButton");
 		if(node != null) {
