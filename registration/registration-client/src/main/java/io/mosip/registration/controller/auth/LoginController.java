@@ -69,11 +69,15 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -170,6 +174,9 @@ public class LoginController extends BaseController implements Initializable {
 	private ComboBox<GenericDto> appLanguage;
 
 	@FXML
+	private HBox languageSegmentedBox;
+
+	@FXML
 	private ImageView faceImage;
 
 	@FXML
@@ -263,8 +270,39 @@ public class LoginController extends BaseController implements Initializable {
 				appLanguage.getSelectionModel().select(selectedLang.get());
 			}
 
-			appLanguage.setVisible(languages.size() == 1 ? false : true);
-			appLanguage.setManaged(languages.size() == 1 ? false : true);
+			appLanguage.setVisible(false);
+			appLanguage.setManaged(false);
+
+			if (languageSegmentedBox != null) {
+				languageSegmentedBox.getChildren().clear();
+				if (languages.size() <= 1) {
+					languageSegmentedBox.setVisible(false);
+					languageSegmentedBox.setManaged(false);
+				} else {
+					languageSegmentedBox.setVisible(true);
+					languageSegmentedBox.setManaged(true);
+					ToggleGroup langToggleGroup = new ToggleGroup();
+					GenericDto currentSelected = appLanguage.getSelectionModel().getSelectedItem();
+					for (GenericDto lang : languages) {
+						ToggleButton btn = new ToggleButton(lang.getName());
+						btn.setToggleGroup(langToggleGroup);
+						btn.getStyleClass().add("segmentedLangBtn");
+						btn.setMaxWidth(Double.MAX_VALUE);
+						HBox.setHgrow(btn, Priority.ALWAYS);
+						if (currentSelected != null && currentSelected.getCode().equals(lang.getCode())) {
+							btn.setSelected(true);
+						}
+						btn.setOnAction(e -> {
+							if (btn.isSelected()) {
+								appLanguage.getSelectionModel().select(lang);
+							} else {
+								btn.setSelected(true);
+							}
+						});
+						languageSegmentedBox.getChildren().add(btn);
+					}
+				}
+			}
 
 			appLanguage.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 				if (newValue != null &&
@@ -299,6 +337,7 @@ public class LoginController extends BaseController implements Initializable {
 			seconds = seconds.length() < 2 ? "0" + seconds : seconds;
 			otpValidity.setText(RegistrationUIConstants.getMessageLanguageSpecific("OTP_VALIDITY") + " " + minutes + ":" + seconds + " "
 					+ RegistrationUIConstants.getMessageLanguageSpecific("MINUTES"));
+			setPwordLabelVisibility();
 		} catch (RuntimeException runtimeException) {
 			LOGGER.error(runtimeException.getMessage(), runtimeException);
 		}
@@ -425,6 +464,77 @@ public class LoginController extends BaseController implements Initializable {
 	}
 
 	/**
+	 * Single-page login action validating both User ID and Password simultaneously.
+	 *
+	 * @param event the event
+	 */
+	@FXML
+	public void validateUserIdAndCredentials(ActionEvent event) {
+		auditFactory.audit(AuditEvent.LOGIN_AUTHENTICATE_USER_ID, Components.LOGIN,
+				userId.getText().isEmpty() ? "NA" : userId.getText(),
+				AuditReferenceIdTypes.USER_ID.getReferenceTypeId());
+
+		LOGGER.info("Validating User ID and Password from unified UI");
+
+		if (userId.getText().isEmpty()) {
+			generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.USERNAME_FIELD_EMPTY));
+			return;
+		}
+
+		if (password.getText().isEmpty()) {
+			generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.PWORD_FIELD_EMPTY));
+			return;
+		}
+
+		if (baseService.isInitialSync()) { // For Initial SetUp
+			validateCredentials(event);
+			return;
+		}
+
+		try {
+			ResponseDTO responseDTO = loginService.validateUser(userId.getText());
+			List<ErrorResponseDTO> errorResponseDTOList = responseDTO.getErrorResponseDTOs();
+			if (errorResponseDTOList != null && !errorResponseDTOList.isEmpty()) {
+				generateAlertLanguageSpecific(RegistrationConstants.ERROR, errorResponseDTOList.get(0).getMessage());
+				return;
+			}
+
+			UserDTO userDTO = (UserDTO) responseDTO.getSuccessResponseDTO().getOtherAttributes().get(RegistrationConstants.USER_DTO);
+			userId.setText(userDTO.getId());
+
+			if (validateInvalidLogin(userDTO, "")) {
+				isUserNewToMachine = machineMappingService.isUserNewToMachine(userDTO.getId()).getErrorResponseDTOs() != null;
+				if (isUserNewToMachine) {
+					validateCredentials(event);
+				} else {
+					Set<String> roles = (Set<String>) responseDTO.getSuccessResponseDTO().getOtherAttributes().get(RegistrationConstants.ROLES_LIST);
+					if (Role.isDefaultUser(roles)) {
+						validateCredentials(event);
+						return;
+					}
+
+					loginList = loginService.getModesOfLogin(ProcessNames.LOGIN.getType(), roles);
+					String loginMode = !loginList.isEmpty() ? loginList.get(RegistrationConstants.PARAM_ZERO) : null;
+					LOGGER.debug("Retrieved corresponding Login mode: {}", loginMode);
+					if (loginMode == null) {
+						userIdPane.setVisible(false);
+						errorPane.setVisible(true);
+					} else if (LoginMode.PASSWORD.toString().equalsIgnoreCase(loginMode) || RegistrationConstants.PWORD.equalsIgnoreCase(loginMode)) {
+						validateCredentials(event);
+					} else {
+						// For Biometric (Fingerprint, Iris, Face) or OTP login modes:
+						userIdPane.setVisible(false);
+						loadLoginScreen(loginMode);
+					}
+				}
+			}
+		} catch (RegBaseUncheckedException regBaseUncheckedException) {
+			LOGGER.error(regBaseUncheckedException.getMessage(), regBaseUncheckedException);
+			generateAlert(RegistrationConstants.ERROR, RegistrationUIConstants.getMessageLanguageSpecific(RegistrationUIConstants.UNABLE_LOAD_LOGIN_SCREEN));
+		}
+	}
+
+	/**
 	 * 
 	 * Validating User credentials on Submit
 	 * 
@@ -458,7 +568,8 @@ public class LoginController extends BaseController implements Initializable {
 
 		try {
 			if (SessionContext.create(userDTO, RegistrationConstants.PWORD, isInitialSetUp, isUserNewToMachine,	null)) {
-				executePreLaunchTask(credentialsPane, passwordProgressIndicator, userDTO);
+				executePreLaunchTask(userIdPane != null && userIdPane.isVisible() ? userIdPane : credentialsPane,
+						progressIndicator != null && progressIndicator.isVisible() ? progressIndicator : passwordProgressIndicator, userDTO);
 				return;
 			}
 
@@ -495,9 +606,11 @@ public class LoginController extends BaseController implements Initializable {
 
 				if(authTokenUtilService.hasAnyValidToken() && !ClientApplication.isSyncCompleted()) {
 					LOGGER.info("As the sync was not handled in pre-loader, performing the sync now with valid token");
-					executePreLaunchTask(credentialsPane, passwordProgressIndicator, userDTO);
+					executePreLaunchTask(userIdPane != null && userIdPane.isVisible() ? userIdPane : credentialsPane,
+							progressIndicator != null && progressIndicator.isVisible() ? progressIndicator : passwordProgressIndicator, userDTO);
 				} else {
 					credentialsPane.setVisible(false);
+					userIdPane.setVisible(false);
 					loadNextScreen(userDTO, RegistrationConstants.PWORD);
 				}
 			} else {

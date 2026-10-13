@@ -41,6 +41,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.paint.Color;
 
 @Controller
 public class SendNotificationController extends BaseController implements Initializable {
@@ -71,11 +72,12 @@ public class SendNotificationController extends BaseController implements Initia
 	public void init() {
 		try {
 			popupStage = new Stage();
-			popupStage.initStyle(StageStyle.UNDECORATED);
+			popupStage.initStyle(StageStyle.TRANSPARENT);
 			Parent sendEmailPopup = BaseController
 					.load(getClass().getResource(RegistrationConstants.SEND_NOTIFICATION_PAGE));
 			popupStage.setResizable(false);
 			Scene scene = new Scene(sendEmailPopup);
+			scene.setFill(Color.TRANSPARENT);
 			ClassLoader loader = ClassLoader.getSystemClassLoader();
 			scene.getStylesheets().add(loader.getResource(getCssName()).toExternalForm());
 			popupStage.setScene(scene);

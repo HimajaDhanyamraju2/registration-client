@@ -4,29 +4,30 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:id="genericScreen" hgap="5.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1530.0" prefWidth="800.0" styleClass="parentPane" vgap="5.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.mosip.registration.controller.GenericController">
+<GridPane fx:id="genericScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1530.0" prefWidth="800.0" styleClass="parentPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.mosip.registration.controller.GenericController">
    <rowConstraints>
-      <RowConstraints percentHeight="93.0" />
-      <RowConstraints percentHeight="7.0" />
+      <RowConstraints percentHeight="5.0" />
+      <RowConstraints percentHeight="87.0" />
+      <RowConstraints percentHeight="8.0" />
    </rowConstraints>
    <columnConstraints>
-      <ColumnConstraints percentWidth="10.0" />
-      <ColumnConstraints percentWidth="80.0" />
-      <ColumnConstraints percentWidth="10.0" />
+      <ColumnConstraints percentWidth="3.0" />
+      <ColumnConstraints percentWidth="94.0" />
+      <ColumnConstraints percentWidth="3.0" />
    </columnConstraints>
    <children>
-      <AnchorPane fx:id="navigationAnchorPane" GridPane.columnIndex="0" GridPane.rowIndex="0">
+      <AnchorPane fx:id="navigationAnchorPane" GridPane.columnIndex="1" GridPane.rowIndex="0">
          <children>
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="anchorPane" prefHeight="500.0" prefWidth="500.0" styleClass="paneAtDisplayDemoGraphic" GridPane.columnIndex="1" GridPane.rowIndex="0">
+      <AnchorPane fx:id="anchorPane" styleClass="paneAtDisplayDemoGraphic" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
          </children>
       </AnchorPane>
-      <GridPane fx:id="footerGridPane" alignment="TOP_CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+      <GridPane fx:id="footerGridPane" alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="2">
          <columnConstraints>
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="88.0" />
-            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="12.0" />
+            <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" percentWidth="70.0" />
+            <ColumnConstraints halignment="RIGHT" hgrow="SOMETIMES" percentWidth="30.0" />
          </columnConstraints>
          <rowConstraints>
             <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
@@ -34,9 +35,9 @@
             <RowConstraints percentHeight="10.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Button fx:id="next" alignment="BASELINE_CENTER" mnemonicParsing="false" styleClass="contiuneButton" text="%continue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Button fx:id="authenticate" alignment="BASELINE_CENTER" mnemonicParsing="false" styleClass="contiuneButton" text="%authenticate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label fx:id="notification" alignment="TOP_LEFT" mnemonicParsing="false" styleClass="registrationErrorMsg" wrapText="true" GridPane.halignment="LEFT" GridPane.hgrow="SOMETIMES" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
+            <Button fx:id="next" alignment="CENTER" mnemonicParsing="false" styleClass="contiuneButton" text="%continue" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button fx:id="authenticate" alignment="CENTER" mnemonicParsing="false" styleClass="contiuneButton" text="%authenticate" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label fx:id="notification" alignment="CENTER_LEFT" mnemonicParsing="false" styleClass="registrationErrorMsg" wrapText="true" visible="false" managed="false" GridPane.columnIndex="0" GridPane.rowIndex="1" />
          </children>
       </GridPane>
      <!-- <GridPane fx:id="footerGridPane2" alignment="TOP_CENTER" GridPane.columnIndex="0" GridPane.rowIndex="1">

@@ -343,9 +343,10 @@ public class ReRegistrationController extends BaseController implements Initiali
 	private void showAuthenticatePage(Stage primarystage) throws IOException {
 		GridPane authRoot = BaseController.load(getClass().getResource(RegistrationConstants.USER_AUTHENTICATION));
 		Scene scene = new Scene(authRoot);
+		scene.setFill(Color.TRANSPARENT);
 		scene.getStylesheets().add(
 				ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
-		primarystage.initStyle(StageStyle.UNDECORATED);
+		primarystage.initStyle(StageStyle.TRANSPARENT);
 		primarystage.setScene(scene);
 		primarystage.initModality(Modality.WINDOW_MODAL);
 		primarystage.initOwner(fXComponents.getStage());

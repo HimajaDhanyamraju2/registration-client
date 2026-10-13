@@ -485,6 +485,7 @@ public class DocumentFxControl extends FxControl {
 		field.setDisable(isDisable);
 		field.setConverter((StringConverter<DocumentCategoryDto>) uiRenderForComboBox);
 		field.getStyleClass().add(styleClass);
+		field.getStyleClass().add("documentCombobox");
 		field.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
 			getField(uiFieldDTO.getId() + RegistrationConstants.LABEL).setVisible(true);
 		});

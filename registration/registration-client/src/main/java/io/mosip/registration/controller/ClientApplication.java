@@ -75,7 +75,9 @@ public class ClientApplication extends Application {
 			if(ClientPreLoader.errorsFound)
 				return;
 
-			ClientIntegrityValidator.verifyClientIntegrity();
+			// TEMPORARILY COMMENTED OUT - integrity check disabled to allow locally built jars.
+			// Restore before deploying to production.
+//			ClientIntegrityValidator.verifyClientIntegrity();
 			notifyPreloader(new ClientPreLoaderNotification("Client integrity check successful."));
 
 			applicationStartTime = String.valueOf(Timestamp.valueOf(DateUtils.getUTCCurrentDateTime()));

@@ -234,62 +234,6 @@ public class UserOnboardController extends BaseController implements Initializab
 	}
 
 	private void setImagesOnHover() {
-		getOnboardedPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(getOnboardedImageView, RegistrationConstants.GET_ONBOARDED_FOCUSED_IMG);
-			} else {
-				setImage(getOnboardedImageView, RegistrationConstants.GET_ONBOARD_IMG);
-			}
-		});
-		onboardGridPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(onboardImageView, RegistrationConstants.ONBOARDING_FOCUSED_IMG);
-				
-			} else {
-				setImage(onboardImageView, RegistrationConstants.ONBOARD_YOURSELF_IMG);
-			}
-		});
-		registerGridPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(registerImageView, RegistrationConstants.REGISTERING_FOCUSED_IMG);
-			} else {
-				setImage(registerImageView, RegistrationConstants.REGISTER_INDVIDUAL_IMG);
-			}
-		});
-		syncDataGridPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-
-				setImage(syncDataImageView, RegistrationConstants.SYNC_DATA_FOCUSED_IMG);
-			} else {
-
-				setImage(syncDataImageView, RegistrationConstants.SYNC_IMG);
-			}
-		});
-		mapDevicesGridPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(mapDevicesImageView, RegistrationConstants.SYNC_DATA_FOCUSED_IMG);
-			} else {
-				setImage(mapDevicesImageView, RegistrationConstants.SYNC_IMG);
-			}
-		});
-		uploadDataGridPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-
-				setImage(uploadDataImageView, RegistrationConstants.UPDATE_OP_BIOMETRICS_FOCUSED_IMG);
-				
-			} else {
-
-				setImage(uploadDataImageView, RegistrationConstants.UPDATE_OPERATOR_BIOMETRICS_IMG);
-			}
-		});
-		updateBiometricsGridPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-
-				setImage(updateBiometricsImageView, RegistrationConstants.UPDATE_BIOMETRICS_FOCUSED_IMG);
-			} else {
-
-				setImage(updateBiometricsImageView, RegistrationConstants.ACTIVE_BIOMETRIC_DETAILS_IMG);
-			}
-		});
+		// Retain high-contrast green icons on modern light card hover
 	}
 }
