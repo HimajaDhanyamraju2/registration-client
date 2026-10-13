@@ -73,6 +73,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import lombok.NonNull;
@@ -332,77 +333,7 @@ public class PacketHandlerController extends BaseController implements Initializ
 	}
 
 	private void setImagesOnHover() {
-		syncDataPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				
-				setImage(syncDataImageView, RegistrationConstants.SYNC_DATA_FOCUSED_IMG);
-			} else {
-				
-				setImage(syncDataImageView, RegistrationConstants.SYNC_IMG);
-			}
-		});
-		downloadPreRegDataPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-
-				setImage(downloadPreRegDataImageView, RegistrationConstants.DOWNLOAD_PREREG_FOCUSED_IMG);
-			} else {
-
-				setImage(downloadPreRegDataImageView, RegistrationConstants.DWLD_PRE_REG_DATA_IMG);
-			}
-		});
-		updateOperatorBiometricsPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(updateOperatorBiometricsImageView, RegistrationConstants.UPDATE_OP_BIOMETRICS_FOCUSED_IMG);
-			} else {
-				setImage(updateOperatorBiometricsImageView, RegistrationConstants.UPDATE_OPERATOR_BIOMETRICS_IMG);
-			}
-		});
-		eodApprovalPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(eodApprovalImageView, RegistrationConstants.PENDING_APPROVAL_FOCUSED_IMG);
-			} else {
-				setImage(eodApprovalImageView, RegistrationConstants.PENDING_APPROVAL_IMG);
-			}
-		});
-		reRegistrationPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(reRegistrationImageView, RegistrationConstants.RE_REGISTRATION_FOCUSED_IMG);	
-			} else {
-				setImage(reRegistrationImageView, RegistrationConstants.RE_REGISTRATION_IMG);	
-			}
-		});
-		dashBoardPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(viewReportsImageView, RegistrationConstants.VIEW_REPORTS_FOCUSED_IMG);
-			} else {
-				setImage(viewReportsImageView, RegistrationConstants.VIEW_REPORTS_IMG);
-			}
-		});
-		uploadPacketPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-
-				setImage(uploadPacketImageView, RegistrationConstants.UPDATE_OP_BIOMETRICS_FOCUSED_IMG);
-			} else {
-
-				setImage(uploadPacketImageView, RegistrationConstants.UPDATE_OPERATOR_BIOMETRICS_IMG);
-			}
-		});
-		centerRemapPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-
-				setImage(remapImageView, RegistrationConstants.SYNC_DATA_FOCUSED_IMG);
-			} else {
-
-				setImage(remapImageView, RegistrationConstants.SYNC_IMG);
-			}
-		});
-		checkUpdatesPane.hoverProperty().addListener((ov, oldValue, newValue) -> {
-			if (newValue) {
-				setImage(checkUpdatesImageView, RegistrationConstants.DOWNLOAD_PREREG_FOCUSED_IMG);
-			} else {
-				setImage(checkUpdatesImageView, RegistrationConstants.DWLD_PRE_REG_DATA_IMG);
-			}
-		});
+		// Retain high-contrast green icons on modern light card hover
 	}
 
 	public void startRegistration(@NonNull String processId) {
@@ -828,13 +759,21 @@ public class PacketHandlerController extends BaseController implements Initializ
 		GridPane gridPane = new GridPane();
 		gridPane.getStyleClass().add("operationalPaneDetailsSync");
 		gridPane.setId(processSpecDto.getId());
+		gridPane.setPrefHeight(84.0);
 		RowConstraints rowConstraints = new RowConstraints();
 		rowConstraints.setPercentHeight(100);
 		gridPane.getRowConstraints().addAll(rowConstraints);
 		ColumnConstraints columnConstraint1 = new ColumnConstraints();
-		columnConstraint1.setPercentWidth(10);
+		columnConstraint1.setMinWidth(10.0);
+		columnConstraint1.setPrefWidth(90.0);
+		columnConstraint1.setMaxWidth(121.0);
+		columnConstraint1.setHgrow(Priority.SOMETIMES);
+
 		ColumnConstraints columnConstraint2 = new ColumnConstraints();
-		columnConstraint2.setPercentWidth(90);
+		columnConstraint2.setMinWidth(10.0);
+		columnConstraint2.setPrefWidth(156.0);
+		columnConstraint2.setHgrow(Priority.SOMETIMES);
+
 		gridPane.getColumnConstraints().addAll(columnConstraint1, columnConstraint2);
 		gridPane.setOnMouseClicked(event -> {
 			selectLanguage(event);
@@ -855,13 +794,21 @@ public class PacketHandlerController extends BaseController implements Initializ
 			LOGGER.error("Failed to get process image", e);
 		}
 		vBox.getChildren().add(imageView);
+		vBox.setMouseTransparent(true);
 		gridPane.addColumn(0, vBox);
+
+		VBox labelVBox = new VBox();
+		labelVBox.setAlignment(Pos.CENTER_LEFT);
+		labelVBox.setPrefHeight(200);
+		labelVBox.setPrefWidth(100);
+		labelVBox.setMouseTransparent(true);
 
 		Label label = new Label();
 		label.setText(processSpecDto.getLabel().get(ApplicationContext.applicationLanguage()));
 		label.setWrapText(true);
 		label.getStyleClass().add("operationalTitle");
-		gridPane.addColumn(1, label);
+		labelVBox.getChildren().add(label);
+		gridPane.addColumn(1, labelVBox);
 		changeNodeOrientation(gridPane);
 		return gridPane;
 	}

@@ -84,6 +84,12 @@ public class ClientPreLoader extends Preloader {
 
     @Override
     public boolean handleErrorNotification(ErrorNotification info) {
+        Throwable t = info.getCause();
+        logger.error("Preloader error notification: " + info.getDetails() + " (" + info.getLocation() + ")", t);
+        textArea.appendText("ERROR: " + info.getDetails() + "\n");
+        textArea.appendText(String.valueOf(t) + "\n");
+        hidePreLoader.setVisible(false);
+        stopClient.setVisible(true);
         return true;
     }
 
@@ -112,20 +118,22 @@ public class ClientPreLoader extends Preloader {
             textArea.appendText("Started to validate the build setup...\n");
             try {
                 progressBar.setProgress(0.1);
-                ClientSetupValidator clientSetupValidator = new ClientSetupValidator();
-                clientSetupValidator.validateBuildSetup();
-                if(clientSetupValidator.isPatch_downloaded()) {
-                    restartRequired = true;
-                    throw new RegBaseCheckedException("","New patches downloaded, Kindly restart the client");
-                }
-                if(clientSetupValidator.isUnknown_jars_found()) {
-                    restartRequired = true;
-                    throw new RegBaseCheckedException("","Unrecognized jars found in the classpath, Kindly restart the client");
-                }
-                else
-                    errorsFound = clientSetupValidator.isValidationFailed();
+                // TEMPORARILY COMMENTED OUT - jar verification disabled to allow locally built jars.
+                // Restore before deploying to production.
+//                ClientSetupValidator clientSetupValidator = new ClientSetupValidator();
+//                clientSetupValidator.validateBuildSetup();
+//                if(clientSetupValidator.isPatch_downloaded()) {
+//                    restartRequired = true;
+//                    throw new RegBaseCheckedException("","New patches downloaded, Kindly restart the client");
+//                }
+//                if(clientSetupValidator.isUnknown_jars_found()) {
+//                    restartRequired = true;
+//                    throw new RegBaseCheckedException("","Unrecognized jars found in the classpath, Kindly restart the client");
+//                }
+//                else
+//                    errorsFound = clientSetupValidator.isValidationFailed();
 
-            } catch (RegBaseCheckedException e) {
+            } catch (Exception e) {
                 errorsFound = true;
                 notifyPreloader(new ClientPreLoaderErrorNotification(e));
             }

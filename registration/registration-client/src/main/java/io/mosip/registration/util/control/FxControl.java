@@ -319,4 +319,63 @@ public abstract class FxControl  {
 		this.node = node;
 	}
 
+	private static final String RED_ASTERISK_FLAG = "redAsteriskInstalled";
+
+	/**
+	 * Walks the node tree and, for every Labeled whose text ends with the mandatory
+	 * suffix, removes the plain "*" from the text and shows it as a red graphic instead.
+	 * Keeps working when the text is updated later (listener based).
+	 */
+	public static void applyRedAsterisk(Node root) {
+		if (root == null) return;
+		if (root instanceof javafx.scene.control.Labeled
+				&& !(root instanceof javafx.scene.control.Button)) {
+			installRedAsterisk((javafx.scene.control.Labeled) root);
+		}
+		if (root instanceof javafx.scene.Parent) {
+			for (Node child : ((javafx.scene.Parent) root).getChildrenUnmodifiable()) {
+				applyRedAsterisk(child);
+			}
+		}
+	}
+
+	private static void installRedAsterisk(javafx.scene.control.Labeled labeled) {
+		if (labeled.getProperties().containsKey(RED_ASTERISK_FLAG)) return;
+		labeled.getProperties().put(RED_ASTERISK_FLAG, Boolean.TRUE);
+		updateRedAsterisk(labeled, labeled.getText());
+		labeled.textProperty().addListener((obs, oldText, newText) -> updateRedAsterisk(labeled, newText));
+	}
+
+	private static void updateRedAsterisk(javafx.scene.control.Labeled labeled, String text) {
+		if (text == null) return;
+		String trimmed = text.replaceAll("\\s+$", "");
+		if (trimmed.endsWith("*")) {
+			String clean = trimmed.substring(0, trimmed.length() - 1).replaceAll("\\s+$", "");
+			if (labeled instanceof javafx.scene.control.CheckBox) {
+				javafx.scene.control.CheckBox cb = (javafx.scene.control.CheckBox) labeled;
+				javafx.scene.text.Text t1 = new javafx.scene.text.Text(clean);
+				t1.setStyle("-fx-fill: #1E293B; -fx-font-family: 'Segoe UI', -apple-system, Roboto, sans-serif; -fx-font-size: 13.5px; -fx-font-weight: 500;");
+				javafx.scene.text.Text tStar = new javafx.scene.text.Text(" *");
+				tStar.setStyle("-fx-fill: #DC2626; -fx-font-weight: bold; -fx-font-size: 14px;");
+				javafx.scene.text.TextFlow flow = new javafx.scene.text.TextFlow(t1, tStar);
+				flow.setLineSpacing(4);
+				flow.setPadding(new javafx.geometry.Insets(1, 0, 0, 12));
+				double w = cb.getPrefWidth() > 0 ? cb.getPrefWidth() - 40 : 750;
+				flow.setMaxWidth(w);
+				flow.setPrefWidth(w);
+				cb.setGraphic(flow);
+				cb.setGraphicTextGap(12);
+				cb.setContentDisplay(javafx.scene.control.ContentDisplay.GRAPHIC_ONLY);
+				cb.setText("");
+			} else {
+				javafx.scene.text.Text star = new javafx.scene.text.Text("*");
+				star.setStyle("-fx-fill: #DC2626; -fx-font-weight: bold; -fx-font-size: 14px;");
+				labeled.setGraphic(star);
+				labeled.setGraphicTextGap(4);
+				labeled.setContentDisplay(javafx.scene.control.ContentDisplay.RIGHT);
+				labeled.setText(clean); // re-triggers listener, but no trailing "*" so no-op
+			}
+		}
+	}
+
 }

@@ -161,7 +161,11 @@ public class FXUtils {
 	 */
     public void toggleUIField(Pane parentPane, String uiFieldId, boolean visibility) {
 		try {
-			((Label) parentPane.lookup(RegistrationConstants.HASH.concat(uiFieldId))).setVisible(visibility);
+			Label label = (Label) parentPane.lookup(RegistrationConstants.HASH.concat(uiFieldId));
+			label.setVisible(visibility);
+			if (label.getStyleClass().contains(RegistrationConstants.DemoGraphicFieldMessageLabel)) {
+				label.setManaged(visibility);
+			}
 		} catch (RuntimeException runtimeException) {
 			LOGGER.error(uiFieldId + " >>> ID NOT FOUND", runtimeException);
 		}

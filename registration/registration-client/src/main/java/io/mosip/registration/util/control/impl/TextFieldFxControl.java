@@ -34,6 +34,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -161,7 +162,7 @@ public class TextFieldFxControl extends FxControl {
 
 		this.node = simpleTypeVBox;
 		simpleTypeVBox.setId(fieldName + RegistrationConstants.VBOX);
-		simpleTypeVBox.setSpacing(5);
+		simpleTypeVBox.setSpacing(6);
 
 		/** Title label */
 		Label fieldTitle = getLabel(uiFieldDTO.getId() + RegistrationConstants.LABEL, "",
@@ -172,23 +173,27 @@ public class TextFieldFxControl extends FxControl {
 
 		VBox vBox = new VBox();
 		vBox.setPrefWidth(simpleTypeVBox.getPrefWidth());
+		vBox.setSpacing(4);
 		List<String> labels = new ArrayList<>();
 		switch (this.uiFieldDTO.getType()) {
 			case RegistrationConstants.SIMPLE_TYPE :
 				getRegistrationDTo().getSelectedLanguagesByApplicant().forEach(langCode -> {
 					labels.add(this.uiFieldDTO.getLabel().get(langCode));
 					vBox.getChildren().add(createTextBox(langCode,true));
-					vBox.getChildren().add(getLabel(uiFieldDTO.getId() + langCode + RegistrationConstants.MESSAGE, null,
-							RegistrationConstants.DemoGraphicFieldMessageLabel, false, simpleTypeVBox.getPrefWidth()));
+					Label messageLabel = getLabel(uiFieldDTO.getId() + langCode + RegistrationConstants.MESSAGE, null,
+							RegistrationConstants.DemoGraphicFieldMessageLabel, false, simpleTypeVBox.getPrefWidth());
+					messageLabel.setManaged(false);
+					vBox.getChildren().add(messageLabel);
 					
-					HBox hyperLinkHBox = new HBox();
-					hyperLinkHBox.setVisible(false);
-					hyperLinkHBox.setPrefWidth(simpleTypeVBox.getPrefWidth());
+						HBox hyperLinkHBox = new HBox();
+						hyperLinkHBox.setVisible(false);
+						hyperLinkHBox.setManaged(false);
+						hyperLinkHBox.setPrefWidth(simpleTypeVBox.getPrefWidth());
 					hyperLinkHBox.setId(uiFieldDTO.getId() + langCode + "HyperlinkHBox");
 					hyperLinkHBox.getChildren()
 							.add(getHyperlink(uiFieldDTO.getId() + langCode + "Accept", langCode,
 									io.mosip.registration.context.ApplicationContext
-											.getBundle(langCode, RegistrationConstants.LABELS).getString("accept_word"),
+									.getBundle(langCode, RegistrationConstants.LABELS).getString("accept_word"),
 									RegistrationConstants.DemoGraphicFieldMessageLabel, true));
 					hyperLinkHBox.getChildren().add(getLabel(uiFieldDTO.getId() + langCode + "HyperlinkLabel",
 							io.mosip.registration.context.ApplicationContext
@@ -208,11 +213,14 @@ public class TextFieldFxControl extends FxControl {
 				getRegistrationDTo().getSelectedLanguagesByApplicant().forEach(langcode -> {
 							labels.add(this.uiFieldDTO.getLabel().get(langcode));});
 				vBox.getChildren().add(createTextBox(langCode,false));
-				vBox.getChildren().add(getLabel(uiFieldDTO.getId() + langCode + RegistrationConstants.MESSAGE,
-						null, RegistrationConstants.DemoGraphicFieldMessageLabel, false, simpleTypeVBox.getPrefWidth()));
+				Label messageLabel = getLabel(uiFieldDTO.getId() + langCode + RegistrationConstants.MESSAGE,
+						null, RegistrationConstants.DemoGraphicFieldMessageLabel, false, simpleTypeVBox.getPrefWidth());
+				messageLabel.setManaged(false);
+				vBox.getChildren().add(messageLabel);
 				
 				HBox hyperLinkHBox = new HBox();
 				hyperLinkHBox.setVisible(false);
+				hyperLinkHBox.setManaged(false);
 				hyperLinkHBox.setId(uiFieldDTO.getId() + langCode + "HyperlinkHBox");
 				hyperLinkHBox.getChildren()
 						.add(getHyperlink(uiFieldDTO.getId() + langCode + "Accept", langCode,
@@ -280,7 +288,7 @@ public class TextFieldFxControl extends FxControl {
 				
 				TextField textField = (TextField) getField(uiFieldDTO.getId() + langCode);
 				textField.setText(RegistrationConstants.EMPTY);
-				getField(uiFieldDTO.getId() + langCode + "HyperlinkHBox").setVisible(false);
+				setHyperlinkVisible(langCode, false);
 				if (!isValid()) {
 					getRegistrationDTo().BLOCKLISTED_CHECK.remove(uiFieldDTO.getId());
 					getRegistrationDTo().getDemographics().remove(this.uiFieldDTO.getId());
@@ -293,14 +301,21 @@ public class TextFieldFxControl extends FxControl {
 
 	private HBox createTextBox(String langCode, boolean isSimpleType) {
 		HBox textFieldHBox = new HBox();
+		textFieldHBox.setSpacing(8);
+		textFieldHBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
 		TextField textField = getTextField(langCode, uiFieldDTO.getId() + langCode, false);
 		textField.setMinWidth(400);
+		textField.setPrefWidth(400);
 		textFieldHBox.getChildren().add(textField);
 
 		if(isSimpleType) {
 			HBox imagesHBox = new HBox();
 			imagesHBox.getStyleClass().add(RegistrationConstants.ICONS_HBOX);
-			imagesHBox.setPrefWidth(10);
+			imagesHBox.setPrefWidth(42);
+			imagesHBox.setMinWidth(42);
+			imagesHBox.setPrefHeight(42);
+			imagesHBox.setMinHeight(42);
+			imagesHBox.setAlignment(javafx.geometry.Pos.CENTER);
 
 			VirtualKeyboard keyBoard = new VirtualKeyboard(langCode);
 			keyBoard.changeControlOfKeyboard(textField);
@@ -350,6 +365,12 @@ public class TextFieldFxControl extends FxControl {
 		return imageView;
 	}
 
+	private void setHyperlinkVisible(String langCode, boolean visible) {
+		Node hyperlink = getField(uiFieldDTO.getId() + langCode + "HyperlinkHBox");
+		hyperlink.setVisible(visible);
+		hyperlink.setManaged(visible);
+	}
+
 	@Override
 	public Object getData() {
 
@@ -368,17 +389,15 @@ public class TextFieldFxControl extends FxControl {
 				break;
 			}
 
-			getField(uiFieldDTO.getId() + langCode + "HyperlinkHBox").setVisible(false);
+			setHyperlinkVisible(langCode, false);
 			
 			if (validation.validateTextField((Pane) getNode(), textField, uiFieldDTO.getId(), true, langCode)) {
 				if (validation.validateForBlockListedWords((Pane) getNode(), textField, uiFieldDTO.getId(), true, langCode)) {
 					FXUtils.getInstance().setTextValidLabel((Pane) getNode(), textField, uiFieldDTO.getId());
-					getField(uiFieldDTO.getId() + langCode + "HyperlinkHBox").setVisible(false);
+					setHyperlinkVisible(langCode, false);
 				} else {
 					FXUtils.getInstance().showErrorLabel(textField, (Pane) getNode());
-					if (!getField(uiFieldDTO.getId() + langCode + "HyperlinkHBox").isVisible()) {
-						getField(uiFieldDTO.getId() + langCode + "HyperlinkHBox").setVisible(true);
-					}
+					setHyperlinkVisible(langCode, true);
 					isValid = false;
 					break;
 				}
@@ -559,12 +578,13 @@ public class TextFieldFxControl extends FxControl {
 			Stage keyBoardStage = new Stage();
 			genericController.setKeyboardStage(keyBoardStage);
 			keyBoardStage.setAlwaysOnTop(true);
-			keyBoardStage.initStyle(StageStyle.UNDECORATED);
+			keyBoardStage.initStyle(StageStyle.TRANSPARENT);
 			keyBoardStage.setX(300);
 			keyBoardStage.setY(500);
 			GridPane gridPane = prepareMainGridPaneForKeyboard();
 			gridPane.addColumn(1, keyboardNode);
 			Scene scene = new Scene(gridPane);
+			scene.setFill(Color.TRANSPARENT);
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(validation.getCssName()).toExternalForm());
 			gridPane.getStyleClass().add(RegistrationConstants.KEYBOARD_PANE);
 			keyBoardStage.setScene(scene);

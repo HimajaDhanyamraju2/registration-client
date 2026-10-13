@@ -72,6 +72,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -98,6 +99,9 @@ public class BiometricsController extends BaseController /* implements Initializ
 
 	@FXML
 	private Label biometricType;
+
+	@FXML
+	private Label exceptionHeading;
 
 	@FXML
 	private ImageView biometricImage;
@@ -352,7 +356,7 @@ public class BiometricsController extends BaseController /* implements Initializ
 		exceptionMap.clear();
 
 		leftPanelImageGridPane.setAlignment(Pos.TOP_LEFT);
-		leftPanelImageGridPane.setPadding(new Insets(70, 100, 100, 70)); // margins around the whole grid
+		leftPanelImageGridPane.setPadding(new Insets(70, 20, 100, 70)); // margins around the whole grid
 		// (top/right/bottom/left)
 		for (Entry<Entry<String, String>, Map<String, List<List<String>>>> subType : mapToProcess.entrySet()) {
 
@@ -380,14 +384,16 @@ public class BiometricsController extends BaseController /* implements Initializ
 					if (!listOfCheckBoxes.get(0).get(0).equals("face")) {
 
 						VBox vboxForCheckBox = new VBox();
-						vboxForCheckBox.setSpacing(5);
-						Label checkBoxTitle = new Label();
-						checkBoxTitle.setText(applicationLabelBundle.getString("exceptionCheckBoxPaneLabel"));
-						vboxForCheckBox.getChildren().addAll(checkBoxTitle);
-						checkBoxTitle.getStyleClass().add("demoGraphicFieldLabel");
+						vboxForCheckBox.setAlignment(Pos.CENTER);
+						vboxForCheckBox.setMaxWidth(Double.MAX_VALUE);
+						GridPane.setHgrow(vboxForCheckBox, Priority.ALWAYS);
 
-						vboxForCheckBox.getChildren().add(getExceptionImagePane(biometric.getKey(),
-								listOfCheckBoxes.get(0), listOfCheckBoxes.get(1), subType.getKey().getKey()));
+						Pane exPane = getExceptionImagePane(biometric.getKey(),
+								listOfCheckBoxes.get(0), listOfCheckBoxes.get(1), subType.getKey().getKey());
+						if (exPane != null) {
+							exPane.setMaxSize(200, 200);
+							vboxForCheckBox.getChildren().add(exPane);
+						}
 
 						vboxForCheckBox.setVisible(false);
 						vboxForCheckBox.setManaged(false);
@@ -592,7 +598,7 @@ public class BiometricsController extends BaseController /* implements Initializ
 		boolean isAllExceptions = true;
 		if (exceptionImageViews != null && !exceptionImageViews.isEmpty()) {
 
-			for (Node exceptionImageView : ((Pane) exceptionImageViews.get(1)).getChildren()) {
+			for (Node exceptionImageView : ((Pane) exceptionImageViews.get(0)).getChildren()) {
 				if (exceptionImageView instanceof ImageView && exceptionImageView.getId() != null
 						&& !exceptionImageView.getId().isEmpty()) {
 					isAllExceptions = ((ImageView) exceptionImageView).getOpacity() == 1 ? isAllExceptions
@@ -684,7 +690,7 @@ public class BiometricsController extends BaseController /* implements Initializ
 		List<String> nonExceptionBioAttributes = isFace(modality) ? RegistrationConstants.faceUiAttributes : null;
 
 		if (!checkBoxNodes.isEmpty()) {
-			for (Node node : ((Pane) checkBoxNodes.get(1)).getChildren()) {
+			for (Node node : ((Pane) checkBoxNodes.get(0)).getChildren()) {
 				if (node instanceof ImageView) {
 					ImageView imageView = (ImageView) node;
 					String bioAttribute = imageView.getId();
@@ -815,6 +821,11 @@ public class BiometricsController extends BaseController /* implements Initializ
 
 		if (exceptionMap.get(getListOfBiometricSubTypes().get(currentPosition)) != null && exceptionMap
 				.get(getListOfBiometricSubTypes().get(currentPosition)).get(this.currentModality) != null) {
+			if (exceptionHeading != null) {
+				exceptionHeading.setText(applicationLabelBundle.getString("exceptionCheckBoxPaneLabel"));
+				exceptionHeading.setVisible(true);
+				exceptionHeading.setManaged(true);
+			}
 			exceptionMap.get(getListOfBiometricSubTypes().get(currentPosition)).get(this.currentModality)
 					.setVisible(true);
 			exceptionMap.get(getListOfBiometricSubTypes().get(currentPosition)).get(this.currentModality)
@@ -828,6 +839,10 @@ public class BiometricsController extends BaseController /* implements Initializ
 
 	private void disableLastCheckBoxSection() {
 		checkBoxPane.setVisible(false);
+		if (exceptionHeading != null) {
+			exceptionHeading.setVisible(false);
+			exceptionHeading.setManaged(false);
+		}
 		if (currentPosition != -1) {
 			if (this.currentModality != null
 					&& exceptionMap.get(getListOfBiometricSubTypes().get(currentPosition)) != null && exceptionMap
@@ -995,7 +1010,7 @@ public class BiometricsController extends BaseController /* implements Initializ
 		List<Node> paneList = getCheckBoxes(subType, modality);
 		if (paneList != null && !paneList.isEmpty()) {
 
-			Pane pane = (Pane) paneList.get(1);
+			Pane pane = (Pane) paneList.get(0);
 
 			for (Node exceptionImage : pane.getChildren()) {
 				if (exceptionImage instanceof ImageView && exceptionImage.getId() != null
@@ -2163,6 +2178,7 @@ public class BiometricsController extends BaseController /* implements Initializ
 				"Completed of getting exception image pane");
 
 		if (exceptionImagePane != null) {
+			centerExceptionArtwork(exceptionImagePane);
 			addExceptionsUiPane(exceptionImagePane, configBioAttributes, nonConfigBioAttributes, modality, subType);
 
 			exceptionImagePane.setVisible(true);
@@ -2170,6 +2186,20 @@ public class BiometricsController extends BaseController /* implements Initializ
 		}
 		return exceptionImagePane;
 
+	}
+
+	private void centerExceptionArtwork(Pane pane) {
+		double minX = Double.POSITIVE_INFINITY;
+		double maxX = Double.NEGATIVE_INFINITY;
+		for (Node child : pane.getChildren()) {
+			if (child instanceof ImageView) {
+				minX = Math.min(minX, child.getBoundsInParent().getMinX());
+				maxX = Math.max(maxX, child.getBoundsInParent().getMaxX());
+			}
+		}
+		if (minX != Double.POSITIVE_INFINITY) {
+			pane.setTranslateX((pane.getPrefWidth() - minX - maxX) / 2.0);
+		}
 	}
 
 	public void updateBiometricData(ImageView clickedImageView, List<ImageView> bioExceptionImagesForSameModality) {

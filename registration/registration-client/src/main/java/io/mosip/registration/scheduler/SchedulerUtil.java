@@ -51,6 +51,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.paint.Color;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
@@ -175,11 +176,12 @@ public class SchedulerUtil extends BaseController {
 
 		if (!isShowing) {
 			stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED);
+			stage.initStyle(StageStyle.TRANSPARENT);
 			isShowing = true;
 			closeStage();
 			GridPane root = new GridPane();
 			Scene scene = new Scene(root, 420, 120);
+			scene.setFill(Color.TRANSPARENT);
 			Label titleLbl = new Label();
 			Label timerLabel = new Label();
 			Label initialContent = new Label();

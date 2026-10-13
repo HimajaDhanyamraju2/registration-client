@@ -5,13 +5,16 @@
 
 .table-cell:editable {
 	-fx-font-weight: bold;
-    -fx-tex-fill: green;
+	-fx-text-fill: green;
 }
 
 .keyboardPane {
 	-fx-background-color: white;
-	-fx-border-color: black;
-	-fx-border-width: 1;
+	-fx-background-radius: 12.0px;
+	-fx-border-radius: 12.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 20.0, 0.1, 0.0, 6.0);
 }
 
 #doc_label {
@@ -24,7 +27,7 @@
 }
 
 .scanPageLabel {
-	-fx-tex-fill: #005baa;
+	-fx-text-fill: #005baa;
 	-fx-font-size: 1.2em;
 }
 
@@ -44,14 +47,66 @@
 	-fx-border-color: #C9C9C9;
 }
 
-.parentScrollPane .scroll-bar:horizontal>.increment-button>.increment-arrow
-	{
+.biometricMetricsCard {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 12.0px;
+	-fx-border-color: #DCE8F2;
+	-fx-border-radius: 12.0px;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(three-pass-box, rgba(20, 64, 96, 0.10), 10, 0, 0, 2);
+	-fx-padding: 8.0 12.0 16.0 12.0;
+}
+
+.biometricAttemptStepper {
+	-fx-alignment: center;
+	-fx-background-color: linear-gradient(to bottom, transparent 47%, #C9D2DC 48%, #C9D2DC 52%, transparent 53%);
+}
+
+.biometricAttemptStepper .qualityLabelGrey,
+.biometricAttemptStepper .qualityLabelRed,
+.biometricAttemptStepper .qualityLabelGreen {
+	-fx-pref-height: 32.0px;
+	-fx-pref-width: 32.0px;
+	-fx-border-width: 1.0px;
+	-fx-border-radius: 18.0px;
+	-fx-background-radius: 18.0px;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+}
+
+.biometricAttemptStepper .qualityLabelGrey {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+}
+
+.biometricAttemptStepper .qualityLabelGreen {
+	-fx-background-color: #159447;
+	-fx-border-color: #159447;
+	-fx-text-fill: #FFFFFF;
+}
+
+.biometricAttemptStepper .qualityLabelRed {
+	-fx-background-color: #D94747;
+	-fx-border-color: #D94747;
+	-fx-text-fill: #FFFFFF;
+}
+
+.biometricAttemptStepper .qualityLabelBlueBorder {
+	-fx-border-color: #117AA8;
+	-fx-border-width: 3.0px;
+	-fx-effect: dropshadow(three-pass-box, rgba(17, 122, 168, 0.35), 7, 0, 0, 0);
+}
+
+#biometricPane {
+	-fx-background-color: #FFFFFF;
+}
+
+.parentScrollPane .scroll-bar:horizontal>.increment-button>.increment-arrow {
 	-fx-background-color: white;
 	-fx-shape: "";
 }
 
-.parentScrollPane .scroll-bar:horizontal>.decrement-button>.decrement-arrow
-	{
+.parentScrollPane .scroll-bar:horizontal>.decrement-button>.decrement-arrow {
 	-fx-background-color: white;
 	-fx-shape: "";
 }
@@ -193,8 +248,12 @@
 }
 
 .sendNotificationPane {
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-color: black;
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 14.0px;
+	-fx-border-radius: 14.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 24.0, 0.1, 0.0, 8.0);
 }
 
 #anchor-pane-registration {
@@ -356,10 +415,12 @@
 	-fx-padding: 0.0 0.0 0.5em 0.0;
 }
 
-#applicantImageHBox, #exceptionImageHBox {
+#applicantImageHBox,
+#exceptionImageHBox {
 	-fx-border-color: black;
 	-fx-border-width: 2.0;
 }
+
 /* Registration - Biometric - Iris Capture */
 .scanScrollPane {
 	-fx-background-color: white;
@@ -410,10 +471,12 @@
 
 .documentScanHeader {
 	-fx-background-color: #175768;
+	-fx-background-radius: 14.0 14.0 0.0 0.0;
 }
 
 .selectLanguageHeader {
 	-fx-background-color: #005baa;
+	-fx-background-radius: 14.0 14.0 0.0 0.0;
 }
 
 .selectLanguageMainText {
@@ -488,11 +551,11 @@
 .loginTextStyle {
 	-fx-pref-height: 39.0px;
 	-fx-pref-width: 221.0px;
-	-fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+	-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
 }
 
 .loginTextStyle:focused {
-    -fx-prompt-text-fill: derive(-fx-control-inner-background,-30%);
+	-fx-prompt-text-fill: derive(-fx-control-inner-background, -30%);
 }
 
 .hyperLinkStyle {
@@ -511,7 +574,7 @@
 	-fx-text-fill: #ffffff;
 	-fx-font-size: 10.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
-		0.0, 0.0, 1.0);
+			0.0, 0.0, 1.0);
 }
 
 .loginSubmitStyle1 {
@@ -523,7 +586,7 @@
 	-fx-text-fill: black;
 	-fx-font-size: 10.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
-		0.0, 0.0, 1.0);
+			0.0, 0.0, 1.0);
 }
 
 .loginSubmitStyle:hover {
@@ -560,9 +623,7 @@
 	-fx-pref-width: 944.0px;
 }
 
-.optionsButtonStyle {
-	
-}
+.optionsButtonStyle {}
 
 .reRegAnchorPane {
 	-fx-pref-height: 278.0px;
@@ -605,7 +666,8 @@
 	-fx-pref-width: 850.0px;
 }
 
-#authenticateRootSubPane, .authenticationAnchorPaneStyle {
+#authenticateRootSubPane,
+.authenticationAnchorPaneStyle {
 	-fx-pref-height: 300.0px;
 	-fx-pref-width: 480.0px;
 }
@@ -673,14 +735,29 @@ Working on new Css by taleev
 	-fx-border-width: 0.0 0.0 2.0 0.0;
 	-fx-border-color: #005baa;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.3), 5.0,
-		0.0, 0.0, 1.0);
+			0.0, 0.0, 1.0);
 }
 
 .preregFetchBtnStyle {
-	-fx-pref-height: 35.0px;
+	-fx-pref-height: 40.0px;
+	-fx-min-height: 40.0px;
 	-fx-pref-width: 280.0px;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-padding: 0 12.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.preregFetchBtnStyle:focused {
 	-fx-border-color: #005baa;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.2, 0.0, 0.0);
 }
 
 .searchBoxTextStyle {
@@ -742,7 +819,7 @@ Working on new Css by taleev
 	-fx-pref-height: 39.0px;
 	-fx-pref-width: 1290.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 #biometricExceptionHeader {
@@ -750,7 +827,7 @@ Working on new Css by taleev
 	-fx-pref-height: 39.0px;
 	-fx-pref-width: 1290.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 .paneAtDisplayDocument {
@@ -781,7 +858,7 @@ Working on new Css by taleev
 	-fx-pref-height: 40.0px;
 	-fx-pref-width: 1290.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 .trackerHighlighter {
@@ -795,27 +872,45 @@ Working on new Css by taleev
 }
 
 .demoGraphicPaneContentButton {
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-color: #005baa;
-	-fx-background-color: #FFFFFF;
-	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
-	-fx-font-size: 1.1em;
+	-fx-background-color: linear-gradient(to bottom, #005baa, #004887);
+	-fx-border-color: #003766;
+	-fx-border-width: 1.0px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 40.0px;
+	-fx-min-height: 40.0px;
+	-fx-padding: 0 20.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.0, 0.0, 1.0);
 }
 
 .demoGraphicPaneContentButton:hover {
-	-fx-background-color: #004887;
+	-fx-background-color: linear-gradient(to bottom, #0284c7, #005baa);
 	-fx-border-color: #004887;
-	-fx-text-fill: #FFFFFF;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.4), 8.0, 0.0, 0.0, 2.0);
 }
 
 .demoGraphicPaneContentButton:pressed {
-	-fx-background-color: #004887;
-	-fx-border-color: #004887;
-	-fx-text-fill: #FFFFFF;
+	-fx-background-color: #003766;
+	-fx-border-color: #002647;
 }
 
 .paneAtDisplayDemoGraphic {
 	-fx-background-color: #FFFFFF;
+}
+
+.demographicFormGroup {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 10.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 10.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 12.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 8.0, 0.0, 0.0, 2.0);
 }
 
 .documentContentButton {
@@ -891,30 +986,75 @@ Working on new Css by taleev
 }
 
 .demoGraphicTextField {
-	-fx-border-color: #C9C9C9;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
 	-fx-background-color: #FFFFFF;
-	-fx-prompt-text-fill: #a0a0a0;
-	-fx-font-size: 1.2em;
-	-fx-text-fill: #000000;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-padding: 0 14.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.demoGraphicTextField:focused {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #005baa;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-text-fill: #1E293B;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.2, 0.0, 0.0);
 }
 
 .settingsTextField {
-	-fx-border-width: 0.0 0.0 2.0 0.0;
-	-fx-border-color: #8f898c;
-	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.3), 5.0,
-		0.0, 0.0, 1.0);
-	-fx-prompt-text-fill: #a0a0a0;
-	-fx-font-size: 12px;
-	-fx-text-fill: green;
-	-fx-pref-height: 5.0px;
-	-fx-pref-width: 10.0px;
+	-fx-background-color: #FFFFFF;
+	-fx-border-width: 1.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 6.0px;
+	-fx-background-radius: 6.0px;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-text-fill: #1E293B;
+	-fx-pref-height: 32.0px;
+	-fx-padding: 4.0px 10.0px;
+}
+
+.settingsTextField:focused {
+	-fx-border-color: #2563EB;
+	-fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.2), 6.0, 0.0, 0.0, 1.0);
 }
 
 .iconsHBox {
-	-fx-border-style: solid inside;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: #C9C9C9;
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-pref-width: 44.0px;
+	-fx-min-width: 44.0px;
+	-fx-alignment: center;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.iconsHBox:hover {
+	-fx-background-color: #F0F9FF;
+	-fx-border-color: #005baa;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.15), 6.0, 0.0, 0.0, 1.0);
+}
+
+.iconsHBox:pressed {
+	-fx-background-color: #E0F2FE;
+	-fx-border-color: #004887;
 }
 
 .documentTextField {
@@ -938,18 +1078,23 @@ Working on new Css by taleev
 }
 
 .demoGraphicFieldLabelOnType {
-	-fx-background-color: #ffffff;
+	-fx-background-color: transparent;
 	-fx-border-width: 0.0;
-	-fx-text-fill: #22A8C9;
-	-fx-prompt-text-fill: #000000;
-	-fx-font-size: 1em;
+	-fx-text-fill: #005baa;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
+	-fx-padding: 0 0 2.0px 0;
 }
 
 .demoGraphicFieldLabel {
-	-fx-background-color: #ffffff;
+	-fx-background-color: transparent;
 	-fx-border-width: 0.0;
-	-fx-text-fill: #666666;
-	-fx-font-size: 1em;
+	-fx-text-fill: #1E293B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
+	-fx-padding: 0 0 2.0px 0;
 }
 
 .paginationLabel {
@@ -978,46 +1123,68 @@ Working on new Css by taleev
 }
 
 .buttonsLabel {
-	-fx-background-color: #ffffff;
+	-fx-background-color: transparent;
 	-fx-border-width: 0.0;
-	-fx-text-fill: black;
-	-fx-font-size: 1.1em;
+	-fx-text-fill: #1E293B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
 	-fx-wrap-text: true;
+	-fx-padding: 0 4.0px 0 0;
 }
 
 .demoGraphicTextFieldFocused {
-	-fx-border-color: #FF0000;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-background-color: #FFFFFF;
-	-fx-prompt-text-fill: #FF0000;
-	-fx-text-fill: #FF0000;
-	-fx-font-size: 1.2em;
+	-fx-background-color: #FFF5F5;
+	-fx-border-color: #DC2626;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-padding: 0 14.0px;
+	-fx-prompt-text-fill: #DC2626;
+	-fx-text-fill: #DC2626;
+	-fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.18), 6.0, 0.2, 0.0, 0.0);
 }
 
 .demoGraphicTextFieldFocused:focused {
-	-fx-border-color: #FF0000;
-	-fx-border-width: 0.0 0.0 2.0 0.0;
 	-fx-background-color: #FFFFFF;
-	-fx-prompt-text-fill: #FF0000;
-	-fx-text-fill: #FF0000;
-	-fx-font-size: 1.2em;
+	-fx-border-color: #DC2626;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-prompt-text-fill: #DC2626;
+	-fx-text-fill: #DC2626;
+	-fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.25), 6.0, 0.2, 0.0, 0.0);
 }
 
 .demoGraphicTextFieldOnType {
-	-fx-border-color: #C9C9C9;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
 	-fx-background-color: #FFFFFF;
-	-fx-text-fill: #000000;
-	-fx-font-size: 1.2em;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-padding: 0 14.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
 }
 
 .demoGraphicTextFieldOnType:focused {
-	-fx-border-color: #22A8C9;
-	-fx-border-width: 0.0 0.0 2.0 0.0;
 	-fx-background-color: #FFFFFF;
-	-fx-prompt-text-fill: gray;
-	-fx-text-fill: #000000;
-	-fx-font-size: 1.2em;
+	-fx-border-color: #005baa;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-text-fill: #1E293B;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.2, 0.0, 0.0);
 }
 
 .scanPage {
@@ -1026,26 +1193,248 @@ Working on new Css by taleev
 	-fx-font-size: 1.3em;
 	-fx-border-width: 1.0;
 	-fx-border-color: #005baa;
+	-fx-border-radius: 14.0;
+	-fx-background-radius: 14.0;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 24.0, 0.1, 0.0, 8.0);
 }
 
 .demoGraphicFieldMessageLabel {
-	-fx-background-color: #ffffff;
-	-fx-text-fill: red;
-	-fx-font-size: 1em;
+	-fx-background-color: transparent;
+	-fx-text-fill: #DC2626;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-font-weight: 500;
+	-fx-padding: 2.0px 0 0 2.0px;
 }
 
 .demographicCombobox {
-	-fx-background-color: #ffffff;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: #C9C9C9;
-	-fx-font-size: 14.0px;
-	-fx-pref-height: 10.0px;
-	-fx-pref-width: 190.0px;
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-pref-width: 400.0px;
+	-fx-min-width: 400.0px;
+	-fx-padding: 0 4.0px 0 12.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.demographicCombobox:hover {
+	-fx-border-color: #94A3B8;
+	-fx-background-color: #F8FAFC;
+}
+
+.demographicCombobox:focused {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #005baa;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-pref-width: 400.0px;
+	-fx-min-width: 400.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.2, 0.0, 0.0);
+}
+
+.demographicComboboxFocused {
+	-fx-background-color: #FFF5F5;
+	-fx-border-color: #DC2626;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-pref-width: 400.0px;
+	-fx-min-width: 400.0px;
+	-fx-padding: 0 4.0px 0 12.0px;
+	-fx-effect: dropshadow(gaussian, rgba(220, 38, 38, 0.2), 6.0, 0.2, 0.0, 0.0);
+}
+
+.demographicCombobox .list-cell {
+	-fx-background-color: transparent;
+	-fx-text-fill: #1E293B;
+	-fx-padding: 0;
+	-fx-alignment: center-left;
+}
+
+.demographicCombobox .arrow-button {
+	-fx-background-color: transparent;
+	-fx-padding: 0 10.0px 0 0;
+	-fx-cursor: hand;
+}
+
+.demographicCombobox .arrow {
+	-fx-background-color: #64748B;
+	-fx-padding: 3.5px 4.5px;
+	-fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+}
+
+.demographicCombobox:hover .arrow,
+.demographicCombobox:focused .arrow {
+	-fx-background-color: #005baa;
+}
+
+.demographicCombobox .combo-box-popup > .list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-radius: 8.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px;
+	-fx-padding: 4.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 12.0, 0.0, 0.0, 4.0);
+}
+
+.demographicCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+	-fx-background-color: transparent;
+	-fx-text-fill: #1E293B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-padding: 8.0px 12.0px;
+	-fx-background-radius: 6.0px;
+}
+
+.demographicCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+	-fx-background-color: #F0F9FF;
+	-fx-text-fill: #005baa;
+}
+
+.demographicCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+	-fx-background-color: linear-gradient(to bottom, #005baa, #004887);
+	-fx-text-fill: #FFFFFF;
+}
+
+.combo-box-popup > .list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 10.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 10.0px;
+	-fx-border-width: 1.5px;
+	-fx-cell-size: 38.0px;
+	-fx-padding: 5.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.15), 16.0, 0.0, 0.0, 6.0);
+}
+
+.combo-box-popup > .list-view .scroll-bar:vertical {
+	-fx-background-color: transparent;
+	-fx-pref-width: 7.0px;
+}
+
+.combo-box-popup > .list-view .scroll-bar:vertical .thumb {
+	-fx-background-color: #CBD5E1;
+	-fx-background-radius: 4.0px;
+}
+
+.combo-box-popup > .list-view .scroll-bar:vertical .increment-button,
+.combo-box-popup > .list-view .scroll-bar:vertical .decrement-button {
+	-fx-pref-height: 0.0px;
+	-fx-padding: 0.0px;
+	-fx-background-color: transparent;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell,
+.combo-box-popup > .list-view .list-cell,
+.combo-box-popup .list-cell {
+	-fx-background-color: transparent;
+	-fx-background-radius: 6.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 500;
+	-fx-padding: 8.0px 14.0px;
+	-fx-pref-height: 38.0px;
+	-fx-min-height: 38.0px;
+	-fx-alignment: CENTER_LEFT;
+	-fx-text-fill: #1E293B;
+	-fx-cursor: hand;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover,
+.combo-box-popup > .list-view .list-cell:filled:hover,
+.combo-box-popup .list-cell:filled:hover {
+	-fx-background-color: #EFF6FF;
+	-fx-text-fill: #005baa;
+	-fx-font-weight: 600;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:focused,
+.combo-box-popup > .list-view .list-cell:filled:selected,
+.combo-box-popup > .list-view .list-cell:filled:selected:focused,
+.combo-box-popup .list-cell:filled:selected,
+.combo-box-popup .list-cell:filled:selected:focused {
+	-fx-background-color: #DBEAFE;
+	-fx-text-fill: #005baa;
+	-fx-font-weight: bold;
+}
+
+/* Modern Date of Birth and Age Styles */
+.dobFieldContainer {
+	-fx-spacing: 4.0px;
+	-fx-alignment: center;
+}
+
+.dobTextField {
+	-fx-alignment: center;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-padding: 0 4.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.dobTextField:focused {
+	-fx-border-color: #005baa;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.2, 0.0, 0.0);
+}
+
+.dobDayMonthField {
+	-fx-pref-width: 58.0px;
+	-fx-min-width: 58.0px;
+	-fx-max-width: 58.0px;
+}
+
+.dobYearField {
+	-fx-pref-width: 80.0px;
+	-fx-min-width: 80.0px;
+	-fx-max-width: 80.0px;
+}
+
+.dobAgeField {
+	-fx-pref-width: 80.0px;
+	-fx-min-width: 80.0px;
+	-fx-max-width: 80.0px;
+}
+
+.dobOrSeparator {
+	-fx-background-color: #F1F5F9;
+	-fx-text-fill: #64748B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 11.5px;
+	-fx-font-weight: bold;
+	-fx-padding: 5.0px 12.0px;
+	-fx-border-radius: 12.0px;
+	-fx-background-radius: 12.0px;
+	-fx-alignment: center;
 }
 
 .loginCombobox {
 	-fx-background-color: #ffffff;
-	-fx-font-size: 14.0px;	
+	-fx-font-size: 14.0px;
 	-fx-pref-height: 35.0px;
 	-fx-pref-width: 312.0px;
 	-fx-border-width: 0.0 0.0 2.0 0.0;
@@ -1060,42 +1449,12 @@ Working on new Css by taleev
 
 .filterCombobox {
 	-fx-background-color: #ffffff;
-	-fx-font-size: 14.0px;	
+	-fx-font-size: 14.0px;
 	-fx-pref-height: 35.0px;
 	-fx-pref-width: 240.0px;
 	-fx-border-width: 0.0 0.0 0.0 0.0;
 	-fx-border-color: #C9C9C9;
 	-fx-background-color: -fx-text-box-border, -fx-control-inner-background;
-}
-
-.demographicComboboxFocused {
-	-fx-background-color: #ffffff;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: red;
-	-fx-font-size: 14.0px;
-	-fx-pref-height: 10.0px;
-	-fx-pref-width: 190.0px;
-}
-
-.demographicCombobox:focused {
-	-fx-background-color: #ffffff;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: #005baa;
-	-fx-font-size: 14.0px;
-	-fx-pref-height: 10.0px;
-	-fx-pref-width: 190.0px;
-}
-
-.demographicCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:hover
-	{
-	-fx-background-color: #004887;
-	-fx-text-fill: #FFFFFF;
-}
-
-.demographicCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:selected
-	{
-	-fx-background-color: #004887;
-	-fx-text-fill: #FFFFFF;
 }
 
 .documentCombobox {
@@ -1115,14 +1474,12 @@ Working on new Css by taleev
 	-fx-border-color: #004887;
 }
 
-.documentCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:hover
-	{
+.documentCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:hover {
 	-fx-background-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
-.documentCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:selected
-	{
+.documentCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:selected {
 	-fx-background-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
@@ -1132,6 +1489,88 @@ Working on new Css by taleev
 	-fx-border-width: 0.0 0.0 1.0 0.0;
 	-fx-border-color: #005baa;
 	-fx-font-size: 1.2em;
+}
+
+.documentCombobox {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-min-height: 42.0px;
+	-fx-padding: 0 4.0px 0 12.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.documentCombobox:hover {
+	-fx-border-color: #94A3B8;
+	-fx-background-color: #F8FAFC;
+}
+
+.documentCombobox:focused {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #005baa;
+	-fx-border-width: 1.5px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 6.0, 0.2, 0.0, 0.0);
+}
+
+.documentCombobox .list-cell {
+	-fx-background-color: transparent;
+	-fx-text-fill: #1E293B;
+	-fx-padding: 0;
+	-fx-alignment: center-left;
+}
+
+.documentCombobox .arrow-button {
+	-fx-background-color: transparent;
+	-fx-padding: 0 10.0px 0 0;
+	-fx-cursor: hand;
+}
+
+.documentCombobox .arrow {
+	-fx-background-color: #64748B;
+	-fx-padding: 3.5px 4.5px;
+	-fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+}
+
+.documentCombobox:hover .arrow,
+.documentCombobox:focused .arrow {
+	-fx-background-color: #005baa;
+}
+
+.documentCombobox .combo-box-popup > .list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-radius: 8.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px;
+	-fx-padding: 4.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.12), 12.0, 0.0, 0.0, 4.0);
+}
+
+.documentCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+	-fx-background-color: transparent;
+	-fx-text-fill: #1E293B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-padding: 8.0px 12.0px;
+	-fx-background-radius: 6.0px;
+}
+
+.documentCombobox .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:hover {
+	-fx-background-color: #F0F9FF;
+	-fx-text-fill: #005baa;
+}
+
+.documentCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected {
+	-fx-background-color: linear-gradient(to bottom, #005baa, #004887);
+	-fx-text-fill: #FFFFFF;
 }
 
 .toggleButton {
@@ -1251,22 +1690,22 @@ Working on new Css by taleev
 }
 
 .threshHoldLabel {
-	-fx-tex-fill: #000000;
+	-fx-text-fill: #000000;
 	-fx-font-size: 15.0px;
 }
 
 .qualityLabel {
-	-fx-tex-fill: #000000;
+	-fx-text-fill: #000000;
 	-fx-font-size: 15.0px;
 }
 
 .attemptsLabel {
-	-fx-tex-fill: #000000;
+	-fx-text-fill: #000000;
 	-fx-font-size: 15.0px;
 }
 
 .exceptionLabel {
-	-fx-tex-fill: #000000;
+	-fx-text-fill: #000000;
 	-fx-font-size: 15.0px;
 }
 
@@ -1298,12 +1737,106 @@ Working on new Css by taleev
 .biometricTypeLabel {
 	-fx-text-fill: #666666;
 	-fx-font-size: 1.2em;
-	-fx-padding: 0px 0px 0px 60px ;
+}
+
+.biometricCaptureHeading {
+	-fx-text-fill: #005baa;
+	-fx-font-size: 1.4em;
+	-fx-font-weight: bold;
 }
 
 .paneHeader {
 	-fx-text-fill: #005baa;
 	-fx-font-size: 22.0px;
+	-fx-font-weight: bold;
+}
+
+.authenticationPasswordCard {
+	-fx-pref-width: 540.0px;
+	-fx-pref-height: 365.0px;
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 16.0px;
+	-fx-border-color: #DCE8F2;
+	-fx-border-radius: 16.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 30.0px 40.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.08), 24.0, 0.0, 0.0, 6.0);
+}
+
+.authenticationFormHeading {
+	-fx-font-size: 19.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #0F172A;
+	-fx-padding: 0.0;
+}
+
+.authenticationSubtitle {
+	-fx-font-size: 12.0px;
+	-fx-text-fill: #64748B;
+	-fx-padding: 0.0;
+}
+
+.authenticationFieldLabel {
+	-fx-background-color: transparent;
+	-fx-font-size: 12.5px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #475569;
+	-fx-padding: 0.0;
+}
+
+.authenticationPasswordField {
+	-fx-pref-height: 44.0px;
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 0.0px 14.0px;
+	-fx-font-size: 14.5px;
+	-fx-prompt-text-fill: #94A3B8;
+}
+
+.authenticationUsernameField {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #E2E8F0;
+	-fx-text-fill: #334155;
+}
+
+.authenticationActionButton {
+	-fx-pref-width: 150.0px;
+	-fx-pref-height: 42.0px;
+	-fx-background-color: #005baa;
+	-fx-background-radius: 8.0px;
+	-fx-border-radius: 8.0px;
+	-fx-border-color: #004B8D;
+	-fx-border-width: 1.0px;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-size: 13.5px;
+	-fx-font-weight: bold;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 8.0, 0.0, 0.0, 2.0);
+}
+
+.authenticationActionButton:hover {
+	-fx-background-color: #004B8D;
+}
+
+.authenticationActionButton:pressed {
+	-fx-background-color: #004887;
+	-fx-border-color: #004887;
+}
+
+.authenticationActionButton:disabled {
+	-fx-background-color: #C9C9C9;
+	-fx-border-color: #C9C9C9;
+	-fx-text-fill: #666666;
+	-fx-effect: null;
+}
+
+.authenticationPasswordField:focused {
+	-fx-border-color: #005baa;
+	-fx-border-width: 1.5px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.18), 6.0, 0.0, 0.0, 1.0);
 }
 
 .authenticationBiometricSubPane {
@@ -1381,7 +1914,7 @@ Working on new Css by taleev
 	-fx-background-color: #FFFFFF;
 	-fx-padding: 5.0 5.0 5.0 5.0;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
-		0.0, 0.0, 1.0);
+			0.0, 0.0, 1.0);
 }
 
 #uploadPanesFirst {
@@ -1390,7 +1923,7 @@ Working on new Css by taleev
 	-fx-border-color: #005baa;
 	-fx-border-width: 0.0 0.0 1.0 0.0;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
-		0.0, 0.0, 1.0);
+			0.0, 0.0, 1.0);
 }
 
 #uploadPageText {
@@ -1407,7 +1940,7 @@ Working on new Css by taleev
 	-fx-pref-height: 35.0px;
 	-fx-pref-width: 1290.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 .table-view {
@@ -1416,12 +1949,12 @@ Working on new Css by taleev
 }
 
 .table-cell {
-    -fx-alignment: CENTER;
+	-fx-alignment: CENTER;
 }
 
 .syncTableColumn {
 	-fx-text-fill: black;
-  	-fx-alignment: CENTER-LEFT;
+	-fx-alignment: CENTER-LEFT;
 }
 
 #globalParamTable .column-header .label {
@@ -1436,7 +1969,18 @@ Working on new Css by taleev
 	-fx-pref-width: 35.0;
 	-fx-text-fill: #000000;
 	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: #000000;
+	-fx-border-color: #E2E8F0;
+}
+
+.table-row-cell:empty {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.table-row-cell:empty .table-cell {
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
 }
 
 .table-row-cell:focused {
@@ -1451,8 +1995,7 @@ Working on new Css by taleev
 	-fx-text-fill: black;
 }
 
-.table-view:focused>.virtual-flow>.clipped-container>.sheet>.table-row-cell:filled:selected>.table-cell
-	{
+.table-view:focused>.virtual-flow>.clipped-container>.sheet>.table-row-cell:filled:selected>.table-cell {
 	-fx-background-color: #FFFFFF;
 	-fx-border-width: 0.0 0.0 1.0 0.0;
 }
@@ -1491,65 +2034,176 @@ Working on new Css by taleev
 /*
  *	rejection page 
  */
-.rejectionPageHeader {
+/*
+ *	rejection page 
+ */
+.rejectionParentPane {
 	-fx-background-color: #FFFFFF;
-	-fx-pref-width: 400.0;
-	-fx-pref-height: 50.0px;
+	-fx-border-width: 1.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-pref-width: 480.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.22), 24.0, 0.08, 0.0, 8.0);
+}
+
+.rejectionPageHeader {
+	-fx-background-color: linear-gradient(to right, #074758 0%, #0B6A82 45%, #147A94 100%);
+	-fx-border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-padding: 18.0px 24.0px 16.0px 24.0px;
 }
 
 .rejectionPageHeaderLabel {
-	-fx-text-fill: #000000;
-	-fx-font-family: Roboto;
-	-fx-font-size: 15.0px;
-	-fx-pref-heigth: 100.0;
-	-fx-pref-width: 400.0;
-}
-
-.rejectionPaneContent {
-	-fx-background-color: #FFFFFF;
-	-fx-pref-heigth: 150.0;
-	-fx-pref-width: 400.0;
-}
-
-.dfd {
-	-fx-background-color: red;
-}
-
-.rejectionParentPane {
-	-fx-background-color: #FFFFFF;
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-color: black;
-	-fx-pref-heigth: 100.0;
-	-fx-pref-width: 400.0;
-}
-
-#rejectionAnchorPane .comboboxStyle {
-	-fx-background-color: #ffffff;
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-color: black;
-	-fx-font-size: 14.0px;
-}
-
-#rejectionAnchorPane .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:hover
-	{
-	-fx-background-color: #004887;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 18.0px;
+	-fx-font-weight: bold;
 	-fx-text-fill: #FFFFFF;
 }
 
-#rejectionAnchorPane .combo-box-popup>.list-view>.virtual-flow>.clipped-container>.sheet>.list-cell:filled:selected
-	{
-	-fx-background-color: #004887;
-	-fx-text-fill: #FFFFFF;
+.rejectionHeaderSubtitle {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-text-fill: rgba(255, 255, 255, 0.82);
 }
 
 .rejectCommentCloseButton {
-	-fx-background-color: white;
+	-fx-background-color: rgba(255, 255, 255, 0.90);
+	-fx-background-radius: 16.0px;
+	-fx-border-radius: 16.0px;
+	-fx-pref-width: 30.0px;
+	-fx-pref-height: 30.0px;
+	-fx-min-width: 30.0px;
+	-fx-min-height: 30.0px;
+	-fx-padding: 0.0;
+	-fx-cursor: hand;
+	-fx-alignment: center;
+}
+
+.rejectCommentCloseButton:hover {
+	-fx-background-color: #FFFFFF;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 6.0, 0.0, 0.0, 1.0);
+}
+
+.rejectCommentCloseButton:pressed {
+	-fx-background-color: #E2E8F0;
+}
+
+.rejectionPaneContent {
+	-fx-background-color: #F8FAFC;
+	-fx-padding: 24.0px 24.0px 24.0px 24.0px;
+}
+
+.rejectionFieldLabel {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #334155;
+}
+
+#rejectionAnchorPane .comboboxStyle {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.2px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.5px;
+	-fx-pref-height: 42.0px;
+	-fx-padding: 0.0 10.0px;
+}
+
+#rejectionAnchorPane .comboboxStyle:hover {
+	-fx-border-color: #94A3B8;
+}
+
+#rejectionAnchorPane .comboboxStyle:focused {
+	-fx-border-color: #0B6A82;
+	-fx-effect: dropshadow(gaussian, rgba(11, 106, 130, 0.22), 6.0, 0.0, 0.0, 0.0);
+}
+
+#rejectionAnchorPane .comboboxStyle .arrow-button {
+	-fx-background-color: transparent;
+	-fx-padding: 0.0 4.0px;
+}
+
+#rejectionAnchorPane .comboboxStyle .arrow {
+	-fx-background-color: #64748B;
+	-fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+}
+
+#rejectionAnchorPane .comboboxStyle:focused .arrow {
+	-fx-background-color: #0B6A82;
+}
+
+#rejectionAnchorPane .combo-box-popup > .list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 4.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.15), 14.0, 0.0, 0.0, 4.0);
+}
+
+#rejectionAnchorPane .combo-box-popup > .list-view .list-cell {
+	-fx-background-color: transparent;
+	-fx-background-radius: 6.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #334155;
+	-fx-padding: 8.0px 12.0px;
+}
+
+#rejectionAnchorPane .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover,
+#rejectionAnchorPane .combo-box-popup > .list-view .list-cell:filled:hover {
+	-fx-background-color: #F0F9FF;
+	-fx-text-fill: #0284C7;
+}
+
+#rejectionAnchorPane .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+#rejectionAnchorPane .combo-box-popup > .list-view .list-cell:filled:selected {
+	-fx-background-color: #E0F2FE;
+	-fx-text-fill: #0369A1;
+	-fx-font-weight: bold;
+}
+
+.rejectionButtonBar {
+	-fx-padding: 6.0px 0.0 0.0 0.0;
+}
+
+.rejectionCancelButton {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.2px;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-text-fill: #475569;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 40.0px;
+	-fx-padding: 0.0 20.0px;
+	-fx-cursor: hand;
+}
+
+.rejectionCancelButton:hover {
+	-fx-background-color: #F1F5F9;
+	-fx-border-color: #94A3B8;
+	-fx-text-fill: #1E293B;
+}
+
+.rejectionCancelButton:pressed {
+	-fx-background-color: #E2E8F0;
+}
+
+#rejectionAnchorPane .contiuneButton {
+	-fx-pref-height: 40.0px;
+	-fx-padding: 0.0 24.0px;
 }
 
 .headerFooter {
 	-fx-background-color: #FFFFFF;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 .headerTexts {
@@ -1587,27 +2241,474 @@ Working on new Css by taleev
 }
 
 /*Upload Packet page design starts*/
-.uploadCheckBox>.box {
-	-fx-background-color: #FFFFFF;
-	-fx-text-fill: -fx-text-background-color;
-	-fx-border-color: #B0B0B0;
-	-fx-border-radius: 3px;
-	-fx-padding: 0.25px;
+.uploadPacketparentPane {
+	-fx-background-color: #F8FAFC;
 }
 
-.uploadPacketparentPane {
-	-fx-background-color: #F4F4F4;
+.uploadPacketHeader {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.03), 4.0, 0.0, 0.0, 1.0);
 }
 
 .homeButton {
-	-fx-background-color: #FFFFFF;
-	-fx-padding: 0.0 0.0 0.0 0.0;
+	-fx-background-color: transparent;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #64748B;
+	-fx-padding: 0.0;
+	-fx-cursor: hand;
+}
+
+.homeButton:hover {
+	-fx-text-fill: #1E293B;
 }
 
 .mainHeader {
-	-fx-font-family: Roboto;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
 	-fx-text-fill: #005baa;
 	-fx-font-size: 20.0px;
+	-fx-font-weight: bold;
+}
+
+/* Header Action Buttons */
+#saveToDevice,
+.uploadSaveDeviceBtn {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #005baa;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-text-fill: #005baa;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 38.0px;
+	-fx-min-height: 38.0px;
+	-fx-padding: 0.0 20.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+#saveToDevice:hover,
+.uploadSaveDeviceBtn:hover {
+	-fx-background-color: #EFF6FF;
+	-fx-border-color: #004480;
+	-fx-text-fill: #004480;
+}
+
+#saveToDevice:pressed,
+.uploadSaveDeviceBtn:pressed {
+	-fx-background-color: #DBEAFE;
+}
+
+#uploadBtn,
+.uploadActionBtn {
+	-fx-background-color: #005baa;
+	-fx-border-color: #005baa;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.0px;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 38.0px;
+	-fx-min-height: 38.0px;
+	-fx-padding: 0.0 24.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.25), 4.0, 0.0, 0.0, 1.5);
+}
+
+#uploadBtn:hover,
+.uploadActionBtn:hover {
+	-fx-background-color: #004887;
+	-fx-border-color: #004887;
+}
+
+#uploadBtn:pressed,
+.uploadActionBtn:pressed {
+	-fx-background-color: #003666;
+	-fx-border-color: #003666;
+}
+
+/* Modern Filter Toolbar */
+.uploadToolbar {
+	-fx-alignment: CENTER_LEFT;
+	-fx-spacing: 12.0px;
+}
+
+.uploadSearchBox {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-padding: 0.0 12.0px;
+	-fx-pref-height: 40.0px;
+	-fx-alignment: CENTER_LEFT;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.uploadSearchBox:hover {
+	-fx-border-color: #94A3B8;
+}
+
+.uploadSearchIcon {
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #94A3B8;
+	-fx-padding: 0.0 6.0px 0.0 0.0;
+}
+
+.uploadSearchInput {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-padding: 0.0;
+}
+
+.uploadSearchInput:focused {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.uploadExportBtn {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-padding: 0.0 14.0px;
+	-fx-pref-height: 40.0px;
+	-fx-alignment: CENTER;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.uploadExportBtn:hover {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #94A3B8;
+}
+
+.uploadExportBtn:pressed {
+	-fx-background-color: #F1F5F9;
+	-fx-border-color: #64748B;
+}
+
+.uploadExportBtn:disabled {
+	-fx-opacity: 0.45;
+	-fx-cursor: default;
+}
+
+.uploadExportLabel {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #334155;
+}
+
+.uploadFilterCombobox {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-pref-height: 40.0px;
+	-fx-padding: 0.0 6.0px 0.0 10.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.uploadFilterCombobox:hover {
+	-fx-border-color: #94A3B8;
+}
+
+.uploadFilterCombobox:focused,
+.uploadFilterCombobox:showing {
+	-fx-border-color: #005baa;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.20), 8.0, 0.0, 0.0, 2.0);
+}
+
+.uploadFilterCombobox .arrow-button {
+	-fx-background-color: transparent;
+	-fx-padding: 0.0 6.0px 0.0 0.0;
+	-fx-cursor: hand;
+}
+
+.uploadFilterCombobox .arrow {
+	-fx-background-color: #64748B;
+	-fx-shape: "M 0 0 L 4 4 L 8 0 Z";
+	-fx-padding: 3.0px 4.5px;
+}
+
+.uploadFilterCombobox:hover .arrow,
+.uploadFilterCombobox:focused .arrow,
+.uploadFilterCombobox:showing .arrow {
+	-fx-background-color: #005baa;
+}
+
+/* Button cell inside the combobox (displayed selected value) */
+.uploadFilterCombobox > .list-cell {
+	-fx-background-color: transparent;
+	-fx-text-fill: #1E293B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
+	-fx-padding: 0.0 4.0px;
+	-fx-alignment: CENTER_LEFT;
+}
+
+/* Dropdown Popup Menu */
+.uploadFilterCombobox .combo-box-popup > .list-view,
+#tableContainer .combo-box-popup > .list-view {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 10.0px;
+	-fx-background-radius: 10.0px;
+	-fx-border-width: 1.5px;
+	-fx-cell-size: 38.0px;
+	-fx-padding: 5.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.16), 16.0, 0.0, 0.0, 6.0);
+}
+
+/* Dropdown Options */
+.uploadFilterCombobox .combo-box-popup .list-cell,
+.uploadFilterCombobox .combo-box-popup > .list-view .list-cell,
+.uploadFilterCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell,
+#tableContainer .combo-box-popup .list-cell,
+#tableContainer .combo-box-popup > .list-view .list-cell,
+#tableContainer .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+	-fx-background-color: transparent;
+	-fx-background-radius: 6.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 500;
+	-fx-padding: 8.0px 14.0px;
+	-fx-pref-height: 38.0px;
+	-fx-min-height: 38.0px;
+	-fx-alignment: CENTER_LEFT;
+	-fx-text-fill: #1E293B;
+	-fx-cursor: hand;
+}
+
+.uploadFilterCombobox .combo-box-popup .list-cell:filled:hover,
+.uploadFilterCombobox .combo-box-popup > .list-view .list-cell:filled:hover,
+.uploadFilterCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover,
+#tableContainer .combo-box-popup .list-cell:filled:hover,
+#tableContainer .combo-box-popup > .list-view .list-cell:filled:hover,
+#tableContainer .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:hover {
+	-fx-background-color: #EFF6FF;
+	-fx-text-fill: #005baa;
+	-fx-font-weight: 600;
+}
+
+.uploadFilterCombobox .combo-box-popup .list-cell:filled:selected,
+.uploadFilterCombobox .combo-box-popup .list-cell:filled:selected:focused,
+.uploadFilterCombobox .combo-box-popup > .list-view .list-cell:filled:selected,
+.uploadFilterCombobox .combo-box-popup > .list-view .list-cell:filled:selected:focused,
+.uploadFilterCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+.uploadFilterCombobox .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:focused,
+#tableContainer .combo-box-popup .list-cell:filled:selected,
+#tableContainer .combo-box-popup .list-cell:filled:selected:focused,
+#tableContainer .combo-box-popup > .list-view .list-cell:filled:selected,
+#tableContainer .combo-box-popup > .list-view .list-cell:filled:selected:focused,
+#tableContainer .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected,
+#tableContainer .combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:focused {
+	-fx-background-color: #DBEAFE;
+	-fx-text-fill: #005baa;
+	-fx-font-weight: bold;
+}
+
+.uploadClearFiltersBtn {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-text-fill: #475569;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 40.0px;
+	-fx-padding: 0.0 16.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.03), 3.0, 0.0, 0.0, 1.0);
+}
+
+.uploadClearFiltersBtn:hover {
+	-fx-background-color: #F1F5F9;
+	-fx-border-color: #94A3B8;
+	-fx-text-fill: #1E293B;
+}
+
+.uploadClearFiltersBtn:pressed {
+	-fx-background-color: #E2E8F0;
+	-fx-border-color: #64748B;
+}
+
+/* Modern TableView Styling */
+.uploadTable {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 10.0px;
+	-fx-border-radius: 10.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.05), 8.0, 0.0, 0.0, 2.0);
+}
+
+.uploadTable .column-header-background {
+	-fx-background-color: #F8FAFC;
+	-fx-background-radius: 10.0px 10.0px 0.0 0.0;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 0.0 0.0 1.5px 0.0;
+}
+
+.uploadTable .column-header {
+	-fx-background-color: transparent;
+	-fx-border-color: #F1F5F9;
+	-fx-border-width: 0.0 1.0px 0.0 0.0;
+	-fx-pref-height: 44.0px;
+	-fx-size: 44.0px;
+	-fx-padding: 0.0 10.0px;
+}
+
+.uploadTable .column-header .label {
+	-fx-alignment: CENTER-LEFT;
+	-fx-text-fill: #475569;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-font-weight: bold;
+}
+
+.uploadTable .table-row-cell:filled {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #F1F5F9;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-pref-height: 46.0px;
+	-fx-padding: 0.0;
+}
+
+.uploadTable .table-row-cell:filled:odd {
+	-fx-background-color: #FFFFFF;
+}
+
+.uploadTable .table-row-cell:filled:even {
+	-fx-background-color: #FBFCFE;
+}
+
+.uploadTable .table-row-cell:filled:hover {
+	-fx-background-color: #F1F5F9;
+	-fx-cursor: hand;
+}
+
+.uploadTable .table-row-cell:filled:selected,
+.uploadTable .table-row-cell:filled:focused:selected {
+	-fx-background-color: #EFF6FF;
+	-fx-border-color: #2563EB;
+	-fx-border-width: 0.0 0.0 1.5px 0.0;
+}
+
+.uploadTable .table-cell {
+	-fx-alignment: CENTER-LEFT;
+	-fx-padding: 0.0 14.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-text-fill: #1E293B;
+	-fx-border-width: 0.0;
+}
+
+.uploadTable .table-row-cell:filled:selected .table-cell {
+	-fx-text-fill: #1E40AF;
+	-fx-font-weight: bold;
+}
+
+.uploadTable .table-row-cell:empty {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.uploadTable .table-row-cell:empty .table-cell {
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.uploadTable .uploadSlNoCol {
+	-fx-alignment: CENTER;
+}
+
+.uploadTable .uploadAppIdCol {
+	-fx-font-weight: bold;
+	-fx-text-fill: #0F172A;
+}
+
+.uploadTable .uploadTypeCol {
+	-fx-alignment: CENTER;
+}
+
+.uploadTable .uploadStatusCol {
+	-fx-alignment: CENTER;
+}
+
+/* Modern Checkboxes for Table & Header */
+.uploadCheckBox > .box,
+.uploadTable .check-box > .box {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 5.0px;
+	-fx-background-radius: 5.0px;
+	-fx-border-width: 1.5px;
+	-fx-pref-width: 18.0px;
+	-fx-pref-height: 18.0px;
+	-fx-padding: 0.0;
+	-fx-alignment: CENTER;
+}
+
+.uploadCheckBox:hover > .box,
+.uploadTable .check-box:hover > .box {
+	-fx-border-color: #2563EB;
+}
+
+.uploadCheckBox:selected > .box,
+.uploadTable .check-box:selected > .box {
+	-fx-background-color: #2563EB;
+	-fx-border-color: #2563EB;
+}
+
+.uploadCheckBox:selected > .box > .mark,
+.uploadTable .check-box:selected > .box > .mark {
+	-fx-background-color: #FFFFFF;
+	-fx-shape: "M 0 4 L 3 7 L 9 1 L 8 0 L 3 5 L 1 3 Z";
+}
+
+/* Modern Note Box at Bottom */
+.uploadNoteBox {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 6.0px;
+	-fx-background-radius: 6.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 6.0px 14.0px;
+	-fx-alignment: CENTER_LEFT;
+}
+
+.uploadNoteIcon {
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #64748B;
+	-fx-font-weight: bold;
+}
+
+.uploadNoteLabel {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-text-fill: #64748B;
 }
 
 .settingsLabelStyle {
@@ -1615,13 +2716,8 @@ Working on new Css by taleev
 	-fx-font-size: 16.0px;
 }
 
-#uploadPacketHeader {
-	-fx-background-color: #FFFFFF;
-	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
-}
-
-#saveToDevice, #formValidationButton, #uploadBtn {
+/* Legacy fallback bindings */
+#formValidationButton {
 	-fx-background-color: #005baa;
 }
 /*Upload Packet page design ends */
@@ -1630,116 +2726,289 @@ Working on new Css by taleev
 #uinUpdateHeader {
 	-fx-background-color: #FFFFFF;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 1.0), 10.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 .updateUinparentPane {
-	-fx-background-color: #F4F4F4;
+	-fx-background-color: #F8FAFC;
 }
 
 .uinUpdateContentPane {
 	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 16.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 16.0px;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 20.0, 0.0, 0.0, 4.0);
+}
+
+/* Card Header */
+.uinCardHeader {
+	-fx-border-color: transparent transparent #F1F5F9 transparent;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-padding: 0.0 0.0 12.0px 0.0;
+}
+
+.uinUpdateTitle {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 20.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #0F172A;
+}
+
+.uinUpdateBadge {
+	-fx-background-color: #F0F9FF;
+	-fx-border-color: #BAE6FD;
+	-fx-border-radius: 12.0px;
+	-fx-background-radius: 12.0px;
+	-fx-border-width: 1.0px;
+	-fx-text-fill: #0369A1;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 11.0px;
+	-fx-font-weight: bold;
+	-fx-padding: 3.0px 10.0px;
+}
+
+.uinUpdateSubtitle {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #64748B;
+}
+
+/* Input Group */
+.uinInputGroup {
+	-fx-padding: 2.0px 0.0 2.0px 0.0;
+}
+
+.uinInputLabel {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #334155;
 }
 
 .uinUpdateTextFiledStyle {
-	-fx-background-color: white;
-	-fx-border-color: #005baa;
-	-fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
-	-fx-border-width: 0.0 0.0 1.0 0.0;
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 14.0px;
+	-fx-text-fill: #0F172A;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-pref-height: 44.0px;
+	-fx-padding: 0.0 14.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.uinUpdateTextFiledStyle:hover {
+	-fx-border-color: #94A3B8;
 }
 
 .uinUpdateTextFiledStyle:focused {
-	-fx-background-color: white;
-	-fx-border-color: #005baa;
-	-fx-background-insets: 0.0, 0.0 0.0 1.0 0.0;
-	-fx-border-width: 0.0 0.0 2.0 0.0;
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #0B6A82;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-effect: dropshadow(gaussian, rgba(11, 106, 130, 0.22), 6.0, 0.0, 0.0, 0.0);
+}
+
+/* Selection Section */
+.uinUpdateLabels {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 15.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #0F172A;
+}
+
+.uinUpdateSectionHint {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-text-fill: #64748B;
 }
 
 .uinUpdateLabelsTypeTwo {
-	-fx-text-fill: #666666;
-	-fx-font-size: 15.0px;
+	-fx-text-fill: #64748B;
+	-fx-font-size: 13.0px;
 }
 
-.updateUinCheckBoxCommon .check-box>.box {
-	-fx-background-radius: 50.0;
-	-fx-border-radius: 50.0;
-	-fx-border-width: 1.0;
-	-fx-border-color: #005baa;
-	-fx-padding: 1.0;
-	-fx-background-color: #FFFFFF;
-	-fx-background-insets: 0.0 0.0 0.0 0.0;
+/* Option Cards / CheckBoxes */
+.updateUinCheckBoxCommon .check-box {
+	-fx-pref-width: 350.0px;
+	-fx-pref-height: 42.0px;
+	-fx-max-width: 350.0px;
+	-fx-background-radius: 10.0px;
+	-fx-border-radius: 10.0px;
+	-fx-border-width: 1.2px;
+	-fx-padding: 0.0 14.0px;
+	-fx-cursor: hand;
+	-fx-alignment: CENTER_LEFT;
 }
 
 .updateUinCheckBox {
 	-fx-background-color: #FFFFFF;
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-color: #005baa;
-	-fx-padding: 3.0 10.0 5.0 3.0;
-	-fx-text-fill: #005baa;
+	-fx-border-color: #E2E8F0;
+	-fx-text-fill: #334155;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.03), 4.0, 0.0, 0.0, 1.0);
 }
 
-.updateUinCheckBoxCommon .check-box:selected>.box>.mark {
-	-fx-background-color: #005baa;
+.updateUinCheckBox:hover {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #CBD5E1;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.08), 8.0, 0.0, 0.0, 2.0);
 }
 
 .updateUinCheckBoxSelected {
-	-fx-background-color: #005baa;
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-color: #005baa;
-	-fx-padding: 0.0 10.0 5.0 3.0;
-	-fx-text-fill: #FFFFFF;
+	-fx-background-color: #F0F9FF;
+	-fx-border-color: #0284C7;
+	-fx-text-fill: #0369A1;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-effect: dropshadow(gaussian, rgba(2, 132, 199, 0.18), 8.0, 0.0, 0.0, 2.0);
+}
+
+.updateUinCheckBoxSelected:hover {
+	-fx-background-color: #E0F2FE;
+	-fx-border-color: #0369A1;
+}
+
+/* Custom Checkbox Box & Checkmark */
+.updateUinCheckBoxCommon .check-box > .box {
+	-fx-background-radius: 6.0px;
+	-fx-border-radius: 6.0px;
+	-fx-border-width: 1.5px;
+	-fx-border-color: #CBD5E1;
+	-fx-background-color: #FFFFFF;
+	-fx-background-insets: 0.0;
+	-fx-pref-width: 18.0px;
+	-fx-pref-height: 18.0px;
+	-fx-min-width: 18.0px;
+	-fx-min-height: 18.0px;
+	-fx-alignment: center;
+	-fx-padding: 0.0;
+}
+
+.updateUinCheckBoxCommon .check-box:hover > .box {
+	-fx-border-color: #94A3B8;
+}
+
+.updateUinCheckBoxCommon .check-box:selected > .box {
+	-fx-background-color: #0284C7;
+	-fx-border-color: #0284C7;
+}
+
+.updateUinCheckBoxCommon .check-box > .box > .mark {
+	-fx-background-color: transparent;
+	-fx-shape: "M 2 5 L 4.5 7.5 L 9 2.5 L 8 1.5 L 4.5 5.5 L 3 4 Z";
+}
+
+.updateUinCheckBoxCommon .check-box:selected > .box > .mark {
+	-fx-background-color: #FFFFFF;
+}
+
+.updateUinCheckBoxCommon .check-box > .label {
+	-fx-text-fill: #334155;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-font-weight: 600;
+	-fx-padding: 0.0 0.0 0.0 8.0px;
+}
+
+.updateUinCheckBoxCommon .check-box:selected > .label,
+.updateUinCheckBoxSelected > .label {
+	-fx-text-fill: #0369A1;
+	-fx-font-weight: bold;
 }
 
 .uinUpdateFooter {
 	-fx-background-color: #FFFFFF;
-	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px 0.0 0.0 0.0;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, -1.0);
 }
+
 /*UIN Update page Ends */
 
 /*Registration pending approval page design starts */
 .pendingApprovalFooter {
 	-fx-background-color: #FFFFFF;
-	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px 0.0 0.0 0.0;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.03), 4.0, 0.0, 0.0, -1.0);
 }
 
 .approveButton {
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
+	-fx-border-width: 1.0px;
+	-fx-border-color: #005baa;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
 	-fx-background-color: #005baa;
 	-fx-text-fill: #FFFFFF;
-	-fx-font-family: Roboto;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 38.0px;
+	-fx-padding: 0.0 20.0px;
+	-fx-graphic-text-gap: 8.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.28), 6.0, 0.0, 0.0, 2.0);
 }
 
 .approveButton:hover {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.45), 8.0, 0.0, 0.0, 3.0);
 }
 
 .approveButton:pressed {
-	-fx-background-color: #004887;
-	-fx-border-color: #004887;
+	-fx-background-color: #003766;
+	-fx-border-color: #003766;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.15), 3.0, 0.0, 0.0, 1.0);
+}
+
+.approveButton:selected {
+	-fx-background-color: #003766;
+	-fx-border-color: #002647;
+	-fx-border-width: 1.5px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.2), 4.0, 0.0, 0.0, 1.0);
 }
 
 .approveButton:disabled {
-	-fx-background-color: #C9C9C9;
-	-fx-border-color: #C9C9C9;
-	-fx-text-fill: #666666;
+	-fx-background-color: #F1F5F9;
+	-fx-border-color: #E2E8F0;
+	-fx-text-fill: #94A3B8;
+	-fx-opacity: 0.85;
+	-fx-effect: null;
+	-fx-cursor: default;
 }
 
 .rejectButton {
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
-	-fx-background-color: #FFFFFF;
+	-fx-border-width: 1.5px;
 	-fx-border-color: #005baa;
-	-fx-font-family: Roboto;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-background-color: #FFFFFF;
+	-fx-text-fill: #005baa;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 38.0px;
+	-fx-padding: 0.0 20.0px;
+	-fx-graphic-text-gap: 8.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
 }
 
 .rejectButton:hover {
-	-fx-background-color: #004887;
-	-fx-border-color: #004887;
+	-fx-background-color: #005baa;
+	-fx-border-color: #005baa;
 	-fx-text-fill: #FFFFFF;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.35), 6.0, 0.0, 0.0, 2.0);
 }
 
 .rejectButton:pressed {
@@ -1748,19 +3017,201 @@ Working on new Css by taleev
 	-fx-text-fill: #FFFFFF;
 }
 
+.rejectButton:selected {
+	-fx-background-color: #005baa;
+	-fx-border-color: #003766;
+	-fx-text-fill: #FFFFFF;
+}
+
+.rejectButton:disabled {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #E2E8F0;
+	-fx-text-fill: #CBD5E1;
+	-fx-effect: null;
+	-fx-cursor: default;
+}
+
 .pendingApprovalHeader {
 	-fx-background-color: #FFFFFF;
-	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 1.0), 10.0,
-		0.0, 0.0, 0.0);
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.03), 4.0, 0.0, 0.0, 1.0);
 }
 
 .parentPane {
 	-fx-background-color: #F4F4F4;
 }
 
-.imageAnchorPaneStyle {
-	-fx-background-color: #F4F4F4;
+/* Registration Pending Approval Modern Styling Starts */
+.approvalToolbar {
+	-fx-alignment: CENTER_LEFT;
+	-fx-spacing: 12.0px;
+	-fx-padding: 0.0 0.0 6.0px 0.0;
 }
+
+.approvalSearchBox {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-padding: 0.0 12.0px;
+	-fx-pref-height: 40.0px;
+	-fx-alignment: CENTER_LEFT;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.approvalSearchBox:hover {
+	-fx-border-color: #94A3B8;
+}
+
+.approvalSearchIcon {
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #94A3B8;
+	-fx-padding: 0.0 6.0px 0.0 0.0;
+}
+
+.approvalSearchInput {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-padding: 0.0;
+}
+
+.approvalSearchInput:focused {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.approvalExportBtn {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-padding: 0.0 14.0px;
+	-fx-pref-height: 40.0px;
+	-fx-alignment: CENTER;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.approvalExportBtn:hover {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #94A3B8;
+}
+
+.approvalExportBtn:pressed {
+	-fx-background-color: #F1F5F9;
+	-fx-border-color: #64748B;
+}
+
+.approvalExportLabel {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #334155;
+}
+
+/* Approval Table Modern Styling */
+.approvalTable {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 10.0px;
+	-fx-border-radius: 10.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 6.0, 0.0, 0.0, 1.0);
+}
+
+.approvalTable .column-header-background {
+	-fx-background-color: #F8FAFC;
+	-fx-background-radius: 10.0px 10.0px 0.0 0.0;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 0.0 0.0 1.5px 0.0;
+}
+
+.approvalTable .column-header {
+	-fx-background-color: transparent;
+	-fx-border-color: #F1F5F9;
+	-fx-border-width: 0.0 1.0px 0.0 0.0;
+	-fx-pref-height: 42.0px;
+	-fx-size: 42.0px;
+	-fx-padding: 0.0 10.0px;
+}
+
+.approvalTable .column-header .label {
+	-fx-alignment: CENTER-LEFT;
+	-fx-text-fill: #475569;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-font-weight: bold;
+}
+
+.approvalTable .table-row-cell:filled {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #F1F5F9;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-pref-height: 48.0px;
+	-fx-padding: 0.0;
+}
+
+.approvalTable .table-row-cell:filled:odd {
+	-fx-background-color: #FFFFFF;
+}
+
+.approvalTable .table-row-cell:filled:even {
+	-fx-background-color: #FBFCFE;
+}
+
+.approvalTable .table-row-cell:filled:hover {
+	-fx-background-color: #F1F5F9;
+	-fx-cursor: hand;
+}
+
+.approvalTable .table-row-cell:filled:selected,
+.approvalTable .table-row-cell:filled:focused:selected {
+	-fx-background-color: #EFF6FF;
+	-fx-border-color: #3B82F6;
+	-fx-border-width: 0.0 0.0 1.5px 0.0;
+}
+
+.approvalTable .table-cell {
+	-fx-alignment: CENTER-LEFT;
+	-fx-padding: 0.0 14.0px;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-text-fill: #1E293B;
+	-fx-border-width: 0.0;
+}
+
+.approvalTable .table-row-cell:filled:selected .table-cell {
+	-fx-text-fill: #1D4ED8;
+	-fx-font-weight: bold;
+}
+
+.approvalTable .table-row-cell:empty {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.approvalTable .table-row-cell:empty .table-cell {
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.approvalTable .tableId {
+	-fx-text-fill: #1E293B;
+}
+
+.approvalTable .pendingApprovalStatus {
+	-fx-alignment: CENTER;
+}
+/* Registration Pending Approval Modern Styling Ends */
+
 /*Registration pending approval page design ends */
 .authenticationStyle {
 	-fx-pref-height: 39.0px;
@@ -1783,7 +3234,7 @@ Working on new Css by taleev
 	-fx-pref-height: 20.0px;
 	-fx-pref-width: 60.0px;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.6), 5.0,
-		0.0, 0.0, 1.0);
+			0.0, 0.0, 1.0);
 }
 
 .RegbuttonStyle:hover {
@@ -1797,6 +3248,7 @@ Working on new Css by taleev
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
+
 /*Authentication page design ends */
 
 /*Acknowledgement page design starts */
@@ -1827,27 +3279,40 @@ Working on new Css by taleev
 }
 
 .ackPageButton {
-	-fx-border-width: 1.0 1.0 1.0 1.0;
-	-fx-border-radius: 3.0, 3.0, 3.0, 3.0;
-	-fx-background-color: #005baa;
-	-fx-text-fill: white;
-	-fx-font-family: Roboto;
+	-fx-background-color: linear-gradient(to bottom, #0284C7, #005baa);
+	-fx-background-radius: 8.0px;
+	-fx-border-radius: 8.0px;
+	-fx-border-color: #004887;
+	-fx-border-width: 1.0px;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: bold;
+	-fx-padding: 7.0px 20.0px;
+	-fx-cursor: hand;
+	-fx-alignment: CENTER;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.32), 8.0, 0.0, 0.0, 2.0);
 }
 
 .ackPageButton:hover {
-	-fx-background-color: #004887;
-	-fx-border-color: #004887;
+	-fx-background-color: linear-gradient(to bottom, #38BDF8, #0284C7);
+	-fx-border-color: #005baa;
+	-fx-text-fill: #FFFFFF;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.48), 12.0, 0.0, 0.0, 3.0);
 }
 
 .ackPageButton:pressed {
 	-fx-background-color: #004887;
-	-fx-border-color: #004887;
+	-fx-border-color: #003366;
+	-fx-effect: dropshadow(gaussian, rgba(0, 51, 102, 0.20), 4.0, 0.0, 0.0, 1.0);
 }
 
 .ackMenu {
+	-fx-background-color: #FFFFFF;
 	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: #E8E7E7;
+	-fx-border-color: #E2E8F0;
 }
+
 /*Acknowledgement page design ends */
 
 /*Header page design starts here*/
@@ -1871,14 +3336,14 @@ Working on new Css by taleev
 
 .internetModePane {
 	-fx-border-radius: 25 25 25 25;
-  	-fx-background-radius: 25 25 25 25;
+	-fx-background-radius: 25 25 25 25;
 	-fx-background-color: #1EBD22;
 	-fx-border-color: #61AB01;
 }
 
 .offlineModePane {
 	-fx-border-radius: 50%;
-  	-fx-background-radius: 25 25 25 25;
+	-fx-background-radius: 25 25 25 25;
 	-fx-background-color: #F57E20;
 	-fx-border-color: #61AB01;
 }
@@ -1954,11 +3419,12 @@ Working on new Css by taleev
 	-fx-background-size: 20.0px 20.0px;
 	-fx-padding: 0.0em 0.0em 0.0em 2.0em;
 }
+
 /* Header Page design Ends Here */
 
 /* Home page design starts here */
 .homeContent {
-/*	-fx-background-image: url(images/pexels-photo.png);*/
+	/*	-fx-background-image: url(images/pexels-photo.png);*/
 	-fx-background-repeat: no-repeat;
 	-fx-background-size: auto;
 	-fx-border-color: #F4F4F4;
@@ -1996,13 +3462,15 @@ Working on new Css by taleev
 	-fx-background-color: #FFFFFF;
 }
 
-.uinUpdateStyle:hover, .uinUpdateStyle:hover .label {
+.uinUpdateStyle:hover,
+.uinUpdateStyle:hover .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
-.uinUpdateStyle:pressed, .uinUpdateStyle:pressed .label {
+.uinUpdateStyle:pressed,
+.uinUpdateStyle:pressed .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -2024,15 +3492,15 @@ Working on new Css by taleev
 	-fx-background-radius: 4.0 4.0 0.0 0.0;
 }
 
-.operationalPaneDetailsSync:hover, .operationalPaneDetailsSync:hover .label
-	{
+.operationalPaneDetailsSync:hover,
+.operationalPaneDetailsSync:hover .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
-.operationalPaneDetailsSync:pressed, .operationalPaneDetailsSync:pressed .label
-	{
+.operationalPaneDetailsSync:pressed,
+.operationalPaneDetailsSync:pressed .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -2082,8 +3550,8 @@ Working on new Css by taleev
 }
 
 .deviceDetailsHBox {
-	-fx-border-color:#808080;
-	-fx-border-width: 1; 
+	-fx-border-color: #808080;
+	-fx-border-width: 1;
 	-fx-border-style: solid;
 }
 
@@ -2105,15 +3573,15 @@ Working on new Css by taleev
 	-fx-background-color: #FFFFFF;
 }
 
-.operationalPaneDetailsPreReg:hover, .operationalPaneDetailsPreReg:hover .label
-	{
+.operationalPaneDetailsPreReg:hover,
+.operationalPaneDetailsPreReg:hover .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
-.operationalPaneDetailsPreReg:pressed, .operationalPaneDetailsPreReg:pressed .label
-	{
+.operationalPaneDetailsPreReg:pressed,
+.operationalPaneDetailsPreReg:pressed .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -2125,14 +3593,15 @@ Working on new Css by taleev
 	-fx-background-color: #FFFFFF;
 }
 
-.operationalPaneDetails:hover, .operationalPaneDetails:hover .label {
+.operationalPaneDetails:hover,
+.operationalPaneDetails:hover .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
-.operationalPaneDetails:pressed, .operationalPaneDetails:pressed .label
-	{
+.operationalPaneDetails:pressed,
+.operationalPaneDetails:pressed .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -2146,15 +3615,15 @@ Working on new Css by taleev
 	-fx-background-radius: 0.0 0.0 4.0 4.0;
 }
 
-.operationalPaneDetailsBioUpdate:hover, .operationalPaneDetailsBioUpdate:hover .label
-	{
+.operationalPaneDetailsBioUpdate:hover,
+.operationalPaneDetailsBioUpdate:hover .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
 .operationalPaneDetailsBioUpdate:pressed,
-	.operationalPaneDetailsBioUpdate:pressed .label {
+.operationalPaneDetailsBioUpdate:pressed .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -2196,6 +3665,7 @@ Working on new Css by taleev
 	-fx-font-family: Roboto;
 	-fx-font-weight: bold;
 }
+
 /* Home Page Design Ends */
 
 /*User Onboard User page Design Starts here*/
@@ -2216,13 +3686,15 @@ Working on new Css by taleev
 	-fx-background-color: #FFFFFF;
 }
 
-.onboardUserPaneStyle:hover, .onboardUserPaneStyle:hover .label {
+.onboardUserPaneStyle:hover,
+.onboardUserPaneStyle:hover .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
 }
 
-.onboardUserPaneStyle:pressed, .onboardUserPaneStyle:pressed .label {
+.onboardUserPaneStyle:pressed,
+.onboardUserPaneStyle:pressed .label {
 	-fx-background-color: #004887;
 	-fx-border-color: #004887;
 	-fx-text-fill: #FFFFFF;
@@ -2253,6 +3725,7 @@ Working on new Css by taleev
 	-fx-background-color: #005baa;
 	-fx-text-fill: white;
 }
+
 /*Onoard User page Design Ends here*/
 
 /*user onboard exception design starts */
@@ -2306,15 +3779,22 @@ Working on new Css by taleev
 }
 
 .onboardScanBtn {
-	-fx-background-color: #FFFFFF;
+	-fx-background-color: #EFF8FF;
 	-fx-text-fill: #005baa;
-	-fx-border-color: #005baa;
+	-fx-border-color: #A9D4F0;
+	-fx-border-radius: 18.0px;
+	-fx-background-radius: 18.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 7.0 18.0 7.0 18.0;
 	-fx-font-size: 12.0px;
+	-fx-font-weight: bold;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(three-pass-box, rgba(0, 91, 170, 0.14), 6, 0, 0, 2);
 }
 
 .onboardScanBtn:hover {
-	-fx-background-color: #004887;
-	-fx-border-color: #004887;
+	-fx-background-color: #005baa;
+	-fx-border-color: #005baa;
 	-fx-text-fill: #FFFFFF;
 }
 
@@ -2338,7 +3818,7 @@ Working on new Css by taleev
 .userOnboardFooter {
 	-fx-background-color: #FFFFFF;
 	-fx-effect: dropshadow(three-pass-box, rgba(0.0, 0.0, 0.0, 0.4), 5.0,
-		0.0, 0.0, 0.0);
+			0.0, 0.0, 0.0);
 }
 
 .onboardInfoDetailsName {
@@ -2399,8 +3879,7 @@ Working on new Css by taleev
 }
 
 .exceptionBackPane .table-view *.scroll-bar:horizontal *.increment-button,
-	.exceptionBackPane .table-view *.scroll-bar:horizontal *.decrement-button
-	{
+.exceptionBackPane .table-view *.scroll-bar:horizontal *.decrement-button {
 	-fx-background-color: null;
 	-fx-background-radius: 0.0;
 	-fx-background-insets: 0.0;
@@ -2408,8 +3887,7 @@ Working on new Css by taleev
 }
 
 .exceptionBackPane .table-view *.scroll-bar:horizontal *.increment-arrow,
-	.exceptionBackPane .table-view *.scroll-bar:horizontal *.decrement-arrow
-	{
+.exceptionBackPane .table-view *.scroll-bar:horizontal *.decrement-arrow {
 	-fx-background-color: null;
 	-fx-background-radius: 0.0;
 	-fx-background-insets: 0.0;
@@ -2439,16 +3917,14 @@ Working on new Css by taleev
 	-fx-pref-width: 30.0;
 }
 
-.exceptionBackPane .table-view:focused>.virtual-flow>.clipped-container>.sheet>.table-row-cell:filled:selected>.table-cell
-	{
+.exceptionBackPane .table-view:focused>.virtual-flow>.clipped-container>.sheet>.table-row-cell:filled:selected>.table-cell {
 	-fx-text-fill: red;
 	-fx-background-color: #FFFFFF;
 	-fx-border-width: 0.0 0.0 0.0 0.0;
 	-fx-padding: 0.0em;
 }
 
-.exceptionBackPane .table-view>.virtual-flow>.scroll-bar:vertical>.thumb
-	{
+.exceptionBackPane .table-view>.virtual-flow>.scroll-bar:vertical>.thumb {
 	-fx-background-color: #d1d1d1;
 }
 
@@ -2456,6 +3932,7 @@ Working on new Css by taleev
 	-fx-border-width: 0.0 1.0 0.0 0.0;
 	-fx-border-color: #d1d1d1;
 }
+
 /*user onboard exception design ends */
 
 /*Tracker Style */
@@ -2500,11 +3977,16 @@ Working on new Css by taleev
 	-fx-text-fill: #005baa;
 	-fx-font-weight: lighter;
 }
+
 /*Tracker Style ends */
 .dialog-pane {
 	-fx-background-color: #FFFFFF;
-	-fx-background-insets: 1.5;
-	-fx-effect: dropshadow(three-pass-box, grey, 10, 0, 0, 1);
+	-fx-background-radius: 14.0px;
+	-fx-border-radius: 14.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.0px;
+	-fx-padding: 12.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 24.0, 0.1, 0.0, 8.0);
 }
 
 .dialog-pane .button {
@@ -2512,6 +3994,61 @@ Working on new Css by taleev
 	-fx-text-fill: white;
 	-fx-wrap-text: true;
 	-fx-cursor: hand;
+}
+
+.dialog-pane.pageNavigationAlert {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 14.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 14.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 12.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.2), 22.0, 0.0, 0.0, 6.0);
+}
+
+.dialog-pane.pageNavigationAlert:header .header-panel {
+	-fx-background-color: transparent;
+	-fx-padding: 0.0 0.0 8.0px 0.0;
+}
+
+.dialog-pane.pageNavigationAlert:header .header-panel .label {
+	-fx-text-fill: #005baa;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 20.0px;
+	-fx-font-weight: bold;
+	-fx-padding: 0.0;
+}
+
+.dialog-pane.pageNavigationAlert > .content.label {
+	-fx-text-fill: #475569;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-wrap-text: true;
+	-fx-padding: 0.0 0.0 12.0px 0.0;
+}
+
+.dialog-pane.pageNavigationAlert #cancel {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 7.0px;
+	-fx-background-radius: 7.0px;
+	-fx-text-fill: #334155;
+}
+
+.dialog-pane.pageNavigationAlert #cancel:hover {
+	-fx-background-color: #F8FAFC;
+	-fx-border-color: #94A3B8;
+}
+
+.dialog-pane.pageNavigationAlert #confirm {
+	-fx-background-color: #005baa;
+	-fx-background-radius: 7.0px;
+	-fx-text-fill: #FFFFFF;
+	-fx-font-weight: bold;
+}
+
+.dialog-pane.pageNavigationAlert #confirm:hover {
+	-fx-background-color: #0284c7;
 }
 
 .dialog-pane:header .header-panel {
@@ -2539,15 +4076,20 @@ Working on new Css by taleev
 }
 
 .schedulerStage {
-	-fx-border-color: #0B6A82;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.0px;
+	-fx-border-radius: 14.0px;
+	-fx-background-radius: 14.0px;
 	-fx-background-color: white;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 24.0, 0.1, 0.0, 8.0);
 }
 
 .schedulerTitle {
 	-fx-font-size: 14.0px;
 	-fx-border-width: 0.0 0.0 1.0 0.0;
-	-fx-border-color: black;
+	-fx-border-color: transparent;
 	-fx-background-color: #175768;
+	-fx-background-radius: 14.0px 14.0px 0.0 0.0;
 }
 
 .schedulerTitleMsg {
@@ -2591,8 +4133,11 @@ Working on new Css by taleev
 
 .alertBox {
 	-fx-background-color: #FFFFFF;
-	-fx-background-insets: 1.5;
-	-fx-effect: dropshadow(three-pass-box, grey, 10, 0, 0, 1);
+	-fx-background-radius: 14.0px;
+	-fx-border-radius: 14.0px;
+	-fx-border-color: #CBD5E1;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.22), 24.0, 0.1, 0.0, 8.0);
 }
 
 .dialog-pane:header .header-panel .label {
@@ -2623,79 +4168,497 @@ Working on new Css by taleev
 
 .modalityButtons {
 	/*-fx-border-width: 1;*/
-	-fx-border-color:#0286f7;
-	-fx-background-color:white;
+	-fx-border-color: #0286f7;
+	-fx-background-color: white;
 }
 
 .tab-pane .tab-header-area .tab-header-background {
-    -fx-opacity: 0;
+	-fx-opacity: 0;
 }
 
 .tab {
 	-fx-pref-width: 250.0;
-    -fx-background-insets: 0 1 0 1,0,0;
+	-fx-background-insets: 0 1 0 1, 0, 0;
 }
+
 .tab-pane .tab {
-    -fx-background-color: #e6e6e6;
+	-fx-background-color: #e6e6e6;
 }
 
 .tab-pane .tab:selected {
-    -fx-background-color: white;
+	-fx-background-color: white;
 }
 
 .tab .tab-label {
-    -fx-text-fill: #3b3b3b;
-    -fx-font-size: 13px;
+	-fx-text-fill: #3b3b3b;
+	-fx-font-size: 13px;
 }
 
-.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
-    -fx-alignment: CENTER;
-    -fx-pref-width: 220.0;
+.tab-pane>.tab-header-area>.headers-region>.tab>.tab-container>.tab-label {
+	-fx-alignment: CENTER;
+	-fx-pref-width: 220.0;
 }
 
 .tab:selected .tab-label {
-    -fx-text-fill: #0B6A82;
-    -fx-font-weight: bold;
+	-fx-text-fill: #0B6A82;
+	-fx-font-weight: bold;
 }
 
 .tab-pane:top *.tab-header-area {
-    -fx-background-insets: 0, 0 0 1 0;
-    -fx-padding: 0.416667em 0.166667em 0.0em 0.0em;
+	-fx-background-insets: 0, 0 0 1 0;
+	-fx-padding: 0.416667em 0.166667em 0.0em 0.0em;
 }
 
 .registrationErrorMsg {
-	-fx-text-fill: #FF0000;
-    -fx-font-size: 12.0px;
+	-fx-text-fill: transparent;
+	-fx-opacity: 0;
+	-fx-font-size: 0px;
 }
 
 .additionaInfoReqIdLabel {
 	-fx-text-fill: #008080;
-    -fx-font-size: 15px;
+	-fx-font-size: 15px;
 }
 
 .navigationLabel {
 	-fx-text-fill: #008080;
-    -fx-font-size: 13px;
+	-fx-font-size: 13px;
 }
 
-.uinupdate-scroll-pane > .viewport {
-   -fx-background-color: transparent;
+.uinupdate-scroll-pane>.viewport {
+	-fx-background-color: transparent;
 }
 
 .uinupdate-scroll-pane {
-   -fx-background-color: transparent;
+	-fx-background-color: transparent;
 }
 
 .tabErrorLabel {
-    -fx-text-fill: #FF0000;
+	-fx-text-fill: #FF0000;
 }
 
 .tab.tabErrorLabel .tab-label {
-    -fx-text-fill: #FF0000;
-    -fx-font-size: 13px;
+	-fx-text-fill: #FF0000;
+	-fx-font-size: 13px;
 }
 
 .tab:selected.tabErrorLabel .tab-label {
-    -fx-text-fill: #FF0000;
-    -fx-font-weight: bold;
+	-fx-text-fill: #FF0000;
+	-fx-font-weight: bold;
+}
+
+.buttonGroupCard {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px;
+	-fx-border-radius: 10.0px;
+	-fx-background-radius: 10.0px;
+	-fx-padding: 4.0px 14.0px;
+	-fx-alignment: center-left;
+	-fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.02), 4.0, 0.0, 0.0, 1.0);
+}
+
+.buttonGroupCard .buttonsLabel {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+	-fx-text-fill: #1E293B;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
+	-fx-wrap-text: true;
+	-fx-padding: 0.0px 4.0px 0.0px 0.0px;
+}
+
+.settingsDialog {
+	-fx-background-color: #F8FAFC;
+	-fx-background-radius: 16.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 16.0px;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.20), 24.0, 0.1, 0.0, 8.0);
+}
+
+.settingsHeader {
+	-fx-background-color: linear-gradient(to right, #074758 0%, #0B6A82 45%, #147A94 100%);
+	-fx-background-radius: 16.0px 16.0px 0.0 0.0;
+	-fx-border-color: transparent transparent rgba(255, 255, 255, 0.15) transparent;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-padding: 20.0px 26.0px 18.0px 26.0px;
+}
+
+.settingsTitle {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 21.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #FFFFFF;
+}
+
+.settingsSubtitle {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-text-fill: rgba(255, 255, 255, 0.85);
+}
+
+.settingsCloseButton {
+	-fx-background-color: rgba(255, 255, 255, 0.12);
+	-fx-background-radius: 18.0px;
+	-fx-cursor: hand;
+	-fx-font-size: 20.0px;
+	-fx-font-weight: bold;
+	-fx-pref-height: 34.0px;
+	-fx-pref-width: 34.0px;
+	-fx-text-fill: #FFFFFF;
+	-fx-padding: 0.0;
+}
+
+.settingsCloseButton:hover {
+	-fx-background-color: rgba(255, 255, 255, 0.28);
+	-fx-text-fill: #FFFFFF;
+}
+
+.settingsCloseButton:pressed {
+	-fx-background-color: rgba(0, 0, 0, 0.2);
+}
+
+.settingsOptionsRegion {
+	-fx-background-color: transparent;
+	-fx-padding: 18.0px 24.0px 24.0px 24.0px;
+}
+
+.settingsOptionCard {
+	-fx-alignment: center;
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 14.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 14.0px;
+	-fx-border-width: 1.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.07), 10.0, 0.0, 0.0, 3.0);
+	-fx-padding: 16.0px 12.0px;
+}
+
+.settingsOptionCard:hover,
+.settingsOptionCard:focused {
+	-fx-border-color: #005BAA;
+	-fx-effect: dropshadow(gaussian, rgba(0, 91, 170, 0.16), 14.0, 0.0, 0.0, 4.0);
+	-fx-translate-y: -2.0px;
+}
+
+.settingsOptionVisual {
+	-fx-alignment: center;
+	-fx-spacing: 10.0px;
+}
+
+.settingsOptionIconHolder {
+	-fx-alignment: center;
+	-fx-background-color: #EAF2FA;
+	-fx-background-radius: 18.0px;
+	-fx-padding: 10.0px;
+}
+
+.settingsOptionShortcut {
+	-fx-cursor: hand;
+	-fx-opacity: 0.72;
+}
+
+.settingsOptionShortcut:hover {
+	-fx-opacity: 1.0;
+}
+
+.settingsOptionCard .settingsOptionLabel {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-font-weight: 600;
+	-fx-text-fill: #1E293B;
+}
+
+.globalConfigPage {
+	-fx-background-color: #F0F4F8;
+}
+
+.globalConfigMainCard {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 12.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 12.0px;
+	-fx-border-width: 1.0px;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.06), 16.0, 0.0, 0.0, 4.0);
+}
+
+.globalConfigCardHeader {
+	-fx-padding: 2.0px 0.0 4.0px 0.0;
+}
+
+.globalConfigTitle {
+	-fx-font-size: 22.0px;
+	-fx-font-weight: bold;
+	-fx-text-fill: #0F172A;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+}
+
+.globalConfigBadge {
+	-fx-background-color: #EFF6FF;
+	-fx-text-fill: #1D4ED8;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 10.5px;
+	-fx-font-weight: bold;
+	-fx-padding: 3.0px 8.0px;
+	-fx-background-radius: 10.0px;
+	-fx-border-radius: 10.0px;
+	-fx-border-color: #BFDBFE;
+	-fx-border-width: 1.0px;
+}
+
+.globalConfigSubtitle {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #64748B;
+}
+
+.globalConfigToolbar {
+	-fx-padding: 2.0px 0.0 2.0px 0.0;
+}
+
+.globalConfigSearchBox {
+	-fx-background-color: #FFFFFF;
+	-fx-border-color: #CBD5E1;
+	-fx-border-radius: 8.0px;
+	-fx-background-radius: 8.0px;
+	-fx-border-width: 1.5px;
+	-fx-padding: 0.0 12.0px;
+	-fx-pref-height: 42.0px;
+	-fx-alignment: CENTER_LEFT;
+	-fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.04), 4.0, 0.0, 0.0, 1.0);
+}
+
+.globalConfigSearchIcon {
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #94A3B8;
+	-fx-padding: 0.0 6.0px 0.0 0.0;
+}
+
+.globalConfigSearch {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-text-fill: #1E293B;
+	-fx-prompt-text-fill: #94A3B8;
+	-fx-padding: 0.0;
+}
+
+.globalConfigSearch:focused {
+	-fx-background-color: transparent;
+	-fx-border-width: 0.0;
+}
+
+.globalConfigTableShell {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-color: #E2E8F0;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.0px;
+	-fx-padding: 0.0;
+}
+
+.globalConfigTableShell > .viewport {
+	-fx-background-color: transparent;
+	-fx-background-radius: 8.0px;
+}
+
+/* ScrollBar styling */
+.globalConfigTableShell .scroll-bar:vertical {
+	-fx-background-color: transparent;
+	-fx-pref-width: 8.0px;
+}
+
+.globalConfigTableShell .scroll-bar:vertical .thumb {
+	-fx-background-color: #CBD5E1;
+	-fx-background-radius: 4.0px;
+}
+
+.globalConfigTableShell .scroll-bar:vertical .thumb:hover {
+	-fx-background-color: #94A3B8;
+}
+
+.globalConfigTableShell .scroll-bar:vertical .track {
+	-fx-background-color: transparent;
+}
+
+.globalConfigTableShell .scroll-bar:vertical .increment-button,
+.globalConfigTableShell .scroll-bar:vertical .decrement-button {
+	-fx-pref-height: 0.0;
+	-fx-padding: 0.0;
+}
+
+/* Modern TableView styling */
+.globalConfigPage .table-view {
+	-fx-background-color: #FFFFFF;
+	-fx-background-radius: 8.0px;
+	-fx-border-color: transparent;
+	-fx-padding: 0.0;
+	-fx-table-cell-border-color: transparent;
+}
+
+.globalConfigPage .table-view .column-header-background {
+	-fx-background-color: #F8FAFC;
+	-fx-background-radius: 8.0px 8.0px 0.0 0.0;
+	-fx-border-color: transparent transparent #CBD5E1 transparent;
+	-fx-border-width: 0.0 0.0 1.5px 0.0;
+}
+
+.globalConfigPage .table-view .column-header {
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	-fx-border-width: 0.0;
+	-fx-size: 46.0px;
+}
+
+.globalConfigPage .table-view .column-header .label {
+	-fx-font: bold 13.0px "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-weight: 800;
+	-fx-text-fill: #0F172A;
+	-fx-padding: 0.0 14.0px;
+	-fx-alignment: CENTER_LEFT;
+}
+
+.globalConfigPage .table-view .table-row-cell {
+	-fx-background-color: #FFFFFF;
+	-fx-background-insets: 0.0;
+	-fx-border-color: transparent transparent #F1F5F9 transparent;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-padding: 0.0;
+	-fx-pref-height: 48.0px;
+	-fx-text-fill: #1E293B;
+}
+
+.globalConfigPage .table-view .table-row-cell:odd {
+	-fx-background-color: #FAFCFE;
+}
+
+.globalConfigPage .table-view .table-row-cell:hover {
+	-fx-background-color: #EFF6FF;
+}
+
+.globalConfigPage .table-view .table-cell {
+	-fx-alignment: CENTER_LEFT;
+	-fx-border-color: transparent;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.5px;
+	-fx-padding: 6.0px 14.0px;
+	-fx-text-fill: #334155;
+}
+
+.globalConfigPage .table-view .table-row-cell:selected {
+	-fx-background-color: #DBEAFE;
+}
+
+.globalConfigPage .table-view .table-row-cell:focused {
+	-fx-background-insets: 0.0;
+	-fx-border-color: transparent transparent #F1F5F9 transparent;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+}
+
+.globalConfigPage .table-view:focused>.virtual-flow>.clipped-container>.sheet>.table-row-cell:filled:selected>.table-cell {
+	-fx-background-color: #DBEAFE;
+	-fx-border-width: 0.0 0.0 1.0px 0.0;
+	-fx-border-color: transparent transparent #E2E8F0 transparent;
+}
+
+.globalConfigPage .table-view .filler {
+	-fx-background-color: #FFFFFF;
+}
+
+/* Badges and cell components */
+.configKeyText {
+	-fx-font-family: Consolas, Menlo, "SF Mono", monospace, "Segoe UI";
+	-fx-font-size: 12.0px;
+	-fx-text-fill: #0F172A;
+	-fx-font-weight: 600;
+}
+
+.serverValueBadge {
+	-fx-background-color: #F1F5F9;
+	-fx-border-color: #E2E8F0;
+	-fx-border-width: 1.0px;
+	-fx-border-radius: 6.0px;
+	-fx-background-radius: 6.0px;
+	-fx-padding: 4.0px 10.0px;
+	-fx-text-fill: #475569;
+	-fx-font-family: Consolas, Menlo, "SF Mono", monospace, "Segoe UI";
+	-fx-font-size: 12.0px;
+}
+
+.localValueDefault {
+	-fx-text-fill: #94A3B8;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 13.0px;
+	-fx-padding: 0.0 6.0px;
+}
+
+.localValueBadge {
+	-fx-background-color: #EFF6FF;
+	-fx-border-color: #BFDBFE;
+	-fx-border-width: 1.0px;
+	-fx-border-radius: 6.0px;
+	-fx-background-radius: 6.0px;
+	-fx-padding: 4.0px 10.0px;
+	-fx-text-fill: #1D4ED8;
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-font-weight: bold;
+}
+
+.globalConfigFooter {
+	-fx-padding: 8.0px 0.0 0.0 0.0;
+	-fx-alignment: CENTER_RIGHT;
+}
+
+.globalConfigFooterNote {
+	-fx-font-family: "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-size: 12.0px;
+	-fx-text-fill: #94A3B8;
+	-fx-font-style: italic;
+}
+
+.globalConfigSubmitButton,
+.globalConfigPage .globalConfigSubmitButton,
+.globalConfigPage .button.globalConfigSubmitButton {
+	-fx-background-color: linear-gradient(to bottom, #3B82F6, #2563EB);
+	-fx-background-radius: 8.0px;
+	-fx-border-color: #1D4ED8;
+	-fx-border-radius: 8.0px;
+	-fx-border-width: 1.0px;
+	-fx-font: bold 13.5px "Segoe UI", -apple-system, Roboto, sans-serif;
+	-fx-font-weight: bold;
+	-fx-text-fill: #FFFFFF;
+	-fx-pref-height: 42.0px;
+	-fx-padding: 8.0px 26.0px;
+	-fx-cursor: hand;
+	-fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.4), 10.0, 0.0, 0.0, 2.0);
+}
+
+.globalConfigSubmitButton:hover,
+.globalConfigPage .globalConfigSubmitButton:hover,
+.globalConfigPage .button.globalConfigSubmitButton:hover {
+	-fx-background-color: linear-gradient(to bottom, #60A5FA, #3B82F6);
+	-fx-border-color: #2563EB;
+	-fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.6), 14.0, 0.0, 0.0, 3.0);
+}
+
+.globalConfigSubmitButton:pressed,
+.globalConfigPage .globalConfigSubmitButton:pressed,
+.globalConfigPage .button.globalConfigSubmitButton:pressed {
+	-fx-background-color: #1D4ED8;
+	-fx-border-color: #1E40AF;
+	-fx-effect: dropshadow(gaussian, rgba(37, 99, 235, 0.2), 4.0, 0.0, 0.0, 1.0);
+}
+
+.globalConfigSubmitButton:disabled,
+.globalConfigPage .globalConfigSubmitButton:disabled,
+.globalConfigPage .button.globalConfigSubmitButton:disabled {
+	-fx-background-color: #E2E8F0;
+	-fx-border-color: #CBD5E1;
+	-fx-text-fill: #94A3B8;
+	-fx-effect: null;
 }

@@ -53,7 +53,7 @@
                   <Label text="%selectLanguage" textFill="WHITE" GridPane.columnIndex="1" />
                   <Hyperlink fx:id="close" alignment="CENTER" contentDisplay="CENTER" onAction="#exitWindow" styleClass="exit" GridPane.columnIndex="2">
                      <graphic>
-                        <Label text="X" textFill="WHITE" />
+                        <Label text="&#x2715;" textFill="WHITE" />
                      </graphic>
                   </Hyperlink>
                </children>
