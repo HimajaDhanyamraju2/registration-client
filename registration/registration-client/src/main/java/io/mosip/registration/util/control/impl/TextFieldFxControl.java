@@ -15,6 +15,7 @@ import io.mosip.commons.packet.dto.packet.SimpleDto;
 import io.mosip.kernel.core.exception.ExceptionUtils;
 import io.mosip.kernel.core.logger.spi.Logger;
 import io.mosip.kernel.core.transliteration.spi.Transliteration;
+import io.mosip.registration.util.transliteration.PortugueseTranslator;
 import io.mosip.registration.audit.AuditManagerService;
 import io.mosip.registration.config.AppConfig;
 import io.mosip.registration.constants.AuditEvent;
@@ -66,6 +67,10 @@ public class TextFieldFxControl extends FxControl {
 	private DemographicChangeActionHandler demographicChangeActionHandler;
 	
 	private Transliteration<String> transliteration;
+
+	private boolean transliterating;
+
+	private PortugueseTranslator portugueseTranslator;
 	
 	private Node keyboardNode;
 	
@@ -84,9 +89,11 @@ public class TextFieldFxControl extends FxControl {
 		Map<String, Transliteration> beans = applicationContext.getBeansOfType(Transliteration.class);
 		LOGGER.debug("Transliterations implementations found : {}", beans);
 		if (!beans.keySet().isEmpty()) {
-			LOGGER.info("Choosing transliteration implementations --> {}", beans.keySet().iterator().next());
-			this.transliteration = beans.get(beans.keySet().iterator().next());
+			// getBean honours @Primary when more than one implementation is available
+			this.transliteration = applicationContext.getBean(Transliteration.class);
+			LOGGER.info("Choosing transliteration implementations --> {}", this.transliteration.getClass().getSimpleName());
 		}
+		portugueseTranslator = applicationContext.getBean(PortugueseTranslator.class);
 		genericController = applicationContext.getBean(GenericController.class);
 		this.auditFactory = applicationContext.getBean(AuditManagerService.class);
 	}
@@ -135,8 +142,11 @@ public class TextFieldFxControl extends FxControl {
 		TextField textField = (TextField) node;
 
 		textField.textProperty().addListener((observable, oldValue, newValue) -> {
-			if (uiFieldDTO.isTransliterate()) {
-				transliterate(textField, textField.getId().substring(textField.getId().length() - RegistrationConstants.LANGCODE_LENGTH, textField.getId().length()));
+			if (uiFieldDTO.isTransliterate() && !transliterating) {
+				String langCode = textField.getId().substring(textField.getId().length() - RegistrationConstants.LANGCODE_LENGTH, textField.getId().length());
+				if (isSourceLanguage(langCode)) {
+					transliterate(textField, langCode);
+				}
 			}
 			if (isValid()) {				
 				setData(null);
@@ -431,14 +441,37 @@ public class TextFieldFxControl extends FxControl {
 		});
 	}
 
+	/**
+	 * Transliteration happens only one way: from the first box (operator's first
+	 * selected language) to the other boxes. Corrections made in the other boxes
+	 * are not transliterated back.
+	 */
+	private boolean isSourceLanguage(String langCode) {
+		List<String> selectedLanguages = getRegistrationDTo().getSelectedLanguagesByApplicant();
+		return !selectedLanguages.isEmpty() && selectedLanguages.get(0).equalsIgnoreCase(langCode);
+	}
+
 	private void transliterate(TextField textField, String langCode) {
+		// prevents the transliterated field's listener from transliterating back into this field
+		transliterating = true;
+		try {
+			transliterateToOtherLanguages(textField, langCode);
+		} finally {
+			transliterating = false;
+		}
+	}
+
+	private void transliterateToOtherLanguages(TextField textField, String langCode) {
 		for (String langCodeToBeTransliterated : getRegistrationDTo().getSelectedLanguagesByApplicant()) {
 			if (!langCodeToBeTransliterated.equalsIgnoreCase(langCode)) {
 				TextField textFieldToBeTransliterated = (TextField) getField(uiFieldDTO.getId() + langCodeToBeTransliterated);
 				if (textFieldToBeTransliterated != null)  {
 					try {
-						textFieldToBeTransliterated.setText(transliteration.transliterate(langCode,
-								langCodeToBeTransliterated, textField.getText()));
+						textFieldToBeTransliterated.setText(portugueseTranslator != null
+								&& portugueseTranslator.canTranslate(uiFieldDTO.getId(), langCode, langCodeToBeTransliterated)
+										? portugueseTranslator.translate(langCode, langCodeToBeTransliterated, textField.getText())
+										: transliteration.transliterate(langCode, langCodeToBeTransliterated,
+												textField.getText()));
 					} catch (RuntimeException runtimeException) {
 						LOGGER.error(loggerClassName, APPLICATION_NAME, RegistrationConstants.APPLICATION_ID,
 								"Exception occured while transliterating secondary language for field : "
@@ -462,6 +495,16 @@ public class TextFieldFxControl extends FxControl {
 
 	@Override
 	public void selectAndSet(Object data) {
+		// values loaded from saved / pre-registration data are set as they are, without transliteration
+		transliterating = true;
+		try {
+			setValues(data);
+		} finally {
+			transliterating = false;
+		}
+	}
+
+	private void setValues(Object data) {
 		if (data == null) {
 			getRegistrationDTo().getSelectedLanguagesByApplicant().forEach(langCode -> {
 				TextField textField = (TextField) getField(uiFieldDTO.getId() + langCode);

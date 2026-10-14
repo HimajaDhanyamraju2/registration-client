@@ -1,0 +1,308 @@
+# Portuguese translations used to translate text fields between English (eng) and Portuguese (por).
+# Fields to translate are configured with mosip.registration.transliteration.fields (default: addressLine1,addressLine2,addressLine3).
+#
+# Format (one entry per line, file is UTF-8):
+#   english = portuguese    translate both ways
+#   english > portuguese    only English -> Portuguese
+#   english < portuguese    only Portuguese -> English
+#   english >               English word is dropped when translating to Portuguese
+#   ! phrase                never translate this phrase (place names), both directions
+#
+# - Matching ignores case. Portuguese matching also ignores accents, so "praca" matches "praça".
+# - Multi word entries ("next to = ao lado de") are matched before single words.
+# - When a word appears in more than one entry, the FIRST entry wins for that direction,
+#   so keep the preferred translation first.
+# - Words not listed here (street names, place names, people's names) are copied as they are.
+#   Accents are removed from them when translating Portuguese -> English.
+# - Translation is word for word: word order is not changed ("Main Street" -> "Principal Rua").
+
+# ---------- Street types ----------
+street = rua
+road = estrada
+avenue = avenida
+lane = travessa
+alley = beco
+square = praça
+square < largo
+path = caminho
+trail < trilho
+highway = estrada nacional
+national road < estrada nacional
+ring road = circular
+roundabout = rotunda
+bridge = ponte
+crossroads = cruzamento
+junction > cruzamento
+paved road < calçada
+stairs < escadinhas
+
+# ---------- Areas and places ----------
+neighbourhood = bairro
+neighborhood > bairro
+district = distrito
+municipality = município
+city = cidade
+town > cidade
+village = aldeia
+village < vila
+village < povoação
+community = comunidade
+island = ilha
+islet = ilhéu
+zone = zona
+area = área
+region = região
+province = província
+country = país
+plantation = roça
+farm = quinta
+farm < fazenda
+beach = praia
+bay = baía
+port = porto
+harbour > porto
+harbor > porto
+airport = aeroporto
+river = rio
+lake = lago
+forest = floresta
+centre = centro
+center > centro
+city centre = centro da cidade
+city center > centro da cidade
+outskirts = arredores
+suburb = subúrbio
+
+# ---------- Buildings and units ----------
+house = casa
+building = edifício
+building < prédio
+apartment = apartamento
+flat > apartamento
+floor = andar
+ground floor = rés-do-chão
+ground floor < r/c
+block = bloco
+lot = lote
+plot > lote
+door = porta
+gate = portão
+entrance = entrada
+house number = número da casa
+number = número
+No. < nº
+No. < n
+without number = sem número
+room = quarto
+yard = quintal
+residence = residência
+residential = residencial
+condominium = condomínio
+complex < complexo
+
+# ---------- Landmarks ----------
+church = igreja
+chapel = capela
+mosque = mesquita
+school = escola
+primary school = escola primária
+secondary school = escola secundária
+high school > escola secundária
+college = colégio
+university = universidade
+hospital = hospital
+health centre = centro de saúde
+health center > centro de saúde
+health post = posto de saúde
+clinic = clínica
+pharmacy = farmácia
+police station = esquadra
+police station < esquadra da polícia
+fire station = quartel dos bombeiros
+market = mercado
+supermarket = supermercado
+shop = loja
+store > loja
+bakery = padaria
+restaurant = restaurante
+bar = bar
+hotel = hotel
+bank = banco
+post office = correios
+post office box = caixa postal
+po box > caixa postal
+postal code = código postal
+bus stop = paragem
+bus stop < paragem de autocarro
+station = estação
+fuel station = bomba de gasolina
+petrol station > bomba de gasolina
+gas station > bomba de gasolina
+cemetery = cemitério
+stadium = estádio
+sports field = campo de futebol
+football field > campo de futebol
+park = parque
+garden = jardim
+playground = parque infantil
+factory = fábrica
+warehouse = armazém
+office = escritório
+ministry = ministério
+embassy = embaixada
+court = tribunal
+city hall = câmara municipal
+town hall > câmara municipal
+library = biblioteca
+museum = museu
+cinema = cinema
+lighthouse = farol
+well = poço
+fountain = fontanário
+water tank = tanque de água
+tower = torre
+antenna = antena
+
+# ---------- Positions and directions ----------
+near = perto de
+near the < perto do
+near the < perto da
+near the < perto dos
+near the < perto das
+close to > perto de
+next to = ao lado de
+next to the < ao lado do
+next to the < ao lado da
+next to < junto a
+next to the < junto ao
+next to the < junto à
+beside > ao lado de
+behind = atrás de
+behind the < atrás do
+behind the < atrás da
+in front of = em frente a
+in front of the < em frente ao
+in front of the < em frente à
+in front of the < em frente do
+in front of the < em frente da
+opposite > em frente a
+across from > em frente a
+between = entre
+after = depois de
+after the < depois do
+after the < depois da
+before = antes de
+before the < antes do
+before the < antes da
+inside = dentro de
+inside the < dentro do
+inside the < dentro da
+at the end of = no fim de
+at the end of the < no fim do
+at the end of the < no fim da
+at the end of < no final de
+at the beginning of = no início de
+at the beginning of the < no início do
+at the beginning of the < no início da
+corner = esquina
+on the corner of = na esquina de
+on the corner of the < na esquina do
+on the corner of the < na esquina da
+side = lado
+left = esquerdo
+left < esquerda
+left < esq
+right = direito
+right < direita
+right < dto
+north = norte
+south = sul
+east > este
+east < leste
+west = oeste
+northern = setentrional
+southern = meridional
+above = acima de
+below = abaixo de
+around = à volta de
+far from = longe de
+far from the < longe do
+far from the < longe da
+
+# ---------- Connecting words ----------
+and = e
+or = ou
+of = de
+of the < do
+of the < da
+of the < dos
+of the < das
+in the < no
+in the < na
+in the < nos
+in the < nas
+the >
+in = em
+with = com
+without = sem
+for = para
+from > de
+to > para
+until = até
+via = via
+road to = estrada para
+road to < estrada de
+way to = caminho para
+way to < caminho de
+
+# ---------- Common verbs ----------
+lives = mora
+lives in = mora em
+lives at > mora em
+is located = fica
+is located < está localizado
+is located < está localizada
+located = situado
+located < situada
+located < localizado
+located < localizada
+works = trabalha
+works at = trabalha em
+works in > trabalha em
+turn = vire
+turn left = vire à esquerda
+turn right = vire à direita
+go straight = siga em frente
+follow = siga
+continue = continue
+cross = atravesse
+take = apanhe
+ask for = pergunte por
+call = ligue
+
+# ---------- Common adjectives ----------
+old = antigo
+old < antiga
+old < velho
+old < velha
+new = novo
+new < nova
+main = principal
+first = primeiro
+first < primeira
+second = segundo
+second < segunda
+third = terceiro
+third < terceira
+fourth = quarto
+fourth < quarta
+fifth = quinto
+last = último
+last < última
+upper side = lado de cima
+lower side = lado de baixo
+
+# ---------- Place names that must never be translated ----------
+# Add local place names that contain words listed in this file, so they are copied as they are.
+# Example: without the line below "Porto Alegre" would become "port Alegre".
+! Porto Alegre
