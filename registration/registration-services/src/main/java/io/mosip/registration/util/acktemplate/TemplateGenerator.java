@@ -173,6 +173,11 @@ public class TemplateGenerator extends BaseService {
 			templateValues.put("documents", documentsData);
 			templateValues.put("biometrics", biometricsData);
 
+			List<Map<String, String>> printFields = buildPrintFields(registration);
+			Map<String, Object> printLabels = buildPrintLabels(templateValues);
+			templateValues.put(RegistrationConstants.ACK_PRINT_FIELDS, printFields);
+			templateValues.put(RegistrationConstants.ACK_PRINT_LABELS, printLabels);
+
 			LOGGER.debug(LOG_TEMPLATE_GENERATOR, APPLICATION_NAME, APPLICATION_ID,
 					"merge method of TemplateManager had been called for preparing Acknowledgement Template.");
 			Writer writer = new StringWriter();
@@ -184,6 +189,8 @@ public class TemplateGenerator extends BaseService {
 
 			Map<String, Object> responseMap = new WeakHashMap<>();
 			responseMap.put(RegistrationConstants.TEMPLATE_NAME, writer);
+			responseMap.put(RegistrationConstants.ACK_PRINT_FIELDS, printFields);
+			responseMap.put(RegistrationConstants.ACK_PRINT_LABELS, printLabels);
 			setSuccessResponse(response, RegistrationConstants.SUCCESS, responseMap);
 
 		} catch (RuntimeException | IOException runtimeException) {
@@ -413,6 +420,7 @@ public class TemplateGenerator extends BaseService {
 			templateValues.put(RegistrationConstants.TEMPLATE_THUMBS_LABEL, getLabel("thumbs"));
 			templateValues.put("FaceLabel", getLabel("FACE"));
 
+			templateValues.put("LOGO", getImage("/images/logo-final-small.png"));
 			templateValues.put("LOGO1", getImage("/images/LOGO1.png"));
 			templateValues.put("LOGO2", getImage("/images/LOGO2.png"));
 			templateValues.put("LOGO3", getImage("/images/LOGO3.png"));
@@ -496,6 +504,154 @@ public class TemplateGenerator extends BaseService {
 			LOGGER.error(LOG_TEMPLATE_GENERATOR, APPLICATION_NAME, APPLICATION_ID, exception.getMessage());
 			throw new RegBaseCheckedException(RegistrationConstants.TEMPLATE_GENERATOR_ACK_RECEIPT_EXCEPTION, exception.getMessage());
 		}
+	}
+
+	// ------------------------------------------------------------------
+	// Acknowledgement thermal slip: configurable fields / language order
+	// ------------------------------------------------------------------
+
+	private List<String> getPrintLanguages() {
+		String config = ApplicationContext.getStringValueFromApplicationMap(RegistrationConstants.ACK_PRINT_LANGUAGES_CONFIG);
+		if (config == null || config.trim().isEmpty()) {
+			config = RegistrationConstants.DEFAULT_ACK_PRINT_LANGUAGES;
+		}
+		List<String> languages = new ArrayList<>();
+		for (String lang : config.split(",")) {
+			if (!lang.trim().isEmpty()) {
+				languages.add(lang.trim());
+			}
+		}
+		return languages;
+	}
+
+	/** Joins the label for the key from every print language bundle, e.g. "Nome / Name". */
+	private String getPrintLabel(String key, List<String> languages) {
+		List<String> labels = new ArrayList<>();
+		for (String lang : languages) {
+			ResourceBundle bundle = ApplicationContext.getBundle(lang, RegistrationConstants.LABELS);
+			if (bundle != null && bundle.containsKey(key)) {
+				String label = bundle.getString(key);
+				if (label != null && !label.trim().isEmpty() && !labels.contains(label.trim())) {
+					labels.add(label.trim());
+				}
+			}
+		}
+		return String.join(" / ", labels);
+	}
+
+	private List<String> getPrintLabelLines(String key, List<String> languages) {
+		List<String> lines = new ArrayList<>();
+		for (String lang : languages) {
+			ResourceBundle bundle = ApplicationContext.getBundle(lang, RegistrationConstants.LABELS);
+			if (bundle != null && bundle.containsKey(key) && !bundle.getString(key).trim().isEmpty()) {
+				lines.add(bundle.getString(key).trim());
+			}
+		}
+		return lines;
+	}
+
+	/** First non-empty value across the print languages. */
+	private String getPrintValue(Object fieldValue, List<String> languages) {
+		if (fieldValue == null) {
+			return RegistrationConstants.EMPTY;
+		}
+		for (String lang : languages) {
+			String value = getValue(fieldValue, lang);
+			if (value != null && !value.trim().isEmpty()) {
+				return value.trim();
+			}
+		}
+		return RegistrationConstants.EMPTY;
+	}
+
+	private Map<String, Object> buildPrintLabels(Map<String, Object> templateValues) {
+		List<String> languages = getPrintLanguages();
+		Map<String, Object> labels = new HashMap<>();
+		for (String key : new String[] { "title", "qrCaption", "ridLabel", "date", "applicantSection", "centerSection",
+				"center", "officer", "end", "na" }) {
+			labels.put(key, getPrintLabel("ackPrint." + key, languages));
+		}
+		labels.put("retainNotice", getPrintLabelLines("ackPrint.retainNotice", languages));
+		labels.put("applicationId", templateValues.get(RegistrationConstants.TEMPLATE_APPLICATION_ID));
+		labels.put("dateValue", templateValues.get(RegistrationConstants.TEMPLATE_DATE));
+		labels.put("centerValue", templateValues.get(RegistrationConstants.TEMPLATE_REG_CENTER));
+		labels.put("officerValue", templateValues.get(RegistrationConstants.TEMPLATE_RO_NAME));
+		labels.put("qrCode", templateValues.get(RegistrationConstants.TEMPLATE_QRCODE_SOURCE));
+		return labels;
+	}
+
+	/**
+	 * Builds the rows printed on the thermal slip from
+	 * mosip.registration.ack.print.fields. Row grammar: fieldId | rowKey:a+b | a|b (fallback).
+	 */
+	private List<Map<String, String>> buildPrintFields(RegistrationDTO registration) {
+		List<String> languages = getPrintLanguages();
+		String config = ApplicationContext.getStringValueFromApplicationMap(RegistrationConstants.ACK_PRINT_FIELDS_CONFIG);
+		if (config == null || config.trim().isEmpty()) {
+			config = RegistrationConstants.DEFAULT_ACK_PRINT_FIELDS;
+		}
+		String showEmptyConfig = ApplicationContext.getStringValueFromApplicationMap(RegistrationConstants.ACK_PRINT_SHOW_EMPTY_CONFIG);
+		boolean showEmpty = showEmptyConfig == null || !"false".equalsIgnoreCase(showEmptyConfig.trim());
+		String na = getPrintLabel("ackPrint.na", languages);
+		if (na.isEmpty()) {
+			na = "N/A";
+		}
+
+		List<Map<String, String>> rows = new ArrayList<>();
+		for (String rowSpec : config.split(",")) {
+			rowSpec = rowSpec.trim();
+			if (rowSpec.isEmpty()) {
+				continue;
+			}
+			String rowKey = null;
+			String fieldSpec = rowSpec;
+			int colon = rowSpec.indexOf(':');
+			if (colon > 0) {
+				rowKey = rowSpec.substring(0, colon).trim();
+				fieldSpec = rowSpec.substring(colon + 1).trim();
+			}
+
+			String value = RegistrationConstants.EMPTY;
+			String firstFieldId = null;
+			for (String alternative : fieldSpec.split("\\|")) {
+				List<String> parts = new ArrayList<>();
+				for (String fieldId : alternative.split("\\+")) {
+					fieldId = fieldId.trim();
+					if (fieldId.isEmpty()) {
+						continue;
+					}
+					if (firstFieldId == null) {
+						firstFieldId = fieldId;
+					}
+					String v = getPrintValue(registration.getDemographics().get(fieldId), languages);
+					if (!v.isEmpty()) {
+						parts.add(v);
+					}
+				}
+				if (!parts.isEmpty()) {
+					value = String.join("name".equals(rowKey) ? " " : ", ", parts);
+					break;
+				}
+			}
+
+			if (value.isEmpty()) {
+				if (!showEmpty) {
+					continue;
+				}
+				value = na;
+			}
+
+			String labelKey = rowKey != null ? rowKey : firstFieldId;
+			String label = labelKey == null ? RegistrationConstants.EMPTY : getPrintLabel("ackPrint." + labelKey, languages);
+			if (label.isEmpty()) {
+				label = labelKey == null ? RegistrationConstants.EMPTY : labelKey;
+			}
+			Map<String, String> row = new HashMap<>();
+			row.put("label", label);
+			row.put("value", value);
+			rows.add(row);
+		}
+		return rows;
 	}
 
 	private String getLabel(String key) {

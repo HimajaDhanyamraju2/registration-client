@@ -410,6 +410,11 @@ public class PacketHandlerController extends BaseController implements Initializ
 					Writer stringWriter = (Writer) templateResponse.getSuccessResponseDTO().getOtherAttributes()
 							.get(RegistrationConstants.TEMPLATE_NAME);
 					ackReceiptController.setStringWriter(stringWriter);
+					ackReceiptController.setPrintData(
+							(List<java.util.Map<String, String>>) templateResponse.getSuccessResponseDTO()
+									.getOtherAttributes().get(RegistrationConstants.ACK_PRINT_FIELDS),
+							(java.util.Map<String, Object>) templateResponse.getSuccessResponseDTO()
+									.getOtherAttributes().get(RegistrationConstants.ACK_PRINT_LABELS));
 					ResponseDTO packetCreationResponse = savePacket(stringWriter, registrationDTO);
 					if (packetCreationResponse.getSuccessResponseDTO() != null) {
 						Parent createRoot = getRoot(RegistrationConstants.ACK_RECEIPT_PATH);
