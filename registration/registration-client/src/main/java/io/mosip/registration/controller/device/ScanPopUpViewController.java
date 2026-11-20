@@ -31,6 +31,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -45,6 +46,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 @Controller
@@ -212,7 +214,10 @@ public class ScanPopUpViewController extends BaseController implements Initializ
 			previewOption.setVisible(false);
 
 			LOGGER.info("Setting doc screen width :{}, height: {}", width, height);
-			Scene scene = new Scene(scanPopup, width, height);
+			Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+			double popupWidth = Math.min(width, Math.min(900.0, visualBounds.getWidth() * 0.85));
+			double popupHeight = Math.min(height, Math.min(560.0, visualBounds.getHeight() * 0.85));
+			Scene scene = new Scene(scanPopup, popupWidth, popupHeight);
 			if (documentScanController.getScannedPages() != null
 					&& !documentScanController.getScannedPages().isEmpty()) {
 				initializeDocPages(1, documentScanController.getScannedPages().size());
@@ -233,9 +238,10 @@ public class ScanPopUpViewController extends BaseController implements Initializ
 			popupStage.initModality(Modality.WINDOW_MODAL);
 			popupStage.initOwner(fXComponents.getStage());
 			popupStage.setTitle(title);
-			popupStage.setMinHeight(docScanDevice.getHeight());
-			popupStage.setMinWidth(docScanDevice.getWidth());
+			popupStage.setMinHeight(Math.min(docScanDevice.getHeight(), popupHeight));
+			popupStage.setMinWidth(Math.min(docScanDevice.getWidth(), popupWidth));
 			popupStage.show();
+			popupStage.centerOnScreen();
 
 			LOGGER.debug("scan screen launched");
 			scanningMsg.textProperty().addListener((observable, oldValue, newValue) -> {

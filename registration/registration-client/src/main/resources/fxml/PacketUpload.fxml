@@ -7,7 +7,6 @@
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.AnchorPane?>
 
 <GridPane fx:id="uploadPacketRoot" prefHeight="600.0" prefWidth="800.0" styleClass="uploadPacketparentPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="io.mosip.registration.controller.reg.PacketUploadController">
   <columnConstraints>
@@ -22,9 +21,9 @@
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints minHeight="10.0" percentHeight="5.5" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints percentHeight="7.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" percentHeight="5.5" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints percentHeight="7.0" prefHeight="48.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
         </rowConstraints>
          <children>
             <GridPane GridPane.rowIndex="2">
@@ -32,7 +31,7 @@
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
                   <GridPane fx:id="tableContainer">
@@ -40,89 +39,106 @@
                       <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="30.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="12.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints maxHeight="500.0" minHeight="10.0" prefHeight="450.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="195.0" minHeight="25.0" prefHeight="25.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="46.0" prefHeight="50.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" prefHeight="450.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="36.0" prefHeight="38.0" vgrow="NEVER" />
                     </rowConstraints>
                      <GridPane.margin>
-                        <Insets bottom="50.0" left="21.0" right="50.0" />
+                        <Insets bottom="20.0" left="28.0" right="28.0" top="14.0" />
                      </GridPane.margin>
                      <children>
-                        <TableView fx:id="table" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                        <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="uploadToolbar" GridPane.rowIndex="0">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" styleClass="uploadSearchBox" HBox.hgrow="NEVER">
+                                 <children>
+                                    <Label styleClass="uploadSearchIcon" text="🔍" />
+                                    <TextField fx:id="filterField" prefWidth="250.0" promptText="%searchAppIDOpId" styleClass="uploadSearchInput" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" disable="${exportCSVIcon.disabled}" onMouseClicked="#exportData" spacing="8.0" styleClass="uploadExportBtn">
+                                 <children>
+                                    <ImageView fx:id="exportCSVIcon" fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/export-icon.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label styleClass="uploadExportLabel" text="Export CSV" />
+                                 </children>
+                              </HBox>
+                              <ComboBox fx:id="clientStatusComboBox" prefHeight="40.0" prefWidth="170.0" promptText="%clientStatus" styleClass="uploadFilterCombobox" visibleRowCount="8" />
+                              <ComboBox fx:id="serverStatusComboBox" prefHeight="40.0" prefWidth="170.0" promptText="%serverStatus" styleClass="uploadFilterCombobox" visibleRowCount="8" />
+                              <Button fx:id="clearFilters" mnemonicParsing="false" styleClass="uploadClearFiltersBtn" text="%clearFilters" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets bottom="12.0" />
+                           </GridPane.margin>
+                        </HBox>
+                        <TableView fx:id="table" styleClass="uploadTable" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                            <columns>
                               <TableColumn fx:id="checkBoxColumn" prefWidth="${tableContainer.width*5/100}">
                                  <graphic>
                                     <CheckBox fx:id="selectAllCheckBox" mnemonicParsing="false" onAction="#selectAllCheckBox" styleClass="uploadCheckBox">
-                                       </CheckBox>
+                                    </CheckBox>
                                  </graphic>
                               </TableColumn>
-                               <TableColumn fx:id="slno" editable="false" prefWidth="${tableContainer.width*5/100}" resizable="false" sortable="false" styleClass="tableId" text="%slno" />
-                              <TableColumn fx:id="fileNameColumn" editable="false" prefWidth="${tableContainer.width*17/100}" resizable="false" styleClass="tableId" text="%applicationId" />
-                              <TableColumn fx:id="regDate" editable="false" prefWidth="${tableContainer.width*14/100}" resizable="false" styleClass="tableId" text="%registrationDate" />
-                              <TableColumn fx:id="regType" editable="false" prefWidth="${tableContainer.width*13/100}" resizable="false" styleClass="tableId" text="%registrationType" />
-                              <TableColumn fx:id="clientStatus" editable="false" prefWidth="${tableContainer.width*15/100}" resizable="false" styleClass="tableId" text="%clientStatus" />
-                              <TableColumn fx:id="serverStatus" editable="false" prefWidth="${tableContainer.width*17/100}" resizable="false" styleClass="tableId" text="%serverStatus" />
+                              <TableColumn fx:id="slno" editable="false" prefWidth="${tableContainer.width*5/100}" resizable="false" sortable="false" styleClass="tableId,uploadSlNoCol" text="%slno" />
+                              <TableColumn fx:id="fileNameColumn" editable="false" prefWidth="${tableContainer.width*18/100}" resizable="false" styleClass="tableId,uploadAppIdCol" text="%applicationId" />
+                              <TableColumn fx:id="regDate" editable="false" prefWidth="${tableContainer.width*15/100}" resizable="false" styleClass="tableId" text="%registrationDate" />
+                              <TableColumn fx:id="regType" editable="false" prefWidth="${tableContainer.width*12/100}" resizable="false" styleClass="tableId,uploadTypeCol" text="%registrationType" />
+                              <TableColumn fx:id="clientStatus" editable="false" prefWidth="${tableContainer.width*15/100}" resizable="false" styleClass="tableId,uploadStatusCol" text="%clientStatus" />
+                              <TableColumn fx:id="serverStatus" editable="false" prefWidth="${tableContainer.width*16/100}" resizable="false" styleClass="tableId,uploadStatusCol" text="%serverStatus" />
                               <TableColumn fx:id="operatorId" editable="false" prefWidth="${tableContainer.width*14/100}" resizable="false" styleClass="tableId" text="%operatorId" />
                            </columns>
                         </TableView>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.rowIndex="1">
-                           <children>
-                              <TextField fx:id="filterField" promptText="%searchAppIDOpId" styleClass="searchBoxTextStyle" />
-                              <ImageView fx:id="exportCSVIcon" fitHeight="33.0" fitWidth="38.0" onMouseClicked="#exportData" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/export-icon.jpg" />
-                                 </image>
-                              </ImageView>
-                              <ComboBox fx:id="clientStatusComboBox" promptText="%clientStatus" styleClass="filterCombobox" />
-                              <ComboBox fx:id="serverStatusComboBox" promptText="%serverStatus" styleClass="filterCombobox" />
-                              <Button fx:id="clearFilters" mnemonicParsing="false" styleClass="contiuneButton" text="%clearFilters" />
-                           </children>
-                        </HBox>
-                        <Label styleClass="headerLabel" text="%saveToDeviceLable" GridPane.rowIndex="3">
-                           <padding>
-                              <Insets bottom="-15.0" left="2.0" />
-                           </padding>
-                        </Label>
-                        <StackPane fx:id="progressIndicatorPane" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="2">
+                        <StackPane fx:id="progressIndicatorPane" prefHeight="150.0" prefWidth="200.0" visible="false" GridPane.rowIndex="1">
                            <children>
                               <ProgressIndicator fx:id="progressIndicator" progress="0.0" />
                            </children>
                         </StackPane>
+                        <HBox alignment="CENTER_LEFT" spacing="8.0" styleClass="uploadNoteBox" GridPane.rowIndex="2">
+                           <children>
+                              <Label styleClass="uploadNoteIcon" text="ℹ" />
+                              <Label styleClass="uploadNoteLabel" text="%saveToDeviceLable" />
+                           </children>
+                           <GridPane.margin>
+                              <Insets top="10.0" />
+                           </GridPane.margin>
+                        </HBox>
                      </children>
                   </GridPane>
                </children>
             </GridPane>
-            <GridPane fx:id="uploadPacketHeader" GridPane.rowIndex="1">
+            <GridPane fx:id="uploadPacketHeader" styleClass="uploadPacketHeader" GridPane.rowIndex="1">
               <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" percentWidth="33.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="34.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" percentWidth="33.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="40.0" />
+                <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
               </columnConstraints>
               <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="48.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <HBox alignment="CENTER_LEFT" spacing="3.0">
+                  <HBox alignment="CENTER_LEFT" prefHeight="48.0" spacing="4.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#goToHomePacketUpload" styleClass="homeButton" text="%home" />
                         <Label styleClass="headerLabel" text="%/uploadpacket" />
                      </children>
                      <GridPane.margin>
-                        <Insets left="25.0" />
-                     </GridPane.margin></HBox>
-                  <HBox alignment="CENTER" GridPane.columnIndex="1">
+                        <Insets left="28.0" />
+                     </GridPane.margin>
+                  </HBox>
+                  <HBox alignment="CENTER" prefHeight="48.0" GridPane.columnIndex="1">
                      <children>
                         <Label styleClass="mainHeader" text="%uploadpacket" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" spacing="10.0" GridPane.columnIndex="2">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="48.0" spacing="12.0" GridPane.columnIndex="2">
                      <children>
-                        <Button fx:id="saveToDevice" mnemonicParsing="false" onAction="#packetExport" styleClass="contiuneButton" text="%saveToDevice" />
-                        <Button fx:id="uploadBtn" mnemonicParsing="false" onAction="#syncAndUploadPacket" styleClass="contiuneButton" text="%upload" />
+                        <Button fx:id="saveToDevice" minHeight="38.0" mnemonicParsing="false" onAction="#packetExport" prefHeight="38.0" styleClass="uploadSaveDeviceBtn" text="%saveToDevice" />
+                        <Button fx:id="uploadBtn" minHeight="38.0" mnemonicParsing="false" onAction="#syncAndUploadPacket" prefHeight="38.0" styleClass="uploadActionBtn" text="%upload" />
                      </children>
                      <GridPane.margin>
-                        <Insets right="50.0" />
+                        <Insets right="28.0" />
                      </GridPane.margin>
                   </HBox>
                </children>

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -21,19 +22,19 @@
     </rowConstraints>
     <children>
 
-        <GridPane fx:id="retryBox" styleClass="dividerTypeTwo" GridPane.rowIndex="1">
+        <GridPane fx:id="retryBox" styleClass="biometricMetricsCard" GridPane.rowIndex="1">
             <children>
                 <GridPane fx:id="parentProgressPane" GridPane.columnIndex="1">
                     <children>
                         <Label styleClass="qualityLabel" text="%quality" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-                        <ProgressBar fx:id="bioProgress" prefWidth="${parentProgressPane.width}" progress="0.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ProgressBar fx:id="bioProgress" maxWidth="Infinity" progress="0.0" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" />
                         <Label styleClass="attemptsLabel" text="%attempts" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                        <HBox fx:id="bioRetryBox" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                        <HBox fx:id="bioRetryBox" alignment="CENTER" prefHeight="40.0" prefWidth="200.0" spacing="30.0" styleClass="biometricAttemptStepper" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
                         <Label fx:id="qualityText" alignment="CENTER" prefHeight="12.0" prefWidth="60.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Label fx:id="thresholdLabel" prefWidth="${parentProgressPane.width}" text="%threshold" GridPane.columnIndex="2" />
-                        <GridPane prefWidth="${parentProgressPane.width}" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label fx:id="thresholdLabel" alignment="CENTER" maxWidth="Infinity" styleClass="threshHoldLabel" text="%threshold" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="0" />
+                        <GridPane maxWidth="Infinity" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                             <children>
-                                <AnchorPane fx:id="thresholdBar" prefHeight="200.0" prefWidth="200.0" />
+                                <AnchorPane fx:id="thresholdBar" />
                             </children>
                             <columnConstraints>
                                 <ColumnConstraints fx:id="thresholdPane1" hgrow="SOMETIMES" percentWidth="10.0" />
@@ -47,15 +48,15 @@
                     </children>
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="25.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="30.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="27.0" prefWidth="100.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" percentWidth="3.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="80.0" percentWidth="25.0" />
+                        <ColumnConstraints hgrow="ALWAYS" minWidth="150.0" percentWidth="30.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="55.0" percentWidth="27.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="18.0" percentWidth="3.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="15.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="15.0" percentHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="15.0" percentHeight="35.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="15.0" percentHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                 </GridPane>
             </children>
@@ -72,59 +73,36 @@
 
         <GridPane GridPane.rowIndex="0">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="85.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="2.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="98.0" prefWidth="100.0" />
             </columnConstraints>
             <children>
                 <GridPane fx:id="biometricBox" alignment="CENTER" GridPane.columnIndex="1">
+                    <GridPane.margin>
+                        <Insets top="18.0" />
+                    </GridPane.margin>
                     <children>
-                        <GridPane GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <Label fx:id="biometricType" alignment="CENTER" maxWidth="Infinity" styleClass="biometricTypeLabel, biometricCaptureHeading" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+                        <Label fx:id="exceptionHeading" alignment="CENTER" managed="false" maxWidth="Infinity" styleClass="demoGraphicFieldLabel" visible="false" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="0" />
+                        <GridPane fx:id="biometricPane" maxHeight="220.0" maxWidth="220.0" minHeight="220.0" minWidth="220.0" prefHeight="220.0" prefWidth="220.0" styleClass="biometricPaneSelected" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets top="8.0" />
+                            </GridPane.margin>
                             <children>
-                                <GridPane GridPane.rowIndex="0">
-                                    <children>
-                                        <Label fx:id="biometricType" styleClass="biometricTypeLabel" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM" />
-                                    </children>
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="90.0" prefWidth="100.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                </GridPane>
-                                <GridPane GridPane.rowIndex="1">
-                                    <children>
-                                        <GridPane fx:id="biometricPane" prefHeight="98.0" prefWidth="81.0" styleClass="biometricPaneSelected">
-                                            <children>
-                                                <ImageView fx:id="biometricImage" fitHeight="${biometricPane.height-10}" fitWidth="${biometricPane.width-10}" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP" />
-                                            </children>
-                                            <columnConstraints>
-                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" />
-                                            </columnConstraints>
-                                            <rowConstraints>
-                                                <RowConstraints minHeight="10.0" percentHeight="100.0" vgrow="SOMETIMES" />
-                                            </rowConstraints>
-                                        </GridPane>
-                                    </children>
-                                    <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="60.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="40.0" prefWidth="100.0" />
-                                    </columnConstraints>
-                                    <rowConstraints>
-                                        <RowConstraints minHeight="10.0" percentHeight="100.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    </rowConstraints>
-                                </GridPane>
+                                <ImageView fx:id="biometricImage" fitHeight="${biometricPane.height-10}" fitWidth="${biometricPane.width-10}" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" />
                             </columnConstraints>
                             <rowConstraints>
-                                <RowConstraints minHeight="10.0" percentHeight="15.0" prefHeight="80.0" vgrow="SOMETIMES" />
-                                <RowConstraints minHeight="10.0" percentHeight="85.0" prefHeight="80.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" percentHeight="100.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                         </GridPane>
-                        <Label fx:id="photoAlert" styleClass="photoAlert" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                        <GridPane fx:id="checkBoxPane" prefHeight="147.0" prefWidth="225.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                        <Label fx:id="photoAlert" styleClass="photoAlert" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                        <GridPane fx:id="checkBoxPane" alignment="CENTER" prefHeight="147.0" prefWidth="225.0" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                            <GridPane.margin>
+                                <Insets top="8.0" />
+                            </GridPane.margin>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
                             </columnConstraints>
@@ -152,9 +130,9 @@
                         </GridPane>
                         <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                             <children>
-                        <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1">
+                        <HBox alignment="CENTER">
                            <children>
-                                      <Button fx:id="scanBtn" mnemonicParsing="false" onAction="#scan" styleClass="onboardScanBtn" text="%scan" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+                                      <Button fx:id="scanBtn" mnemonicParsing="false" onAction="#scan" styleClass="onboardScanBtn" text="%scan">
                                           <graphic>
                                               <ImageView fx:id="scanImageView" fitHeight="15.0" fitWidth="15.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
                                                   <image>
@@ -167,8 +145,7 @@
                         </HBox>
                             </children>
                             <columnConstraints>
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="19.0" prefWidth="100.0" />
-                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="81.0" />
+                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0" />
                             </columnConstraints>
                             <rowConstraints>
                                 <RowConstraints minHeight="10.0" percentHeight="100.0" vgrow="SOMETIMES" />
@@ -176,15 +153,17 @@
                         </GridPane>
                     </children>
                     <columnConstraints>
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="70.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="20.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="2.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="61.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="NEVER" minWidth="10.0" percentWidth="3.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" percentWidth="3.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="10.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="70.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" percentHeight="20.0" vgrow="SOMETIMES" />
-                  <RowConstraints />
+                        <RowConstraints minHeight="32.0" prefHeight="32.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="236.0" prefHeight="250.0" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="40.0" prefHeight="44.0" vgrow="NEVER" />
+                        <RowConstraints maxHeight="0.0" minHeight="0.0" prefHeight="0.0" vgrow="NEVER" />
                     </rowConstraints>
                 </GridPane>
             </children>

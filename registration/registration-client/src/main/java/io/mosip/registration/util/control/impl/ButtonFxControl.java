@@ -69,9 +69,13 @@ public class ButtonFxControl extends FxControl {
 
 		/** Container holds title, fields and validation message elements */
 		VBox simpleTypeVBox = new VBox();
+		simpleTypeVBox.setId(fieldName + RegistrationConstants.VBOX);
+		simpleTypeVBox.getStyleClass().add("buttonGroupCard");
 
 		HBox hbox = new HBox();
 		hbox.setId(fieldName + RegistrationConstants.HBOX);
+		hbox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
+		hbox.setSpacing(14);
 
 		double prefWidth = simpleTypeVBox.getPrefWidth();
 
@@ -155,11 +159,11 @@ public class ButtonFxControl extends FxControl {
 
 	private void setItems(HBox hBox, List<GenericDto> val) {
 		if (hBox != null && val != null && !val.isEmpty()) {
+			hBox.setSpacing(12);
+			hBox.setPadding(new Insets(4, 6, 4, 6));
 			val.forEach(genericDto -> {
 				Button button = new Button(genericDto.getName());
 				button.setId(uiFieldDTO.getId() + genericDto.getCode());
-				hBox.setSpacing(10);
-				hBox.setPadding(new Insets(10, 10, 10, 10));
 				button.getStyleClass().addAll(residence, buttonStyle);
 				hBox.getChildren().add(button);
 				setListener(button);

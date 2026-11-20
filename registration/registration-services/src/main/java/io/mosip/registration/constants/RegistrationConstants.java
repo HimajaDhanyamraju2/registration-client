@@ -781,6 +781,15 @@ public class RegistrationConstants {
 	// Template Name
 	public static final String ACKNOWLEDGEMENT_TEMPLATE = "Ack Template";
 	public static final String ACKNOWLEDGEMENT_TEMPLATE_CODE = "reg-ack-template-part";
+
+	// Acknowledgement thermal slip print configuration
+	public static final String ACK_PRINT_FIELDS_CONFIG = "mosip.registration.ack.print.fields";
+	public static final String ACK_PRINT_SHOW_EMPTY_CONFIG = "mosip.registration.ack.print.show-empty";
+	public static final String ACK_PRINT_LANGUAGES_CONFIG = "mosip.registration.ack.print.languages";
+	public static final String DEFAULT_ACK_PRINT_FIELDS = "name:firstName+surname,dateOfBirth,mobileNumber,address:addressLine1+addressLine2+island+municipality+district+town";
+	public static final String DEFAULT_ACK_PRINT_LANGUAGES = "por,eng";
+	public static final String ACK_PRINT_FIELDS = "printFields";
+	public static final String ACK_PRINT_LABELS = "printLabels";
 	public static final String PREVIEW_TEMPLATE_CODE = "reg-preview-template-part";
 	public static final String DASHBOARD_TEMPLATE_CODE = "reg-dashboard-template";
 	public static final String DASHBOARD_TEMPLATE = "Dashboard Template";
