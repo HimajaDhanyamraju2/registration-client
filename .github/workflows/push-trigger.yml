@@ -21,6 +21,7 @@ on:
       - develop
       - MOSIP*
       - v1.2.0.2-branch
+      - stp*
 
 jobs:
   build-regclient:
