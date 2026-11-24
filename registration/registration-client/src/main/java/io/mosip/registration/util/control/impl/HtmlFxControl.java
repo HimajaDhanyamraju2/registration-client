@@ -70,19 +70,24 @@ public class HtmlFxControl extends FxControl {
 
         List<String> labels = new ArrayList<>();
         getRegistrationDTo().getSelectedLanguagesByApplicant().forEach(langCode -> {
-            labels.add(this.uiFieldDTO.getLabel().get(langCode));
+            String text = this.uiFieldDTO.getLabel().get(langCode);
+            if (text != null && !text.trim().isEmpty()) {
+                labels.add(text);
+            }
         });
-        labels.removeAll(Collections.singletonList(null));
 
-        Label label = new Label();
-        label.setText(String.join(RegistrationConstants.SLASH, labels));
-        label.getStyleClass().add(RegistrationConstants.DEMOGRAPHIC_TEXTFIELD);
-        vBox.getChildren().add(label);
+        if (!labels.isEmpty()) {
+            Label label = new Label();
+            label.setText(String.join(RegistrationConstants.SLASH, labels));
+            label.getStyleClass().add(RegistrationConstants.DEMOGRAPHIC_FIELD_LABEL);
+            vBox.getChildren().add(label);
+        }
 
         final Accordion accordion = new Accordion();
         ResourceBundle resourceBundle = ResourceBundle.getBundle(RegistrationConstants.LABELS, Locale.getDefault());
         getRegistrationDTo().getSelectedLanguagesByApplicant().forEach(langCode -> {
-            final TitledPane titledPane = new TitledPane(resourceBundle.getString(langCode), buildWebView(langCode));
+            final TitledPane titledPane = new TitledPane(resourceBundle.getString(langCode), null);
+            titledPane.setContent(buildWebView(langCode, titledPane));
             accordion.getPanes().add(titledPane);
             changeNodeOrientation(titledPane, langCode);
             titledPane.setId(uiFieldDTO.getId()+langCode);
@@ -146,20 +151,98 @@ public class HtmlFxControl extends FxControl {
     public void selectAndSet(Object data) {
     }
 
-    private VBox buildWebView(String langCode) {
+    private VBox buildWebView(String langCode, TitledPane titledPane) {
     	VBox vbox = new VBox();
+
         final WebView webView = new WebView();
-        webView.prefHeightProperty().bind(vbox.heightProperty());
+        webView.setPrefHeight(250);
         webView.setId(uiFieldDTO.getId());
+
         String content = getContent(langCode);
         contentHash.put(langCode, CryptoUtil.computeFingerPrint(content, null));
         webView.getEngine().loadContent(content);
         webView.getEngine()
                 .documentProperty()
                 .addListener((observableValue, oldValue, document) -> addListeners(document));
+
+        webView.getEngine().getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == javafx.concurrent.Worker.State.SUCCEEDED) {
+                adjustWebViewHeight(webView, vbox, titledPane);
+            }
+        });
+
+        if (titledPane != null) {
+            titledPane.expandedProperty().addListener((obs, wasExpanded, isExpanded) -> {
+                if (isExpanded) {
+                    adjustWebViewHeight(webView, vbox, titledPane);
+                }
+            });
+        }
+
+        webView.widthProperty().addListener((obs, oldWidth, newWidth) -> {
+            if (newWidth != null && newWidth.doubleValue() > 100 && titledPane != null && titledPane.isExpanded()) {
+                adjustWebViewHeight(webView, vbox, titledPane);
+            }
+        });
+
         changeNodeOrientation(webView, langCode);
         vbox.getChildren().add(webView);
         return vbox;
+    }
+
+    private void adjustWebViewHeight(WebView webView, VBox vbox, TitledPane titledPane) {
+        javafx.application.Platform.runLater(() -> {
+            try {
+                String script = "(function() {" +
+                        "  try {" +
+                        "    var body = document.body;" +
+                        "    var html = document.documentElement;" +
+                        "    if (!body) return 250;" +
+                        "    body.style.overflow = 'hidden';" +
+                        "    html.style.overflow = 'hidden';" +
+                        "    var rangeHeight = 0;" +
+                        "    if (document.createRange) {" +
+                        "      var range = document.createRange();" +
+                        "      range.selectNodeContents(body);" +
+                        "      var rect = range.getBoundingClientRect();" +
+                        "      if (rect && rect.height > 0) rangeHeight = Math.ceil(rect.height);" +
+                        "    }" +
+                        "    var maxChildBottom = 0;" +
+                        "    if (body.children) {" +
+                        "      for (var i = 0; i < body.children.length; i++) {" +
+                        "        var el = body.children[i];" +
+                        "        var b = el.offsetTop + el.offsetHeight;" +
+                        "        if (b > maxChildBottom) maxChildBottom = b;" +
+                        "      }" +
+                        "    }" +
+                        "    return Math.max(rangeHeight, maxChildBottom, body.scrollHeight || 0);" +
+                        "  } catch (e) { return 250; }" +
+                        "})();";
+                Object result = webView.getEngine().executeScript(script);
+                if (result instanceof Number) {
+                    double contentHeight = ((Number) result).doubleValue();
+                    if (contentHeight > 40 && contentHeight < 2000) {
+                        double targetHeight = contentHeight + 25;
+                        webView.setPrefHeight(targetHeight);
+                        webView.setMinHeight(targetHeight);
+                        webView.setMaxHeight(targetHeight);
+                        if (vbox != null) {
+                            vbox.requestLayout();
+                        }
+                        if (titledPane != null) {
+                            titledPane.requestLayout();
+                            javafx.scene.Parent parent = titledPane.getParent();
+                            while (parent != null) {
+                                parent.requestLayout();
+                                parent = parent.getParent();
+                            }
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                LOGGER.debug("Could not calculate content height for webView", e);
+            }
+        });
     }
 
     private String getContent(String langCode) {

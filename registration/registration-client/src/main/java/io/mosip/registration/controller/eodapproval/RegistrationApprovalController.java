@@ -68,6 +68,7 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.paint.Color;
 
 /**
  * {@code RegistrationApprovalController} is the controller class for
@@ -594,9 +595,10 @@ public class RegistrationApprovalController extends BaseController implements In
 
 			Pane authRoot = BaseController.load(getClass().getResource(fxmlPath));
 			Scene scene = new Scene(authRoot);
+			scene.setFill(Color.TRANSPARENT);
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader()
 					.getResource(getCssName()).toExternalForm());
-			primarystage.initStyle(StageStyle.UNDECORATED);
+			primarystage.initStyle(StageStyle.TRANSPARENT);
 			primarystage.setScene(scene);
 			primarystage.initModality(Modality.WINDOW_MODAL);
 			primarystage.initOwner(fXComponents.getStage());

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import io.mosip.registration.controller.ClientApplication;
+import javafx.geometry.Pos;
 import org.springframework.context.ApplicationContext;
 
 
@@ -62,6 +63,7 @@ public class DOBFxControl extends FxControl {
 		HBox dobHBox = new HBox();
 		dobHBox.setId(uiFieldDTO.getId() + RegistrationConstants.HBOX);
 		dobHBox.setSpacing(10);
+		dobHBox.setAlignment(Pos.CENTER_LEFT);
 
 		String mandatorySuffix = getMandatorySuffix(uiFieldDTO);
 
@@ -71,6 +73,7 @@ public class DOBFxControl extends FxControl {
 
 		VBox ageVBox = new VBox();
 		ageVBox.setPrefWidth(390);
+		ageVBox.setSpacing(6);
 
 		List<String> labels = new ArrayList<>();
 		getRegistrationDTo().getSelectedLanguagesByApplicant().forEach(lCode -> {
@@ -108,6 +111,7 @@ public class DOBFxControl extends FxControl {
 
 		VBox dateVBox = new VBox();
 		dateVBox.setId(uiFieldDTO.getId() + dd + RegistrationConstants.VBOX);
+		dateVBox.getStyleClass().add("dobFieldContainer");
 
 		double prefWidth = dateVBox.getPrefWidth();
 
@@ -116,8 +120,15 @@ public class DOBFxControl extends FxControl {
 				RegistrationConstants.DEMOGRAPHIC_FIELD_LABEL, false, prefWidth));
 
 		/** DOB Text Field */
-		dateVBox.getChildren().add(getTextField(uiFieldDTO.getId() + dd + RegistrationConstants.TEXT_FIELD, text,
-				RegistrationConstants.DEMOGRAPHIC_TEXTFIELD, prefWidth, false));
+		TextField textField = getTextField(uiFieldDTO.getId() + dd + RegistrationConstants.TEXT_FIELD, text,
+				RegistrationConstants.DEMOGRAPHIC_TEXTFIELD, prefWidth, false);
+		textField.getStyleClass().add("dobTextField");
+		if (dd.equals(RegistrationConstants.YYYY)) {
+			textField.getStyleClass().add("dobYearField");
+		} else {
+			textField.getStyleClass().add("dobDayMonthField");
+		}
+		dateVBox.getChildren().add(textField);
 
 		return dateVBox;
 	}

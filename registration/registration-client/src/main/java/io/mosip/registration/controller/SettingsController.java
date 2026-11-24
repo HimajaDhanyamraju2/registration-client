@@ -26,16 +26,21 @@ import io.mosip.registration.exception.RegBaseCheckedException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
+import javafx.scene.AccessibleRole;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -77,13 +82,14 @@ public class SettingsController extends BaseController {
 			}
 
 			popupStage = new Stage();
-			popupStage.initStyle(StageStyle.UNDECORATED);
+			popupStage.initStyle(StageStyle.TRANSPARENT);
 
 			LOGGER.info(LOG_SELECT_LANGUAGE, APPLICATION_NAME, APPLICATION_ID, "loading Settings.fxml");
 			Parent scanPopup = BaseController.load(getClass().getResource(RegistrationConstants.SETTINGS_PAGE));
 
 			popupStage.setResizable(false);
 			Scene scene = new Scene(scanPopup);
+			scene.setFill(Color.TRANSPARENT);
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
 
 			setContent(settingsByRole);
@@ -120,7 +126,7 @@ public class SettingsController extends BaseController {
 		if (settingsByRole != null && !settingsByRole.isEmpty()) {
 			GridPane gridPane = createGridPane(settingsByRole.size());
 			addContentToGridPane(gridPane, settingsByRole);
-			parentGridPane.add(gridPane, 1, 1);
+			parentGridPane.add(gridPane, 0, 0);
 		}
 	}
 
@@ -129,24 +135,30 @@ public class SettingsController extends BaseController {
 		int columnIndex = 0;
 		for (SettingsSchema schema : settings) {
 			VBox vbox = new VBox();
-			vbox.setAlignment(Pos.TOP_CENTER);
+			vbox.setAlignment(Pos.CENTER);
+			vbox.setSpacing(16);
+			vbox.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+			vbox.getStyleClass().add("settingsOptionCard");
+			vbox.setAccessibleRole(AccessibleRole.BUTTON);
 			vbox.setId(schema.getName());
 
 			Label label = new Label(schema.getLabel().get(ApplicationContext.applicationLanguage()));
-			label.getStyleClass().add("settingsLabel");
+			label.getStyleClass().addAll("settingsLabel", "settingsOptionLabel");
 			label.setWrapText(true);
+			label.setAlignment(Pos.CENTER);
 
 			HBox hBox = new HBox();
-			hBox.setAlignment(Pos.TOP_CENTER);
+			hBox.setAlignment(Pos.CENTER);
+			hBox.getStyleClass().add("settingsOptionVisual");
 			hBox.setId(schema.getName());
 
 			HBox imageHBox = new HBox();
+			imageHBox.setAlignment(Pos.CENTER);
+			imageHBox.getStyleClass().add("settingsOptionIconHolder");
 			ImageView imageView = new ImageView(getImage(schema.getIcon(), true));
 			imageView.setFitWidth(45);
 			imageView.setFitHeight(45);
-			imageHBox.setOnMouseClicked(event -> {
-				loadFXML(schema.getFxml(), label.getText());
-			});
+			imageView.getStyleClass().add("settingsOptionIcon");
 			imageHBox.getChildren().add(imageView);
 			hBox.getChildren().add(imageHBox);
 
@@ -154,8 +166,10 @@ public class SettingsController extends BaseController {
 				ImageView shortCutIcon = new ImageView(getImage(RegistrationConstants.SHORTCUT_ICON, true));
 				shortCutIcon.setFitWidth(20);
 				shortCutIcon.setFitHeight(20);
+				shortCutIcon.getStyleClass().add("settingsOptionShortcut");
 				shortCutIcon.setOnMouseClicked(event -> {
 					createShortCut(schema);
+					event.consume();
 				});
 
 				Tooltip tooltip = new Tooltip(
@@ -165,10 +179,23 @@ public class SettingsController extends BaseController {
 			}
 
 			vbox.getChildren().addAll(hBox, label);
+			vbox.setAccessibleText(label.getText());
+			vbox.setFocusTraversable(true);
+			vbox.setOnMouseClicked(event -> {
+				if (event.getButton() == MouseButton.PRIMARY) {
+					loadFXML(schema.getFxml(), label.getText());
+				}
+			});
+			vbox.setOnKeyPressed(event -> {
+				if (event.getCode() == KeyCode.ENTER || event.getCode() == KeyCode.SPACE) {
+					loadFXML(schema.getFxml(), label.getText());
+					event.consume();
+				}
+			});
 
 			gridPane.add(vbox, columnIndex, rowIndex);
-			rowIndex = (columnIndex == 3) ? (rowIndex + 1) : rowIndex;
-			columnIndex = (columnIndex == 3) ? 0 : (columnIndex + 1);
+			rowIndex = (columnIndex == 2) ? (rowIndex + 1) : rowIndex;
+			columnIndex = (columnIndex == 2) ? 0 : (columnIndex + 1);
 		}
 	}
 
@@ -228,33 +255,24 @@ public class SettingsController extends BaseController {
 
 	private GridPane createGridPane(int size) {
 		GridPane gridPane = new GridPane();
-		gridPane.setHgap(10);
-		gridPane.setVgap(10);
+		gridPane.setHgap(16);
+		gridPane.setVgap(16);
+		gridPane.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
 
-		if (size <= 4) {
+		int rowCount = Math.max(1, (size + 2) / 3);
+		for (int index = 0; index < rowCount; index++) {
 			RowConstraints rowConstraint = new RowConstraints();
-			rowConstraint.setPercentHeight(25);
+			rowConstraint.setPercentHeight(100.0 / rowCount);
+			rowConstraint.setVgrow(Priority.ALWAYS);
 			gridPane.getRowConstraints().add(rowConstraint);
-		} else {
-			int ceilOfSize = (size % 4 == 0) ? size : (size + (4 - size % 4));
-			for (int index = 1; index <= ceilOfSize / 4; index++) {
-				RowConstraints rowConstraint = new RowConstraints();
-				rowConstraint.setPercentHeight(25);
-				gridPane.getRowConstraints().add(rowConstraint);
-			}
 		}
 
-		ColumnConstraints columnConstraint1 = new ColumnConstraints();
-		columnConstraint1.setPercentWidth(25);
-		ColumnConstraints columnConstraint2 = new ColumnConstraints();
-		columnConstraint2.setPercentWidth(25);
-		ColumnConstraints columnConstraint3 = new ColumnConstraints();
-		columnConstraint3.setPercentWidth(25);
-		ColumnConstraints columnConstraint4 = new ColumnConstraints();
-		columnConstraint4.setPercentWidth(25);
-
-		gridPane.getColumnConstraints().addAll(columnConstraint1, columnConstraint2, columnConstraint3,
-				columnConstraint4);
+		for (int index = 0; index < 3; index++) {
+			ColumnConstraints columnConstraint = new ColumnConstraints();
+			columnConstraint.setPercentWidth(100.0 / 3);
+			columnConstraint.setHgrow(Priority.ALWAYS);
+			gridPane.getColumnConstraints().add(columnConstraint);
+		}
 
 		return gridPane;
 	}

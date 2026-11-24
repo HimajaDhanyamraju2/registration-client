@@ -37,6 +37,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.paint.Color;
 
 @Controller
 public class LanguageSelectionController extends BaseController implements Initializable {
@@ -167,13 +168,14 @@ public class LanguageSelectionController extends BaseController implements Initi
 			selectedLanguages.clear();
 
 			popupStage = new Stage();
-			popupStage.initStyle(StageStyle.UNDECORATED);
+			popupStage.initStyle(StageStyle.TRANSPARENT);
 
 			LOGGER.info(LOG_SELECT_LANGUAGE, APPLICATION_NAME, APPLICATION_ID, "loading SelectLanguage.fxml");
 			Parent scanPopup = BaseController.load(getClass().getResource(RegistrationConstants.SELECT_LANGUAGE_PAGE));
 
 			popupStage.setResizable(false);
 			Scene scene = new Scene(scanPopup);
+			scene.setFill(Color.TRANSPARENT);
 			scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
 			popupStage.setScene(scene);
 			popupStage.initModality(Modality.WINDOW_MODAL);

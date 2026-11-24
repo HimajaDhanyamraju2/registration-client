@@ -57,6 +57,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
@@ -67,6 +68,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -179,6 +181,9 @@ public class GenericBiometricsController extends BaseController {
 	@FXML
 	private GridPane checkBoxPane;
 
+	@FXML
+	private Label exceptionHeading;
+
 	private ResourceBundle applicationLabelBundle;
 
 	private Modality currentModality;
@@ -274,6 +279,8 @@ public class GenericBiometricsController extends BaseController {
 
 		biometricBox.setVisible(true);
 		biometricType.setText(applicationLabelBundle.getString(modality.name()));
+		exceptionHeading.setVisible(false);
+		exceptionHeading.setManaged(false);
 		checkBoxPane.getChildren().clear();
 
 		// get List of captured Biometrics based on nonExceptionBio Attributes
@@ -286,7 +293,7 @@ public class GenericBiometricsController extends BaseController {
 			List<String> exceptionBioAttributes = null;
 
 			if (!checkBoxNodes.isEmpty()) {
-				for (Node node : ((Pane) checkBoxNodes.get(1)).getChildren()) {
+				for (Node node : ((Pane) checkBoxNodes.get(0)).getChildren()) {
 					if (node instanceof ImageView) {
 						ImageView imageView = (ImageView) node;
 						String bioAttribute = imageView.getId();
@@ -324,12 +331,12 @@ public class GenericBiometricsController extends BaseController {
 
 	private void setExceptionImg() {
 		exceptionImgVBox = new VBox();
-		exceptionImgVBox.setSpacing(5);
-		Label checkBoxTitle = new Label();
-		checkBoxTitle.setText(applicationLabelBundle.getString("exceptionCheckBoxPaneLabel"));
 		exceptionImgVBox.setAlignment(Pos.CENTER);
-		exceptionImgVBox.getChildren().addAll(checkBoxTitle);
-		checkBoxTitle.getStyleClass().add("demoGraphicFieldLabel");
+		exceptionImgVBox.setMaxWidth(Double.MAX_VALUE);
+		GridPane.setHgrow(exceptionImgVBox, Priority.ALWAYS);
+		exceptionHeading.setText(applicationLabelBundle.getString("exceptionCheckBoxPaneLabel"));
+		exceptionHeading.setVisible(true);
+		exceptionHeading.setManaged(true);
 
 		exceptionImgVBox.getChildren().add(
 				getExceptionImagePane(currentModality, configBioAttributes, nonConfigBioAttributes, fxControl.getUiSchemaDTO().getId()));
@@ -537,7 +544,7 @@ public class GenericBiometricsController extends BaseController {
 		// get vbox holding label and exception marking Image
 		if(checkBoxPane.getChildren().size() > 0) {
 			Pane pane = (Pane) checkBoxPane.getChildren().get(0);
-			pane = (Pane) pane.getChildren().get(1);
+			pane = (Pane) pane.getChildren().get(0);
 			for (Node exceptionImage : pane.getChildren()) {
 				if (exceptionImage instanceof ImageView && exceptionImage.getId() != null
 						&& !exceptionImage.getId().isEmpty()) {
@@ -1125,6 +1132,7 @@ public class GenericBiometricsController extends BaseController {
 		Pane exceptionImagePane = getExceptionImagePane(modality);
 
 		if (exceptionImagePane != null) {
+			centerExceptionArtwork(exceptionImagePane);
 			addExceptionsUiPane(exceptionImagePane, configBioAttributes, nonConfigBioAttributes, modality, fieldId);
 
 			exceptionImagePane.setVisible(true);
@@ -1132,6 +1140,20 @@ public class GenericBiometricsController extends BaseController {
 		}
 		return exceptionImagePane;
 
+	}
+
+	private void centerExceptionArtwork(Pane pane) {
+		double minX = Double.POSITIVE_INFINITY;
+		double maxX = Double.NEGATIVE_INFINITY;
+		for (Node child : pane.getChildren()) {
+			if (child instanceof ImageView) {
+				minX = Math.min(minX, child.getBoundsInParent().getMinX());
+				maxX = Math.max(maxX, child.getBoundsInParent().getMaxX());
+			}
+		}
+		if (minX != Double.POSITIVE_INFINITY) {
+			pane.setTranslateX((pane.getPrefWidth() - minX - maxX) / 2.0);
+		}
 	}
 
 	public void updateBiometricData(ImageView clickedImageView, List<ImageView> bioExceptionImagesForSameModality) {
@@ -1406,11 +1428,12 @@ public class GenericBiometricsController extends BaseController {
 		this.nonConfigBioAttributes = nonConfigBioAttributes;
 
 		biometricPopUpStage = new Stage();
-		biometricPopUpStage.initStyle(StageStyle.UNDECORATED);
+		biometricPopUpStage.initStyle(StageStyle.TRANSPARENT);
 		biometricPopUpStage.setResizable(false);
 		Parent scanPopup = BaseController.load(getClass().getResource(RegistrationConstants.BIOMETRIC_FXML));
 
 		Scene scene = new Scene(scanPopup, width, height);
+		scene.setFill(Color.TRANSPARENT);
 		scene.getStylesheets().add(ClassLoader.getSystemClassLoader().getResource(getCssName()).toExternalForm());
 		biometricPopUpStage.setScene(scene);
 		biometricPopUpStage.initModality(javafx.stage.Modality.WINDOW_MODAL);

@@ -43,11 +43,11 @@
                       <ColumnConstraints hgrow="SOMETIMES" percentWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
-                        <RowConstraints minHeight="10.0" percentHeight="7.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints percentHeight="93.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="42.0" prefHeight="44.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                        <TableView fx:id="table" GridPane.rowIndex="1">
+                        <TableView fx:id="table" styleClass="approvalTable" GridPane.rowIndex="1">
                            <columns>
                               <TableColumn fx:id="slno" editable="false" prefWidth="${tableContainer.width*7/100}" resizable="false" styleClass="tableId" text="%slno" />
                               <TableColumn fx:id="id" editable="false" prefWidth="${tableContainer.width*32/100}" resizable="false" styleClass="tableId" text="%applicationId" />
@@ -57,15 +57,28 @@
                               <TableColumn fx:id="statusComment" editable="false" prefWidth="${tableContainer.width*23/100}" resizable="false" styleClass="pendingApprovalStatus" text="%status" />
                            </columns>
                         </TableView>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+                        <HBox alignment="CENTER_LEFT" spacing="12.0" styleClass="approvalToolbar">
                            <children>
-                              <TextField fx:id="filterField" prefWidth="230.0" promptText="%searchApplication" styleClass="searchBoxTextStyle" />
-                              <ImageView fx:id="exportImageView" fitHeight="33.0" fitWidth="38.0" onMouseClicked="#exportData" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../images/export-icon.jpg" />
-                                 </image>
-                              </ImageView>
+                              <HBox alignment="CENTER_LEFT" styleClass="approvalSearchBox" HBox.hgrow="ALWAYS">
+                                 <children>
+                                    <Label styleClass="approvalSearchIcon" text="🔍" />
+                                    <TextField fx:id="filterField" promptText="%searchApplication" styleClass="approvalSearchInput" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox alignment="CENTER" onMouseClicked="#exportData" spacing="8.0" styleClass="approvalExportBtn">
+                                 <children>
+                                    <ImageView fx:id="exportImageView" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../images/export-icon.jpg" />
+                                       </image>
+                                    </ImageView>
+                                    <Label styleClass="approvalExportLabel" text="Export CSV" />
+                                 </children>
+                              </HBox>
                            </children>
+                           <GridPane.margin>
+                              <Insets bottom="10.0" />
+                           </GridPane.margin>
                         </HBox>
                      </children>
                      <GridPane.margin>
@@ -146,7 +159,7 @@
                         <Label styleClass="mainHeader" text="%pendingapproval" />
                      </children>
                   </HBox>
-                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="30.0" GridPane.columnIndex="2">
+                  <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="12.0" GridPane.columnIndex="2">
                      <children>
                         <ToggleButton fx:id="rejectionBtn" mnemonicParsing="false" onAction="#updateStatus" styleClass="rejectButton" text="%reject">
                            <graphic>
